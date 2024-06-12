@@ -14,5 +14,6 @@ include_once "controlador/Control.php";
 </head>
 <body>
     adawdadwa
+    Hola xd
 </body>
 </html>
