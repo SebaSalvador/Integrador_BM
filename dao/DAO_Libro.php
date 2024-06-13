@@ -21,7 +21,7 @@ class DAO_Libro
                 $libro->setDescripcion($row[4]);
                 $libro->setAutor($row[5]);
                 $libro->setFecPub($row[6]);
-                array_push($libros, $libro);
+                $libros[] = $libro;
             }
         }
         $cn->desconecta();
