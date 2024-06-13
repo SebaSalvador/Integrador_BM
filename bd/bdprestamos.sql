@@ -334,3 +334,31 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+/*Funciones*/
+
+DELIMITER $$
+CREATE FUNCTION validarLogin (
+    user_id VARCHAR(64),
+    password_u VARCHAR(16)
+) RETURNS BOOLEAN
+BEGIN
+    DECLARE existe BOOLEAN;
+    SELECT EXISTS(select tp.id_per, tp.correo, tu.pass from tb_persona tp
+                  inner join tb_usuario tu on tp.id_per =tu.id_per 
+                  where tp.correo = user_id
+                  and tu.pass = password_u) INTO existe;
+    RETURN existe;
+END$$
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+/*Procedures*/
