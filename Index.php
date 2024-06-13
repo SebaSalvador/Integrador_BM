@@ -1,7 +1,7 @@
 <?php
-include_once "controlador/Control.php";
-
-
+require_once "controlador/Control.php";
+require_once "dao/DAO_Libro.php";
+require_once "modelo/Libro.php";
 
 ?>
 
@@ -13,7 +13,14 @@ include_once "controlador/Control.php";
     <title>Document</title>
 </head>
 <body>
-    adawdadwa
-    Hola xd
+    <?php
+    $daoLibro = new DAO_Libro();
+    $array = $daoLibro->listarLibros();
+    foreach ($array as $obj) {
+        $titulo = $obj->getTitulo();
+        echo $titulo.'<br>';
+
+    }
+    ?>
 </body>
 </html>

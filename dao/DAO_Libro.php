@@ -1,12 +1,13 @@
 <?php
-include "../util/conexion.php";
-require "../modelo/Libro.php";
+require_once "util/conexion.php";
+require_once "modelo/Libro.php";
 
 class DAO_Libro 
 {
-
+    var $cn;
     public function listarLibros() {
-        $c = conecta();
+        $cn = new conexion();
+        $c = $cn->conecta();
         $libros = array();
         #$idLib; $idEst; $idCat; $titulo; $descripcion; $autor; $fecPub;
         $sql = "select * from tb_libro";
@@ -23,6 +24,7 @@ class DAO_Libro
                 array_push($libros, $libro);
             }
         }
+        $cn->desconecta();
         return $libros;
     }
 
