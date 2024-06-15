@@ -34,7 +34,8 @@ class DAO_Libro
         $libro = new Libro();
         $sql = "select * from tb_libro where id_lib = ?";
         $stm = $c->prepare($sql);
-        $result = $stm->execute(array($id));
+        $stm->execute(array($id));
+        $result = $stm->get_result();
         if ($row = $result->fetch_array()) {
             $libro->setIdLib($row[0]);
             $libro->setIdEst($row[1]);
@@ -55,7 +56,8 @@ class DAO_Libro
         $libros = array();
         $sql = "select * from tb_libro where id_est=?";
         $stm = $c->prepare($sql);
-        if ($result = $stm->execute(array($id_est))) {
+        $stm->execute(array($id_est));
+        if ($result = $stm->get_result()) {
             while ($row = $result->fetch_array()) {
                 $libro = new Libro();
                 $libro->setIdLib($row[0]);
@@ -79,7 +81,8 @@ class DAO_Libro
         #$sql = "select * from tb_libro as tb inner join tb_categoria as tc on tb.id_cat = tc.id_cat where tc.categoria = ?";
         $sql = "select * from tb_libro where id_cat = ?";
         $stm = $c->prepare($sql);
-        if ($result = $stm->execute(array($id_cat))) {
+        $stm->execute(array($id_cat));
+        if ($result = $stm->get_result()) {
             while ($row = $result->fetch_array()) {
                 $libro = new Libro();
                 $libro->setIdLib($row[0]);
@@ -102,7 +105,8 @@ class DAO_Libro
         $libros = array();
         $sql = "select * from tb_libro where autor = ?";
         $stm = $c->prepare($sql);
-        if ($result = $stm->execute(array($autor))) {
+        $stm->execute(array($autor));
+        if ($result = $stm->get_result()) {
             while ($row = $result->fetch_array()) {
                 $libro = new Libro();
                 $libro->setIdLib($row[0]);
@@ -124,8 +128,8 @@ class DAO_Libro
         $c = $cn->conecta();
         $sql = "insert into tb_libro values (?, ?, ?, ?, ?, ?, ?)";
         $stm = $c->prepare($sql);
-        $result = $stm->execute(array($libro->getIdLib(), $libro->getIdEst(), $libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub()));
-        if (!$result) {
+        $bool = $stm->execute(array($libro->getIdLib(), $libro->getIdEst(), $libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub()));
+        if (!$bool) {
             echo "Error al agregar libro";
         }
         $cn->desconecta();
@@ -134,10 +138,10 @@ class DAO_Libro
     public function modificarLibro($libro) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $sql = "update tb_libro set id_cat=?, titulo='?', descripcion='?', autor='?', fec_pub='?' where id_lib=?";
+        $sql = "update tb_libro set id_cat=?, titulo=?, descripcion=?, autor=?, fec_pub=? where id_lib=?";
         $stm = $c->prepare($sql);
-        $result = $stm->execute(array($libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub(), $libro->getIdLib()));
-        if (!$result) {
+        $bool = $stm->execute(array($libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub(), $libro->getIdLib()));
+        if (!$bool) {
             echo "Error al modificar libro";
         }
         $cn->desconecta();
@@ -148,8 +152,8 @@ class DAO_Libro
         $c = $cn->conecta();
         $sql = "delete from tb_libro where id_lib=?";
         $stm = $c->prepare($sql);
-        $result = $stm->execute(array($id));
-        if (!$result) {
+        $bool = $stm->execute(array($id));
+        if (!$bool) {
             echo "Error al eliminar libro";
         }
         $cn->desconecta();
@@ -160,8 +164,8 @@ class DAO_Libro
         $c = $cn->conecta();
         $sql = "update tb_libro set id_est=? where id_lib=?";
         $stm = $c->prepare($sql);
-        $result = $stm->execute(array($id_est, $id));
-        if (!$result) {
+        $bool = $stm->execute(array($id_est, $id));
+        if (!$bool) {
             echo "Error al actualizar el estado del libro";
         }
         $cn->desconecta();
