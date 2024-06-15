@@ -174,12 +174,43 @@ END$$
 DELIMITER ;
 
 
-
-
-
-
-
-
-
-
 /*Procedures*/
+DELIMITER $$
+
+CREATE PROCEDURE registrarUsuario (
+    IN p_dni INT(11),
+    IN p_nombre VARCHAR(64),
+    IN p_edad INT(11),
+    IN p_correo VARCHAR(64),
+    IN p_direccion VARCHAR(64),
+    IN p_telefono VARCHAR(16),
+    IN p_tipo_usuario INT(11),
+    IN p_contraseña VARCHAR(16),
+    IN p_estado VARCHAR(16)
+)
+BEGIN
+
+    -- Insertar en tb_persona
+    INSERT INTO tb_persona VALUES (p_dni, p_nombre, p_edad, p_correo, p_direccion, p_telefono);
+
+    -- Insertar en tb_usuario
+    INSERT INTO tb_usuario VALUES (p_dni, p_tipo_usuario, p_contraseña, p_estado);
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE traerUsuario (
+    correo_u VARCHAR(64),
+    password_u VARCHAR(16)
+)
+BEGIN
+    select tp.id_per ,tt.id_tipo from tb_persona tp 
+    inner join tb_usuario tu on tu.id_per =tp.id_per
+    inner join tb_tipousuario tt on tu.id_tipo =tt.id_tipo 
+    where tp.correo = correo_u
+    and tu.pass = password_u;
+END $$
+
+DELIMITER ;

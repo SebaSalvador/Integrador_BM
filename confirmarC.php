@@ -35,7 +35,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Confirmación</h1>
+        <h1>Confirmación Cliente</h1>
         <p>¿Estás seguro de que deseas realizar esta acción?</p>
         <button onclick="confirmAction()">Confirmar</button>
     </div>
