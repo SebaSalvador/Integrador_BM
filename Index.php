@@ -12,60 +12,116 @@ include "controlador/Control_Login.php";
 </head>
 <body>
 
-<?php
-    // Crear instancia del controlador de login y registro
-    $controlLogin = new Control_Login();
+    <?php
+        /*
+            echo "<br>Prueba de listar libros<br>";
+            $daoLibro = new DAO_Libro();
+            $array = $daoLibro->listarLibros();
+            foreach ($array as $obj) {
+                $titulo = $obj->getTitulo();
+                echo $titulo.'<br>';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+            }
+            /*
+            echo "<br>Prueba de agregar libro<br>";
+            $libro1 = new Libro();
+            $libro1->setIdLib(4);
+            $libro1->setIdEst(2);
+            $libro1->setIdCat(10);
+            $libro1->setTitulo("La Odisea");
+            $libro1->setDescripcion("Poema épico griego atribuido a Homero");
+            $libro1->setAutor("Homero");
+            $libro1->setFecPub("8 a.C.");
+            $daoLibro->agregarLibro($libro1);
+            */
+        /*
+            echo "<br>Prueba de consultar libro por idLib<br>";
+            $libroId = $daoLibro->consultarLibro(4);
+            echo 'Titulo:   '.$libroId->getTitulo().'<br>';
+            echo 'Autor:    '.$libroId->getAutor().'<br>';
 
-        if ($action === 'login') {
-            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_STRING);
-            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+            echo "<br>Prueba de consultar libro por autor<br>";
+            $array2 = $daoLibro->consultarLibroPorAut("Homero");
+            foreach ($array2 as $obj) {
+                $titulo = $obj->getTitulo();
+                $fecPub = $obj->getFecPub();
+                echo 'Titulo:   '.$titulo.'<br>';
+                echo 'Fecha Publicacion:   '.$fecPub.'<br>';
 
-            if ($resultado = $controlLogin->autenticarUsuario($user_id, $password)) {
-                
-                $ListaUsuarios = $controlLogin->traerUsuarioC($user_id, $password);
-                $user_id = $ListaUsuarios[0];
-                $tipo = $ListaUsuarios[1];
-                
-                if ($tipo == 0) {
+            }
 
-                    $_SESSION['user_id'] = strtoupper($user_id);
-                    header("Location: confirmarC.php");
-                    exit();
-                } elseif ($tipo == 1) {
+            echo "<br>Prueba de modificar libro<br>";
+            $libro2 = new Libro();
+            $libro2->setIdLib(4);
+            $libro2->setIdEst(2);
+            $libro2->setIdCat(10);
+            $libro2->setTitulo("La Odisea de Homero");
+            $libro2->setDescripcion("Poema épico griego atribuido a Homero Simpson");
+            $libro2->setAutor("Homero Simpson");
+            $libro2->setFecPub("8 a.C.");
+            $daoLibro->modificarLibro($libro2);
 
-                    $_SESSION['user_id'] = strtoupper($user_id);
-                    header("Location: confirmarE.php");
-                    exit();
+            echo "<br>Prueba de eliminar libro<br>";
+            $daoLibro->eliminarLibro(4);
+        */
+    ?>
+
+
+<!-- Ejemplo de uso -->
+    <?php
+        // Crear instancia del controlador de login y registro
+        $controlLogin = new Control_Login();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+
+            if ($action === 'login') {
+                $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_STRING);
+                $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+
+                if ($resultado = $controlLogin->autenticarUsuario($user_id, $password)) {
+                    
+                    $ListaUsuarios = $controlLogin->traerUsuarioC($user_id, $password);
+                    $user_id = $ListaUsuarios[0];
+                    $tipo = $ListaUsuarios[1];
+                    
+                    if ($tipo == 0) {
+
+                        $_SESSION['user_id'] = strtoupper($user_id);
+                        header("Location: confirmarC.php");
+                        exit();
+                    } elseif ($tipo == 1) {
+
+                        $_SESSION['user_id'] = strtoupper($user_id);
+                        header("Location: confirmarE.php");
+                        exit();
+                    }
+                    
+                } else {
+                    $mensaje_error = "Credenciales incorrectas. Intente de nuevo.";
                 }
-                
-            } else {
-                $mensaje_error = "Credenciales incorrectas. Intente de nuevo.";
+
+            } elseif ($action === 'register') {
+                $dni = filter_input(INPUT_POST, 'dni', FILTER_SANITIZE_STRING);
+                $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
+                $edad = filter_input(INPUT_POST, 'edad', FILTER_VALIDATE_INT);
+                $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
+                $direccion = filter_input(INPUT_POST, 'direccion', FILTER_SANITIZE_STRING);
+                $telefono = filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_STRING);
+                $tipo_usuario = filter_input(INPUT_POST, 'tipo_usuario', FILTER_SANITIZE_STRING);
+                $contraseña = filter_input(INPUT_POST, 'contraseña', FILTER_SANITIZE_STRING);
+                $estado = "Activo";
+
+                if ($controlLogin->registrarUsuarioC($dni, $nombre, $edad, $correo, $direccion, $telefono, $tipo_usuario, $contraseña, $estado)) {
+                    header("Location: Index.php"); // Redirige a una página de confirmación de registro
+                    exit();
+                } else {
+                    $mensaje_error_R = "Error en el registro. Intente de nuevo.";
+                }
             }
 
-        } elseif ($action === 'register') {
-            $dni = filter_input(INPUT_POST, 'dni', FILTER_SANITIZE_STRING);
-            $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
-            $edad = filter_input(INPUT_POST, 'edad', FILTER_VALIDATE_INT);
-            $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
-            $direccion = filter_input(INPUT_POST, 'direccion', FILTER_SANITIZE_STRING);
-            $telefono = filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_STRING);
-            $tipo_usuario = filter_input(INPUT_POST, 'tipo_usuario', FILTER_SANITIZE_STRING);
-            $contraseña = filter_input(INPUT_POST, 'contraseña', FILTER_SANITIZE_STRING);
-            $estado = "Activo";
-
-            if ($controlLogin->registrarUsuarioC($dni, $nombre, $edad, $correo, $direccion, $telefono, $tipo_usuario, $contraseña, $estado)) {
-                header("Location: Index.php"); // Redirige a una página de confirmación de registro
-                exit();
-            } else {
-                $mensaje_error_R = "Error en el registro. Intente de nuevo.";
-            }
         }
-
-    }
-?>
+    ?>
 <br>
 <br>
 <div class="cont">
