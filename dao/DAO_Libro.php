@@ -49,13 +49,13 @@ class DAO_Libro
         
     }
 
-    public function consultarLibroPorEst($estado) {
+    public function consultarLibroPorEst($id_est) {
         $cn = new conexion();
         $c = $cn->conecta();
         $libros = array();
-        $sql = "select * from tb_libro where estado=?";
+        $sql = "select * from tb_libro where id_est=?";
         $stm = $c->prepare($sql);
-        if ($result = $stm->execute(array($estado))) {
+        if ($result = $stm->execute(array($id_est))) {
             while ($row = $result->fetch_array()) {
                 $libro = new Libro();
                 $libro->setIdLib($row[0]);
@@ -77,7 +77,7 @@ class DAO_Libro
         $c = $cn->conecta();
         $libros = array();
         #$sql = "select * from tb_libro as tb inner join tb_categoria as tc on tb.id_cat = tc.id_cat where tc.categoria = ?";
-        $sql = "select * from tb_libro where id_cat = ?"
+        $sql = "select * from tb_libro where id_cat = ?";
         $stm = $c->prepare($sql);
         if ($result = $stm->execute(array($id_cat))) {
             while ($row = $result->fetch_array()) {
@@ -100,7 +100,7 @@ class DAO_Libro
         $cn = new conexion();
         $c = $cn->conecta();
         $libros = array();
-        $sql = "select * from tb_libro where autor = ?"
+        $sql = "select * from tb_libro where autor = ?";
         $stm = $c->prepare($sql);
         if ($result = $stm->execute(array($autor))) {
             while ($row = $result->fetch_array()) {
@@ -122,16 +122,49 @@ class DAO_Libro
     public function agregarLibro($libro) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $libros = array();
-        $sql = "insert into tb_libro values (?)";
+        $sql = "insert into tb_libro values (?, ?, ?, ?, ?, ?, ?)";
         $stm = $c->prepare($sql);
-        
+        $result = $stm->execute(array($libro->getIdLib(), $libro->getIdEst(), $libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub()));
+        if (!$result) {
+            echo "Error al agregar libro";
+        }
+        $cn->desconecta();
     }
 
-    public function modificarLibro($libro) {}
+    public function modificarLibro($libro) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "update tb_libro set id_cat=?, titulo='?', descripcion='?', autor='?', fec_pub='?' where id_lib=?";
+        $stm = $c->prepare($sql);
+        $result = $stm->execute(array($libro->getIdCat(), $libro->getTitulo(), $libro->getDescripcion(), $libro->getAutor(), $libro->getFecPub(), $libro->getIdLib()));
+        if (!$result) {
+            echo "Error al modificar libro";
+        }
+        $cn->desconecta();
+    }
 
-    public function eliminarLibro($id) {}
+    public function eliminarLibro($id) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "delete from tb_libro where id_lib=?";
+        $stm = $c->prepare($sql);
+        $result = $stm->execute(array($id));
+        if (!$result) {
+            echo "Error al eliminar libro";
+        }
+        $cn->desconecta();
+    }
 
-    public function actualizarEstado($id, $estado) {}
+    public function actualizarEstado($id, $id_est) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "update tb_libro set id_est=? where id_lib=?";
+        $stm = $c->prepare($sql);
+        $result = $stm->execute(array($id_est, $id));
+        if (!$result) {
+            echo "Error al actualizar el estado del libro";
+        }
+        $cn->desconecta();
+    }
 }
 ?>

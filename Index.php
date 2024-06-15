@@ -15,6 +15,7 @@ require_once "modelo/Libro.php";
 </head>
 <body>
     <?php
+    echo "<br>Prueba de listar libros<br>";
     $daoLibro = new DAO_Libro();
     $array = $daoLibro->listarLibros();
     foreach ($array as $obj) {
@@ -22,6 +23,16 @@ require_once "modelo/Libro.php";
         echo $titulo.'<br>';
 
     }
+    echo "<br>Prueba de agregar libro<br>";
+    $libro1 = new Libro();
+    $libro1->setIdLib(4);
+    $libro1->setIdEst(2);
+    $libro1->setIdCat(10);
+    $libro1->setTitulo("La Odisea");
+    $libro1->setDescripcion("Poema épico griego atribuido a Homero");
+    $libro1->setAutor("Homero");
+    $libro1->setFecPub("8 a.C.");
+    $daoLibro->agregarLibro($libro1);
     ?>
 
 
