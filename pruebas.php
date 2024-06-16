@@ -1,4 +1,11 @@
 <?php
+
+require_once "modelo/TipoUsuario.php";
+require_once "dao/DAO_TipoUsuario.php";
+require_once "modelo/Estado.php";
+require_once "dao/DAO_Estado.php";
+require_once "modelo/Categoria.php";
+require_once "dao/DAO_Categoria.php";
 /*
 echo "<br>Prueba de listar libros<br>";
 $daoLibro = new DAO_Libro();
@@ -48,6 +55,16 @@ $daoLibro->modificarLibro($libro2);
 echo "<br>Prueba de eliminar libro<br>";
 $daoLibro->eliminarLibro(4);
 */
+$daoTipoUsu = new DAO_TipoUsuario();
+echo "<br><h3>Prueba de consultar tipo usuario</h3>";
+$tipoUsu = $daoTipoUsu->consultarTipoUsuario(0);
+echo "Rango:    ".$tipoUsu->getRango()."<br>";
+echo "Descripcion:    ".$tipoUsu->getDescripcion()."<br>";
 
+$daoEstado = new DAO_Estado();
+echo "<br><h3>Prueba de consultar estado de libro</h3>";
+$estado = $daoEstado->consultarEstado(1);
+echo "Estado:    ".$estado->getEstado()."<br>";
+echo "Descripcion:    ".$estado->getDescripcion()."<br>";
 
 ?>
