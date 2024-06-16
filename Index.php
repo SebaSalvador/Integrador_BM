@@ -33,7 +33,7 @@ include "controlador/Control_Login.php";
                     if ($tipo == 0) {
 
                         $_SESSION['user_id'] = strtoupper($user_id);
-                        header("Location: confirmarC.php");
+                        header("Location: VistaEmpleadoMain.php");
                         exit();
                     } elseif ($tipo == 1) {
 
