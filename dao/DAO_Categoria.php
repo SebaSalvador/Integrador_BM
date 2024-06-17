@@ -8,18 +8,31 @@ class DAO_Categoria
 
     public function listarCategorias() {
         $cn = new conexion();
-        $c = $cn->conecta();
-        $categorias = array();
         $sql = "select * from tb_categoria";
-        if ($result = $c->query($sql)) {
-            while ($row = $result->fetch_array()) {
-                $categoria = new Categoria();
-                $categoria->setIdCat($row[0]);
-                $categoria->setNombre($row[1]);
-                $categorias[] = $categoria;
-            }
+        $conn = $cn->conecta();
+        $res = mysqli_query($conn, $sql);
+
+        if (!$res) {
+            // Si hay un error en la consulta, lanzar una excepción
+            throw new Exception('Error al ejecutar la consulta: ' . mysqli_error($conn));
         }
-        $cn->desconecta();
+        
+        $categorias = [];
+        
+        // Verificar si se encontraron categorías
+        if (mysqli_num_rows($res) > 0) {
+            // Obtener todas las filas como un array asociativo
+            while ($row = mysqli_fetch_assoc($res)) {
+                $categorias[] = $row;
+            }
+            // Liberar el resultado
+            mysqli_free_result($res);
+        }
+
+        // Cerrar la conexión a la base de datos
+        mysqli_close($conn);
+
+        // Devolver el array de categorías, puede ser un array vacío si no se encontraron resultados
         return $categorias;
     }
 

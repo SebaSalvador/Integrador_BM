@@ -1,6 +1,8 @@
 <?php
 
 require_once "dao/DAO_Usuario.php";
+require_once "dao/DAO_Libro.php";
+require_once "dao/DAO_Categoria.php";
 
 
     class Control_ClienteMain
@@ -22,10 +24,20 @@ require_once "dao/DAO_Usuario.php";
             
         }
 
-        public function getLibros()
-        {
-            
+        public function getCategorias() {
+            $daoC = new DAO_Categoria();
+            $dataC = $daoC->listarCategorias();
+            // Inicializar una lista vacía para almacenar los resultados
+            $listaDataCategorias = [];
+            // Iterar sobre los datos obtenidos
+            foreach ($dataC as $datacategoria) { // Asegúrate de usar $dataC correctamente
+                // Agregar cada categoria a la lista
+                $listaDataCategorias[] = $datacategoria;
+            }
+            return $listaDataCategorias;
         }
+
+        
 
 
     }
