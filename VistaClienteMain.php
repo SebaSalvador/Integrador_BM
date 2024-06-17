@@ -1,12 +1,12 @@
 <?php
-include "controlador/Control_EmpleadoMain.php";
+include "controlador/Control_ClienteMain.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
-    $control = new Control_EmpleadoMain();
+    $control = new Control_ClienteMain();
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
@@ -42,6 +42,12 @@ if(isset($_SESSION['user_id'])) {
 </head>
 
 <body id="page-top">
+
+    <?php
+        // Crear instancia del controlador de login y registro
+        $control = new Control_ClienteMain();
+        $user_id = $_SESSION['user_id'];
+    ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -86,14 +92,8 @@ if(isset($_SESSION['user_id'])) {
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
-                    <i class="fa-solid fa-table"></i>
-                    <span>Control de Libros</span></a>
-            </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Prestamos en retraso</span></a>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Penalizaciones</span></a>
             </li>
 
             <!-- Divider -->
@@ -301,7 +301,7 @@ if(isset($_SESSION['user_id'])) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">EmpleadoName - TipoDeUsuario</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">ClienteName - TipoDeUsuario</span>
                                 
                                 <i class="fa-solid fa-id-card"></i>
 
