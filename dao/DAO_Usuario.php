@@ -10,6 +10,30 @@ class DAO_Usuario
     //validar login (en DAO_Login)
     //loguear usuario (en DAO_Login)
 
+    public function getUserData($user_id) {
+        $cn = new conexion();
+        $sql = "select tp.nom_ape, tt.rango from tb_persona tp inner join tb_usuario tu on tu.id_per =tp.id_per inner join tb_tipousuario tt on tu.id_tipo =tt.id_tipo where tp.id_per = $user_id";
+        $res = mysqli_query($cn->conecta(), $sql);
+        if (!$res) {
+            // Si hay un error en la consulta, manejarlo adecuadamente
+            die('Error al ejecutar la consulta: ' . mysqli_error($cn->conecta()));
+        }
+        
+        // Verificar si se encontró un usuario válido
+        if (mysqli_num_rows($res) > 0) {
+            // Obtener los datos del usuario
+            $usuario = mysqli_fetch_assoc($res);
+            // Liberar el resultado
+            mysqli_free_result($res);
+            // Devolver los datos del usuario encontrado
+            return $usuario;
+        } else {
+            // Si no se encontró ningún usuario válido, devolver null o false
+            return null; // o false, dependiendo de tu preferencia
+        }
+
+    }
+
     public function listarUsuarios() {
         
         $cn = new conexion();

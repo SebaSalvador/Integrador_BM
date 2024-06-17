@@ -8,6 +8,10 @@ if(isset($_SESSION['user_id'])) {
     
     $control = new Control_ClienteMain();
 
+    $userdata = $control->getUserDataC($user_id);
+
+    //$libros = $control->getLibros();
+
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
     header("Location: login.php");
@@ -129,7 +133,7 @@ if(isset($_SESSION['user_id'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="controlador/Control_Logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Log Out</span></a>
             </li>
@@ -301,7 +305,7 @@ if(isset($_SESSION['user_id'])) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">ClienteName - TipoDeUsuario</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$userdata[0]?> - <?=$userdata[1]?></span>
                                 
                                 <i class="fa-solid fa-id-card"></i>
 
@@ -335,7 +339,7 @@ if(isset($_SESSION['user_id'])) {
                         
                     </div>
 
-                    <!-- Content Row -->
+                    <!-- Content Row Slider-->
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
@@ -422,7 +426,7 @@ if(isset($_SESSION['user_id'])) {
                         </div>
                     </div>
 
-                    <!-- Content Row -->
+                    <!-- Content Row Libros-->
 
                     <div class="row">
 
@@ -498,6 +502,7 @@ if(isset($_SESSION['user_id'])) {
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
 
                     <!-- Content Row -->
