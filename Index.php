@@ -1,5 +1,6 @@
 <?php
 include "controlador/Control_Login.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -27,18 +28,18 @@ include "controlador/Control_Login.php";
                 if ($resultado = $controlLogin->autenticarUsuario($user_id, $password)) {
                     
                     $ListaUsuarios = $controlLogin->traerUsuarioC($user_id, $password);
-                    $user_id = $ListaUsuarios[0];
+                    $user_dni = $ListaUsuarios[0];
                     $tipo = $ListaUsuarios[1];
                     
                     if ($tipo == 0) {
 
-                        $_SESSION['user_id'] = strtoupper($user_id);
-                        header("Location: VistaEmpleadoMain.php");
+                        $_SESSION['user_id'] = $user_dni;
+                        header("Location: VistaClienteMain.php");
                         exit();
                     } elseif ($tipo == 1) {
 
-                        $_SESSION['user_id'] = strtoupper($user_id);
-                        header("Location: confirmarE.php");
+                        $_SESSION['user_id'] = $user_dni;
+                        header("Location: VistaEmpleadoMain.php");
                         exit();
                     }
                     
