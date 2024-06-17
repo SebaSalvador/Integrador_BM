@@ -15,8 +15,8 @@ class DAO_Usuario
         $cn = new conexion();
         $c = $cn->conecta();
         $usuarios = array();
-        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,"+
-        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp"+
+        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,".
+        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp".
         " inner join tb_Usuario as tu on tp.id_per=tu.id_per";
         if ($result = $c->query($sql)) {
             while ($row = $result->fetch_array()) {
@@ -41,8 +41,8 @@ class DAO_Usuario
         $cn = new conexion();
         $c = $cn->conecta();
         $usuario = new Usuario();
-        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,"+
-        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp"+
+        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,".
+        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp".
         " inner join tb_Usuario as tu on tp.id_per=tu.id_per where id_per=?";
         $stm = $c->prepare($sql);
         $stm->execute(array($id));
@@ -68,8 +68,8 @@ class DAO_Usuario
         $cn = new conexion();
         $c = $cn->conecta();
         $usuarios = array();
-        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,"+
-        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp"+
+        $sql = "select tu.id_per, tu.id_tipo, tu.pass, tu.estado, tp.nom_ape,".
+        " tp.edad, tp.correo, tp.direccion, tp.telefono from tb_Persona as tp".
         " inner join tb_Usuario as tu on tp.id_per=tu.id_per where id_tipo=?";
         $stm = $c->prepare($sql);
         $stm->execute(array($id_tipo));
@@ -96,12 +96,17 @@ class DAO_Usuario
     public function agregarUsuario($usuario) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $sql = "insert into tb_persona values (?, ?, ?, ?, ?, ?); insert into tb_usuario values (?, ?, ?, ?)";
-        $stm = $c->prepare($sql);
-        $bool = $stm->execute(array($usuario->getIdPer(),$usuario->getNomApe(),$usuario->getEdad(),
-                $usuario->getCorreo(),$usuario->getDireccion(),$usuario->getTelefono(),$usuario->getIdPer(),
-                $usuario->getIdTipo(),$usuario->getPass(),$usuario->getEstado()));
-        if (!$bool) {
+        $sql1 = "insert into tb_persona values (?, ?, ?, ?, ?, ?)";
+        $stm1 = $c->prepare($sql1);
+        $bool1 = $stm1->execute(array($usuario->getIdPer(),$usuario->getNomApe(),$usuario->getEdad(),
+                $usuario->getCorreo(),$usuario->getDireccion(),$usuario->getTelefono()));
+
+        $sql2 = "insert into tb_usuario values (?, ?, ?, ?)";
+        $stm2 = $c->prepare($sql2);
+        $bool2 = $stm2->execute(array($usuario->getIdPer(),
+        $usuario->getIdTipo(),$usuario->getPass(),$usuario->getEstado()));
+        
+        if (!$bool1 || !$bool2) {
             echo "Error al agregar usuario";
         }
         $cn->desconecta();
@@ -122,10 +127,15 @@ class DAO_Usuario
     public function eliminarUsuario($id) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $sql = "delete from tb_persona where id_per=?; delete from tb_usuario where id_per=?";
-        $stm = $c->prepare($sql);
-        $bool = $stm->execute(array($id));
-        if (!$bool) {
+        $sql1 = "delete from tb_usuario where id_per=?";
+        $stm1 = $c->prepare($sql1);
+        $bool1 = $stm1->execute(array($id));
+
+        $sql2 = "delete from tb_persona where id_per=?";
+        $stm2 = $c->prepare($sql2);
+        $bool2 = $stm2->execute(array($id));
+
+        if (!$bool1 || !$bool2) {
             echo "Error al eliminar usuario";
         }
         $cn->desconecta();
