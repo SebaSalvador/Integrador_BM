@@ -8,6 +8,7 @@ class Prestamo {
     private $horPre;
     private $fecDev;
     private $horDev;
+    private $estado;
 
     public function getIdPre() {
         return $this->idPre;
@@ -63,6 +64,14 @@ class Prestamo {
 
     public function setHorDev($horDev) {
         $this->horDev = $horDev;
+    }
+
+    public function getEstado() {
+        return $this->estado;
+    }
+
+    public function setEstado($estado) {
+        $this->estado = $estado;
     }
 }
 ?>
