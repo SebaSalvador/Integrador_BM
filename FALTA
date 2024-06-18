@@ -5,9 +5,9 @@ Carpeta de Imagen:
 Agregar portada de los libros
 
 Base de datos - Jose carlos:
-- Agregale libros(20)
-- Prestamos(10)
-- Sanciones(10)
+- Agregale libros(20) -LISTO
+- Prestamos(10) -LISTO
+- Sanciones(10) 
 - Usuario para presentacion: 
 - Cliente@gmail.com - password = 123
 - Empleado@gmail.com - password = 123
@@ -17,11 +17,11 @@ Vista - Cliente:
 - Barra de busqueda -LISTO
 - Boton de filtro -LISTO
 - Traer Libros -LISTO
-- Modal del detalle del libro
-- Funcion/ Traer titulo-detalle-Boton pa enviar al form de prestamo
+- Modal del detalle del libro -LISTO
+- Funcion/ Traer titulo-detalle-Boton pa enviar al form de prestamo -LISTO
 
-- Form para Realizar Prestamo
-- Funciones
+- Form para Realizar Prestamo -LISTO
+- Funciones -LISTO
 
 - Prestamo Actual
 - Estado del prestamo actual
