@@ -76,7 +76,13 @@ CREATE TABLE tb_libro (
     FOREIGN KEY(id_est) REFERENCES tb_estado(id_est),
     FOREIGN KEY(id_cat) REFERENCES tb_categoria(id_cat)
 );
-
+/*
+Estados del prestamo:
+Pendiente : Comprende desde la fecha de prestamo hasta 2 horas max
+En curso : Comprende desde que el usuario recoja el libro hasta la fecha de devolucion
+Pendiente Devolucion: Comprende desde fecha de devolucion hasta que el usuario devuelve el libro 
+Finalizado: Se marca cuando el usuario devuelve el libro, sea a tiempo o con retraso
+*/
 CREATE TABLE tb_prestamo (
 	id_pre			integer       NOT NULL AUTO_INCREMENT,
     id_per			integer			NOT NULL,
