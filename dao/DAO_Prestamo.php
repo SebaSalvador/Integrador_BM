@@ -26,7 +26,7 @@ class DAO_Prestamo
                 $prestamo->setHorPre($row[4]);
                 $prestamo->setFecDev($row[5]);
                 $prestamo->setHorDev($row[6]);
-                $prestamo->setEstado($row[7])
+                $prestamo->setEstado($row[7]);
                 $prestamos[] = $prestamo;
             }
         }
