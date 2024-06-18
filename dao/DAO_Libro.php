@@ -1,10 +1,41 @@
 <?php
-require_once "util/conexion.php";
-require_once "modelo/Libro.php";
+require_once(__DIR__ . '/../util/conexion.php');
+require_once(__DIR__ . '/../modelo/Libro.php');
+
 
 class DAO_Libro 
 {
     var $cn;
+
+    public function listarAutores() {
+        $cn = new conexion();
+        $sql = "SELECT DISTINCT tl.autor FROM tb_libro tl;";
+        $conn = $cn->conecta();
+        $res = mysqli_query($conn, $sql);
+
+        if (!$res) {
+            // Si hay un error en la consulta, lanzar una excepción
+            throw new Exception('Error al ejecutar la consulta: ' . mysqli_error($conn));
+        }
+        
+        $autores = [];
+        
+        // Verificar si se encontraron categorías
+        if (mysqli_num_rows($res) > 0) {
+            // Obtener todas las filas como un array asociativo
+            while ($row = mysqli_fetch_assoc($res)) {
+                $autores[] = $row;
+            }
+            // Liberar el resultado
+            mysqli_free_result($res);
+        }
+
+        // Cerrar la conexión a la base de datos
+        mysqli_close($conn);
+
+        // Devolver el array de categorías, puede ser un array vacío si no se encontraron resultados
+        return $autores;
+    }
     
     public function listarLibros() {
         $cn = new conexion();
@@ -31,24 +62,36 @@ class DAO_Libro
     public function consultarLibro($id) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $libro = new Libro();
-        $sql = "select * from tb_libro where id_lib = ?";
+        $sql = "
+            select tl.id_lib, tl.titulo, tl.descripcion, tl.autor, tl.fec_pub, tc.nombre 
+            from tb_libro tl 
+            inner join tb_categoria tc on tl.id_cat = tc.id_cat 
+            where tl.id_lib = ?
+        ";
         $stm = $c->prepare($sql);
-        $stm->execute(array($id));
-        $result = $stm->get_result();
-        if ($row = $result->fetch_array()) {
-            $libro->setIdLib($row[0]);
-            $libro->setIdEst($row[1]);
-            $libro->setIdCat($row[2]);
-            $libro->setTitulo($row[3]);
-            $libro->setDescripcion($row[4]);
-            $libro->setAutor($row[5]);
-            $libro->setFecPub($row[6]);
+        $stm->bind_param("s", $id);  // "s" indica que $id es una cadena (string)
+        $stm->execute();
+    
+        // Vincular variables de resultado
+        $stm->bind_result($id_lib, $titulo, $descripcion, $autor, $fec_pub, $categoria);
+    
+        $libro = null;
+        if ($stm->fetch()) {
+            $libro = [
+                'id_lib' => $id_lib,
+                'titulo' => $titulo,
+                'descripcion' => $descripcion,
+                'autor' => $autor,
+                'fec_pub' => $fec_pub,
+                'categoria' => $categoria
+            ];
         }
+    
+        $stm->close();
         $cn->desconecta();
         return $libro;
-        
     }
+    
 
     public function consultarLibroPorEst($id_est) {
         $cn = new conexion();

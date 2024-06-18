@@ -37,7 +37,20 @@ require_once "dao/DAO_Categoria.php";
             return $listaDataCategorias;
         }
 
-        
+        public function getAutores() {
+            $dao = new DAO_Libro();
+            $data = $dao->listarAutores();
+            // Inicializar una lista vacía para almacenar los resultados
+            $listaAutores = [];
+            // Iterar sobre los datos obtenidos
+            foreach ($data as $autor) { // Asegúrate de usar $dataC correctamente
+                // Agregar cada categoria a la lista
+                $listaAutores[] = $autor;
+            }
+            return $listaAutores;
+
+
+        }
 
 
     }

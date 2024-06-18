@@ -1,0 +1,55 @@
+FALTA 
+En general por ahora tanto para Vista cliente y empleado se elimina lo de calendario
+
+Carpeta de Imagen:
+Agregar portada de los libros
+
+Base de datos - Jose carlos:
+- Agregale libros(20)
+- Prestamos(10)
+- Sanciones(10)
+- Usuario para presentacion: 
+- Cliente@gmail.com - password = 123
+- Empleado@gmail.com - password = 123
+
+Vista - Cliente:
+- Carrusel de Categorias (Informativo)
+- Barra de busqueda -LISTO
+- Boton de filtro -LISTO
+- Traer Libros -LISTO
+- Modal del detalle del libro
+- Funcion/ Traer titulo-detalle-Boton pa enviar al form de prestamo
+
+- Form para Realizar Prestamo
+- Funciones
+
+- Prestamo Actual
+- Estado del prestamo actual
+- Prestamos realizados(Funcion Prestamo/Libro-Fecha de inicio y final)
+
+- Penalizaciones del cliente:  Por tardanza
+- Funcion/ Traer el id de la penalizacion-Fecha en la que se le impuso
+- Modal del detalle de la penalizacion
+- Funcion/Traer el id-razon-dias de la sancion
+
+Vista - Empleado:
+- Barra de busqueda
+- Botones de filtro 
+- Traer libros
+- Boton que envia a form de realizar prestamo
+
+- Boton de filtro de prestamos por dia
+- Boton de filtro de estados
+- Traer todos los prestamos de los clientes
+
+- Control de libros por el estado
+- Funcion: Trae todas las observaciones
+- Boton de filtro por dia 
+- boton de filtro por estado
+- Modal de detalle del control
+- Boton Calcular Penalizacion: Agrega una sancion al cliente 
+
+- Prestamos en retraso:
+- Funcion/ Se envia la fecha actual, en el dao se evaula si la fecha actual es mayor a la fecha final del prestamos
+- Si es asi entonces trae los prestamos que cumplan esta condicion
+- boton de Enviar sancion: Agrega una sancion al cliente

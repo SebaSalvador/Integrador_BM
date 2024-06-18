@@ -10,12 +10,13 @@ if(isset($_SESSION['user_id'])) {
 
     $userdata = $control->getUserDataC($user_id);
     $listaCategorias = $control->getCategorias();
+    $listaAutores = $control->getAutores();
 
     //$libros = $control->getLibros();
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
-    header("Location: login.php");
+    header("Location: Index.php");
     exit();
 }
 
@@ -466,9 +467,12 @@ if(isset($_SESSION['user_id'])) {
                             <div class="input-group col-xl-12 mb-4">
                                 <select class="form-control bg-light border-1 small" id="Autores">
                                     <option value="">Todos los Autores</option>
-                                    <option value="1">Juan Pablo</option>
-                                    <option value="2">Juan Pablo</option>
-                                    <option value="3">Juan Pablo</option>
+                                    <?php
+
+                                        foreach ($listaAutores as $autor) {
+                                            echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
+                                        }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -489,6 +493,36 @@ if(isset($_SESSION['user_id'])) {
 
             </div>
             <!-- End of Main Content -->
+            
+            <!-- Modal de Detalle de Libro -->
+            <div class="modal fade" id="ModalBookDetails" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookModalLabel" id="TituloLibro">NOMBRE DEL LIBRO</h5>
+                            <button id="closeModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex">
+                            <div class="book-cover">
+                                <div class="cover">
+                                    <h1 id="CategoriaLibro">CATEGORÍA DEL LIBRO</h1>
+                                    <!-- Puedes añadir aquí la imagen de la portada del libro si es necesario -->
+                                    <p>IMAGEN DE PORTADA DEL LIBRO</p>
+                                    <h4 id="AutorLibro">AUTOR DEL LIBRO</h4>
+                                </div>
+                            </div>
+                            <div class="book-details ml-3">
+                                <h3>Sinopsis</h3>
+                                <p id="DescripcionLibro">Descripción del libro</p>
+                                <!-- Puedes añadir más detalles del libro aquí según sea necesario -->
+                                <button class="btn btn-success mt-3">Realizar Préstamo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -532,6 +566,11 @@ if(isset($_SESSION['user_id'])) {
     </div>
 
     <script>
+        var getUrl = window.location;
+        var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    </script>
+
+    <script>
         $(document).ready(function(){
             function filtrarDatos() {
                 var categoria = $('#Categorias').val();
@@ -556,6 +595,8 @@ if(isset($_SESSION['user_id'])) {
             $('#Autores').change(filtrarDatos); // Cambiar evento a 'change' para el select #Autores
         });
     </script>
+
+    <script src="js/modal.js"></script>
 
 
     <!-- Bootstrap core JavaScript-->

@@ -18,7 +18,7 @@ if (!empty($categoria)) {
     $sql .= " AND tc.id_cat = '".$conn->real_escape_string($categoria)."'";
 }
 if (!empty($autor)) {
-    $sql .= " AND tl.autor = '".$conn->real_escape_string($autor)."'";
+    $sql .= " AND tl.autor LIKE '%".$conn->real_escape_string($autor)."%'";
 }
 if (!empty($buscar)) {
     $sql .= " AND tl.titulo LIKE '%".$conn->real_escape_string($buscar)."%'";
@@ -31,6 +31,7 @@ if ($result->num_rows > 0) {
         echo "<div class='card'>";
         echo "<h2>".$row['titulo']."</h2>";
         echo "<p>ID Libro: ".$row['id_lib']."</p>";
+        echo '<button type="button" onclick="javascript:openDetailBook(\'' . $row['id_lib'] . '\');">Click Me!</button>';
         echo "</div>";
     }
 } else {

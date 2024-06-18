@@ -12,7 +12,7 @@ if(isset($_SESSION['user_id'])) {
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
-    header("Location: login.php");
+    header("Location: Index.php");
     exit();
 }
 
