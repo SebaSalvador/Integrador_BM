@@ -1,5 +1,6 @@
 <?php
 include "controlador/Control_ClienteMain.php";
+include "controlador/Control_FormPrestamo.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -9,10 +10,7 @@ if(isset($_SESSION['user_id'])) {
     $control = new Control_ClienteMain();
 
     $userdata = $control->getUserDataC($user_id);
-    $listaCategorias = $control->getCategorias();
-    $listaAutores = $control->getAutores();
 
-    //$libros = $control->getLibros();
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
@@ -47,15 +45,84 @@ if(isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Establecer la fecha actual en el campo de fecha de préstamo
+            var today = new Date();
+            var day = String(today.getDate()).padStart(2, '0');
+            var month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+            var year = today.getFullYear();
+            var currentDate = year + '-' + month + '-' + day;
+            document.getElementById('fec_pre').value = currentDate;
+
+            // Establecer la hora actual en el campo de hora de préstamo
+            var hours = String(today.getHours()).padStart(2, '0');
+            var minutes = String(today.getMinutes()).padStart(2, '0');
+            var currentTime = hours + ':' + minutes;
+            document.getElementById('hor_pre').value = currentTime;
+
+            // Calcular la fecha máxima de devolución (una semana a partir de hoy)
+            var maxDate = new Date();
+            maxDate.setDate(today.getDate() + 7);
+            var maxDay = String(maxDate.getDate()).padStart(2, '0');
+            var maxMonth = String(maxDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+            var maxYear = maxDate.getFullYear();
+            var maxDateString = maxYear + '-' + maxMonth + '-' + maxDay;
+
+            // Establecer los valores mínimos y máximos para el campo de fecha de devolución
+            document.getElementById('fec_dev').setAttribute('min', currentDate);
+            document.getElementById('fec_dev').setAttribute('max', maxDateString);
+        });
+    </script>
+
 </head>
 
 <body id="page-top">
 
     <?php
         // Crear instancia del controlador de login y registro
-        $control = new Control_ClienteMain();
+        //$control = new Control_FormPrestamo();
+        if (isset($_GET['id_lib'])) {
+            $id_lib = $_GET['id_lib'];
+        } else {
+            echo "No se ha proporcionado el ID del libro.";
+        }
+
         $user_id = $_SESSION['user_id'];
+
+        $controlPrestamo = new Control_FormPrestamo();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Verificamos que la acción sea 'register'
+            $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+            if ($action === 'register') {
+                // Recogemos los datos del formulario
+                $id_persona = filter_input(INPUT_POST, 'id_per', FILTER_VALIDATE_INT);
+                $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
+                $fecha_prestamo = filter_input(INPUT_POST, 'fec_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                $hora_prestamo = filter_input(INPUT_POST, 'hor_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                $fecha_devolucion = filter_input(INPUT_POST, 'fec_dev', FILTER_SANITIZE_STRING);
+                $hora_devolucion = filter_input(INPUT_POST, 'hor_dev', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+        
+                // Aquí podrías realizar validaciones adicionales si es necesario
+        
+                // Ejemplo de datos adicionales
+                $estado = "Pendiente de entrega"; // O cualquier otro estado que definas
+        
+                // Llamar a tu función para registrar el préstamo
+                if ($controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estado)) {
+                    header("Location: VistaClienteMain.php"); // Redirige a la página principal u otra página de confirmación
+                    exit();
+                } else {
+                    $mensaje_error = "Error en el registro del préstamo. Intente de nuevo.";
+                }
+            }
+        }
+
+
     ?>
+
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -346,47 +413,43 @@ if(isset($_SESSION['user_id'])) {
                     <!-- Content Row Formulario-->
                     <div class="row">
 
-                    <form id="formPrestamo">
+                        <form id="formPrestamo" method="POST">
 
-                        <div class="columns">
-                            <div class="column"> 
-                                <div class="form-group">
-                                    <label for="id_pre">ID Préstamo</label>
-                                    <input type="number" class="form-control" id="id_pre" name="id_pre" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_per">ID Persona</label>
-                                    <input type="number" class="form-control" id="id_per" name="id_per" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="id_lib">ID Libro</label>
-                                    <input type="number" class="form-control" id="id_lib" name="id_lib" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="fec_pre">Fecha de Préstamo</label>
-                                    <input type="date" class="form-control" id="fec_pre" name="fec_pre" required>
-                                </div>
-                            </div> 
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="form-group">
+                                        <label for="id_per">ID Persona</label>
+                                        <input type="number" class="form-control" id="id_per" name="id_per" value="<?php echo $user_id; ?>" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_lib">ID Libro</label>
+                                        <input type="number" class="form-control" id="id_lib" name="id_lib" value="<?php echo $id_lib; ?>" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fec_pre">Fecha de Préstamo</label>
+                                        <input type="date" class="form-control" id="fec_pre" name="fec_pre" readonly>
+                                    </div>
+                                </div> 
 
-                            <div class="column"> 
-                                <div class="form-group">
-                                    <label for="hor_pre">Hora de Préstamo</label>
-                                    <input type="time" class="form-control" id="hor_pre" name="hor_pre" required>
+                                <div class="column"> 
+                                    <div class="form-group">
+                                        <label for="hor_pre">Hora de Préstamo</label>
+                                        <input type="time" class="form-control" id="hor_pre" name="hor_pre" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fec_dev">Fecha de Devolución</label>
+                                        <input type="date" class="form-control" id="fec_dev" name="fec_dev" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hor_dev">Hora de Devolución</label>
+                                        <input type="time" class="form-control" id="hor_dev" name="hor_dev" readonly>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fec_dev">Fecha de Devolución</label>
-                                    <input type="date" class="form-control" id="fec_dev" name="fec_dev" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="hor_dev">Hora de Devolución</label>
-                                    <input type="time" class="form-control" id="hor_dev" name="hor_dev" required>
-                                </div>
+
                             </div>
-
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Registrar</button>
-                    </form>
+                            <input type="hidden" name="action" value="register">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </form>
 
                     </div>
 
