@@ -78,7 +78,7 @@ CREATE TABLE tb_libro (
 );
 
 CREATE TABLE tb_prestamo (
-	id_pre			integer			NOT NULL,
+	id_pre			integer       NOT NULL AUTO_INCREMENT,
     id_per			integer			NOT NULL,
     id_lib			integer			NOT NULL,
     fec_pre			date			NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE tb_prestamo (
     PRIMARY KEY(id_pre),
     FOREIGN KEY(id_per) REFERENCES tb_persona(id_per),
     FOREIGN KEY(id_lib)	REFERENCES tb_libro(id_lib)
-);
+) AUTO_INCREMENT=1000;
 
 CREATE TABLE tb_observacion (
 	id_lib			integer			NOT NULL,

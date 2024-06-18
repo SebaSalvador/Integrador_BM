@@ -43,6 +43,7 @@ if(isset($_SESSION['user_id'])) {
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/cssForm.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -345,7 +346,47 @@ if(isset($_SESSION['user_id'])) {
                     <!-- Content Row Formulario-->
                     <div class="row">
 
+                    <form id="formPrestamo">
+
+                        <div class="columns">
+                            <div class="column"> 
+                                <div class="form-group">
+                                    <label for="id_pre">ID Préstamo</label>
+                                    <input type="number" class="form-control" id="id_pre" name="id_pre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_per">ID Persona</label>
+                                    <input type="number" class="form-control" id="id_per" name="id_per" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_lib">ID Libro</label>
+                                    <input type="number" class="form-control" id="id_lib" name="id_lib" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fec_pre">Fecha de Préstamo</label>
+                                    <input type="date" class="form-control" id="fec_pre" name="fec_pre" required>
+                                </div>
+                            </div> 
+
+                            <div class="column"> 
+                                <div class="form-group">
+                                    <label for="hor_pre">Hora de Préstamo</label>
+                                    <input type="time" class="form-control" id="hor_pre" name="hor_pre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fec_dev">Fecha de Devolución</label>
+                                    <input type="date" class="form-control" id="fec_dev" name="fec_dev" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hor_dev">Hora de Devolución</label>
+                                    <input type="time" class="form-control" id="hor_dev" name="hor_dev" required>
+                                </div>
+                            </div>
+
+                        </div>
                         
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </form>
 
                     </div>
 
