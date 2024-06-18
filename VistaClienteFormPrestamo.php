@@ -60,6 +60,7 @@ if(isset($_SESSION['user_id'])) {
             var minutes = String(today.getMinutes()).padStart(2, '0');
             var currentTime = hours + ':' + minutes;
             document.getElementById('hor_pre').value = currentTime;
+            document.getElementById('hor_dev').value = currentTime;
 
             // Calcular la fecha máxima de devolución (una semana a partir de hoy)
             var maxDate = new Date();
@@ -110,11 +111,13 @@ if(isset($_SESSION['user_id'])) {
                 $estado = "Pendiente de entrega"; // O cualquier otro estado que definas
         
                 // Llamar a tu función para registrar el préstamo
-                if ($controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estado)) {
+                $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estado);
+
+                if ($respuesta) {
                     header("Location: VistaClienteMain.php"); // Redirige a la página principal u otra página de confirmación
                     exit();
                 } else {
-                    $mensaje_error = "Error en el registro del préstamo. Intente de nuevo.";
+                    $mensaje_error_R = "Error en el registro del préstamo. Intente de nuevo.";
                 }
             }
         }
@@ -450,6 +453,12 @@ if(isset($_SESSION['user_id'])) {
                             <input type="hidden" name="action" value="register">
                             <button type="submit" class="btn btn-primary">Registrar</button>
                         </form>
+
+                        <?php if (!empty($mensaje_error_R)) { ?>
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <?php echo $mensaje_error_R; ?>
+                            </div>
+                        <?php } ?>
 
                     </div>
 

@@ -37,14 +37,37 @@ class DAO_Prestamo
     public function agregarPrestamo($prestamo) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $sql = "insert into tb_prestamo values (null, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tb_prestamo (id_per, id_lib, fec_pre, hor_pre, fec_dev, hor_dev, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stm = $c->prepare($sql);
-        $bool = $stm->execute(array($prestamo->getIdPer(), $prestamo->getIdLib(), $prestamo->getFecPre(), $prestamo->getHorPre(), $prestamo->getFecDev(), $prestamo->getHorDev(), $prestamo->getEstado()));
-        if (!$bool) {
-            echo "Error al agregar prestamo";
-        }
+        
+        // Obtener los valores del objeto $prestamo
+        $id_per = $prestamo->getIdPer();
+        $id_lib = $prestamo->getIdLib();
+        $fec_pre = $prestamo->getFecPre();
+        $hor_pre = $prestamo->getHorPre();
+        $fec_dev = $prestamo->getFecDev();
+        $hor_dev = $prestamo->getHorDev();
+        $estado = $prestamo->getEstado();
+        
+        // Vincular parámetros
+        $stm->bind_param("iisssss", 
+            $id_per, 
+            $id_lib, 
+            $fec_pre, 
+            $hor_pre, 
+            $fec_dev, 
+            $hor_dev, 
+            $estado
+        );
+        
+        // Ejecutar la sentencia preparada
+        $bool = $stm->execute();
+        
         $cn->desconecta();
-    }    
+    
+        return $bool;
+    }
+        
 
     public function actualizarEstado($id, $estado) {
         $cn = new conexion();
