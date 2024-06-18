@@ -338,155 +338,17 @@ if(isset($_SESSION['user_id'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Categorias</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Formulario para Registrar un Prestamo</h1>
                         
                     </div>
 
-                    <!-- Content Row Carrusel-->
+                    <!-- Content Row Formulario-->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                     </div>
 
-                    <!-- Content Row Libros-->
-
-                    <div class="row">
-
-                        <!-- Barra de Busqueda -->
-                        <div class="col-xl-6 col-lg-5 mb-4">
-                            <div class="input-group col-xl-12">
-                                <input type="text" class="form-control bg-white border-1 small" placeholder="Search for..."
-                                    aria-label="Search" aria-describedby="basic-addon2" id="Search" name ="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Select de Filtros Categorias -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
-                                    <option value="">Todas las Categorias</option>
-                                    <?php
-
-                                        foreach ($listaCategorias as $categoria) {
-                                            echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select de Filtros Autores -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Autores">
-                                    <option value="">Todos los Autores</option>
-                                    <?php
-
-                                        foreach ($listaAutores as $autor) {
-                                            echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-7">
-                            <div class="card mb-4">
-                                <div id="Libros">
-                                    <!-- Aquí se insertarán las tarjetas de los productos -->
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -494,40 +356,6 @@ if(isset($_SESSION['user_id'])) {
             </div>
             <!-- End of Main Content -->
             
-            <!-- Modal de Detalle de Libro -->
-            <div class="modal fade" id="ModalBookDetails" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bookModalLabel" id="TituloLibro">NOMBRE DEL LIBRO</h5>
-                            <button id="closeModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body d-flex">
-                            <div class="book-cover">
-                                <div class="cover">
-                                    <h1 id="CategoriaLibro">CATEGORÍA DEL LIBRO</h1>
-                                    <!-- Puedes añadir aquí la imagen de la portada del libro si es necesario -->
-                                    <div id ="PortadaLibro">
-
-                                    </div>
-                                    <h4 id="AutorLibro">AUTOR DEL LIBRO</h4>
-                                </div>
-                            </div>
-                            <div class="book-details ml-3" >
-                                <h3>Sinopsis</h3>
-                                <p id="DescripcionLibro">Descripción del libro</p>
-                                <!-- Puedes añadir más detalles del libro aquí según sea necesario -->
-                                <div id ="boton">
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -569,39 +397,7 @@ if(isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-
-    <script>
-        var getUrl = window.location;
-        var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-    </script>
-
-    <script>
-        $(document).ready(function(){
-            function filtrarDatos() {
-                var categoria = $('#Categorias').val();
-                var buscar = $('#Search').val();
-                var autor = $('#Autores').val(); // Obtener el valor seleccionado del select #Autores
-                $.ajax({
-                    url: 'filtrar_libros.php',
-                    type: 'POST',
-                    data: {
-                        categoria: categoria,
-                        buscar: buscar,
-                        autor: autor // Incluir el autor seleccionado en los datos enviados por AJAX
-                    },
-                    success: function(data){
-                        $('#Libros').html(data);
-                    }
-                });
-            }
-
-            $('#Categorias').change(filtrarDatos);
-            $('#Search').keyup(filtrarDatos);
-            $('#Autores').change(filtrarDatos); // Cambiar evento a 'change' para el select #Autores
-        });
-    </script>
-
-    <script src="js/modal.js"></script>
+    
 
 
     <!-- Bootstrap core JavaScript-->

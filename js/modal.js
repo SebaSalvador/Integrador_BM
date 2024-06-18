@@ -14,6 +14,16 @@ function openDetailBook(id) {
             document.getElementById('CategoriaLibro').innerText = data.categoria;
             document.getElementById('AutorLibro').innerText = data.autor;
             document.getElementById('DescripcionLibro').innerText = data.descripcion;
+            let boton_id = data.id_lib;
+
+            html_boton = `<a class="btn btn-success mt-3" href="VistaClienteFormPrestamo.php?id_lib=${boton_id}" >Realizar Préstamo</a> `;
+
+            document.getElementById('boton').innerHTML = html_boton;
+
+            html_imagen = `<img src="galeria/${boton_id}.jpg" alt="Imagen de ${boton_id}" width="200px" height="300px">`;
+
+            document.getElementById('PortadaLibro').innerHTML = html_imagen;
+
 
             // Mostramos el modal y oscurecemos el fondo
             const modal = document.getElementById('ModalBookDetails');

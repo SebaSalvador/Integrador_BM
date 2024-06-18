@@ -85,6 +85,7 @@ CREATE TABLE tb_prestamo (
     hor_pre			varchar(16)		NOT NULL,
     fec_dev			date			NOT NULL,
     hor_dev			varchar(16)		NOT NULL,
+    estado			varchar(32)		NOT NULL,
     PRIMARY KEY(id_pre),
     FOREIGN KEY(id_per) REFERENCES tb_persona(id_per),
     FOREIGN KEY(id_lib)	REFERENCES tb_libro(id_lib)
