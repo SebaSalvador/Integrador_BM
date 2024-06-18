@@ -34,6 +34,34 @@ class DAO_Prestamo
         return $prestamos;
     }
 
+    /*
+    Verificar que el usuario solo tenga un prestamo en curso
+    */
+    public function verificarPresEnCurso($idPer) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $prestamos = array();
+        $sql = "select * from tb_prestamo where estado=?";
+        $stm = $c->prepare($sql);
+        $stm->execute(array($estado));
+        if ($result = $stm->get_result()) {
+            while ($row = $result->fetch_array()) {
+                $prestamo = new Prestamo();
+                $prestamo->setIdPre($row[0]);
+                $prestamo->setIdPer($row[1]);
+                $prestamo->setIdLib($row[2]);
+                $prestamo->setFecPre($row[3]);
+                $prestamo->setHorPre($row[4]);
+                $prestamo->setFecDev($row[5]);
+                $prestamo->setHorDev($row[6]);
+                $prestamo->setEstado($row[7]);
+                $prestamos[] = $prestamo;
+            }
+        }
+        $cn->desconecta();   
+        return $prestamos;
+    }
+
     public function agregarPrestamo($prestamo) {
         $cn = new conexion();
         $c = $cn->conecta();
