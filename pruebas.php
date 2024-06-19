@@ -8,6 +8,9 @@ require_once "modelo/Categoria.php";
 require_once "dao/DAO_Categoria.php";
 require_once "modelo/Usuario.php";
 require_once "dao/DAO_Usuario.php";
+require_once "modelo/Prestamo.php";
+require_once "dao/DAO_Prestamo.php";
+
 /*
 echo "<br>Prueba de listar libros<br>";
 $daoLibro = new DAO_Libro();
@@ -164,4 +167,10 @@ $daoUsuario->modificarUsuario($usuario2);
 echo "<br><h3>Prueba de eliminar Usuario</h3>";
 $daoUsuario->eliminarUsuario(88662233);
 */
+
+$daoPre = new DAO_Prestamo();
+$rspt = $daoPre->verificarPosibilidadPrestamo(53123564);
+if ($rspt != null) {
+    echo 'No puede realizar otro prestamo, porque ya tiene uno en estado '.$rspt;
+}
 ?>

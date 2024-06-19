@@ -96,7 +96,16 @@ CREATE TABLE tb_prestamo (
     FOREIGN KEY(id_per) REFERENCES tb_persona(id_per),
     FOREIGN KEY(id_lib)	REFERENCES tb_libro(id_lib)
 ) AUTO_INCREMENT=1000;
+/*
+Descripciones:
+- El libro ha sido manipulado o rasgado
+- El libro fue extraviado
 
+Condiciones:
+- Inutilizable
+- En solucion
+- Recuperado
+*/
 CREATE TABLE tb_observacion (
 	id_lib			integer			NOT NULL,
     descripcion		varchar(32)		NOT NULL,
@@ -178,7 +187,9 @@ INSERT INTO tb_usuario VALUES(52336803, 0, '123456', 'Activo');
 INSERT INTO tb_usuario VALUES(74588241, 0, 'abcdef', 'Activo');
 INSERT INTO tb_usuario VALUES(53123564, 1, 'emp24*', 'Activo');
 
-
+INSERT INTO tb_prestamo VALUES(null, 52336803, 100, '2024-04-15', '17:32 PM', '2024-04-30', '17:32 PM', 'Finalizado');
+INSERT INTO tb_prestamo VALUES(null, 53123564, 101, '2024-06-18', '16:47 PM', '2024-06-25', '16:47 PM', 'En curso');
+INSERT INTO tb_prestamo VALUES(null, 74588241, 102, '2024-06-10', '9:30 AM', '2024-06-16', '9:30 AM', 'Pendiente devolucion');
 /*Funciones*/
 
 DELIMITER $$
