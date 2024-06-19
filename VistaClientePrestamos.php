@@ -341,18 +341,8 @@ if(isset($_SESSION['user_id'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Categorias</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Prestamos</h1>
                         
-                    </div>
-
-                    <!-- Content Row Carrusel-->
-                    <div class="row justify-content-center mb-4">
-
-                        <?php
-                            include 'carousel.php';
-                        ?>
-
-
                     </div>
 
                     <!-- Content Row Libros-->
