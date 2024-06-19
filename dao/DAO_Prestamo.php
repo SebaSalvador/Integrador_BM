@@ -6,8 +6,28 @@ class DAO_Prestamo
 {
     var $cn;
 
-    #Recordar: agrega el atributo '$estado' a la clase Prestamo
-    public function consultarPrestamo($id) {return $prestamo;}
+    public function consultarPrestamo($id) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $prestamo = new Prestamo();
+        $sql = "select * from tb_prestamo where id_pre=?";
+        $stm = $c->prepare($sql);
+        $stm->execute(array($id));
+        if ($result = $stm->get_result()) {
+            if ($row = $result->fetch_array()) {
+                $prestamo->setIdPre($row[0]);
+                $prestamo->setIdPer($row[1]);
+                $prestamo->setIdLib($row[2]);
+                $prestamo->setFecPre($row[3]);
+                $prestamo->setHorPre($row[4]);
+                $prestamo->setFecDev($row[5]);
+                $prestamo->setHorDev($row[6]);
+                $prestamo->setEstado($row[7]);
+            }
+        }
+        $cn->desconecta();   
+        return $prestamo;
+    }
     
     public function consultarPrestamoPorEst($estado) {
         $cn = new conexion();
@@ -34,32 +54,21 @@ class DAO_Prestamo
         return $prestamos;
     }
 
-    /*
-    Verificar que el usuario solo tenga un prestamo en curso
-    */
-    public function verificarPresEnCurso($idPer) {
+
+    public function verificarPosibilidadPrestamo($idPer) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $prestamos = array();
-        $sql = "select * from tb_prestamo where estado=?";
+        $estado = null;
+        $sql = "select estado from tb_prestamo where id_per=? and estado !='Finalizado'";
         $stm = $c->prepare($sql);
-        $stm->execute(array($estado));
+        $stm->bind_param("i", $idPer);
+        $stm->execute();
         if ($result = $stm->get_result()) {
-            while ($row = $result->fetch_array()) {
-                $prestamo = new Prestamo();
-                $prestamo->setIdPre($row[0]);
-                $prestamo->setIdPer($row[1]);
-                $prestamo->setIdLib($row[2]);
-                $prestamo->setFecPre($row[3]);
-                $prestamo->setHorPre($row[4]);
-                $prestamo->setFecDev($row[5]);
-                $prestamo->setHorDev($row[6]);
-                $prestamo->setEstado($row[7]);
-                $prestamos[] = $prestamo;
-            }
+            if ($row = $result->fetch_array())
+                $estado = $row[0];
         }
         $cn->desconecta();   
-        return $prestamos;
+        return $estado;
     }
 
     public function agregarPrestamo($prestamo) {
