@@ -6,6 +6,60 @@ class DAO_Prestamo
 {
     var $cn;
 
+    public function consultarPrestamoPorUsuario($idUsuario) {
+        $cn = new conexion();
+        $conn = $cn->conecta();
+        $sql = "SELECT * FROM tb_prestamo tpr 
+                INNER JOIN tb_persona tpe ON tpr.id_per = tpe.id_per 
+                WHERE tpe.id_per = ?";
+        
+        $prestamos = [];
+    
+        // Preparar la sentencia
+        if ($stmt = $conn->prepare($sql)) {
+            // Vincular parámetros
+            $stmt->bind_param("i", $idUsuario);
+    
+            // Ejecutar la consulta
+            $stmt->execute();
+    
+            // Obtener el resultado
+            $result = $stmt->get_result();
+    
+            // Verificar si se encontraron resultados
+            if ($result->num_rows > 0) {
+                // Obtener todas las filas como un array asociativo
+                while ($row = $result->fetch_assoc()) {
+                    $prestamo = new Prestamo();
+                    $prestamo->setIdPre($row['id_pre']);
+                    $prestamo->setIdPer($row['id_per']);
+                    $prestamo->setIdLib($row['id_lib']);
+                    $prestamo->setFecPre($row['fec_pre']);
+                    $prestamo->setHorPre($row['hor_pre']);
+                    $prestamo->setFecDev($row['fec_dev']);
+                    $prestamo->setHorDev($row['hor_dev']);
+                    $prestamo->setEstado($row['estado']);
+                    $prestamos[] = $prestamo;
+                }
+                // Liberar el resultado
+                $stmt->free_result();
+            }
+    
+            // Cerrar la sentencia
+            $stmt->close();
+        } else {
+            // Si hay un error en la preparación de la consulta, lanzar una excepción
+            throw new Exception('Error al preparar la consulta: ' . $conn->error);
+        }
+    
+        // Cerrar la conexión a la base de datos
+        mysqli_close($conn);
+    
+        // Devolver el array de préstamos, puede ser un array vacío si no se encontraron resultados
+        return $prestamos;
+    }
+    
+
     public function consultarPrestamo($id) {
         $cn = new conexion();
         $c = $cn->conecta();

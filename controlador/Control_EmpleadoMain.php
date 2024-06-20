@@ -22,11 +22,6 @@ require_once "dao/DAO_Usuario.php";
             
         }
 
-        public function getLibros()
-        {
-            
-        }
-
 
     }
 

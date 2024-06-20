@@ -416,6 +416,11 @@ if(isset($_SESSION['user_id'])) {
                                             echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
                                             echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $libro->getTitulo() . "</div>";
                                             echo "<p>ID Libro: " . $libro->getIdLib() . "</p>";
+                                            //if ($libro->getestado() == 'disponible') {
+                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
+                                            //}else{
+                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
+                                            //}
                                             echo '<button type="button" onclick="javascript:openDetailBook(\'' . $libro->getIdLib() . '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
                                             echo "</div>";
                                             echo "<div class='col-auto'>";
