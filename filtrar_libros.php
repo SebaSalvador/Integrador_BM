@@ -5,6 +5,9 @@ require_once 'util/conexion.php'; // Asegúrate de incluir tu archivo de conexi�
 $cn = new conexion();
 $conn = $cn->conecta();
 
+session_start();
+$idUsu = $_SESSION['user_id'];
+
 $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : '';
 $buscar = isset($_POST['buscar']) ? $_POST['buscar'] : '';
 $autor = isset($_POST['autor']) ? $_POST['autor'] : '';
@@ -37,7 +40,7 @@ if ($result->num_rows > 0) {
         echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Pending Requests</div>";
         echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $row['titulo'] . "</div>";
         echo "<p>ID Libro: " . $row['id_lib'] . "</p>";
-        echo '<button type="button" onclick="javascript:openDetailBook(\'' . $row['id_lib'] . '\');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
+        echo '<button type="button" onclick="javascript:openDetailBook(\'' . $row['id_lib'] . '\', '.$idUsu.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
         echo "</div>";
         echo "<div class='col-auto'>";
         echo "<img src='galeria/" . $row['id_lib'] . ".jpg' alt='Carátula del libro' class='img-fluid' style='max-width: 50px;'>";

@@ -2,6 +2,7 @@
 // index.php
 require_once '../dao/DAO_Libro.php';
 // Función para manejar peticiones GET
+
 function handleGetRequest() {
     if (isset($_GET['action'])) {
         switch ($_GET['action']) {
