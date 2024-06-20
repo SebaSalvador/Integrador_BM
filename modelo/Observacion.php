@@ -1,10 +1,19 @@
 <?php
 
 class Observacion {
+    private $idObs;
     private $idLib;
     private $descripcion;
     private $fechaObservacion;
     private $condicion;
+
+    public function getIdObs() {
+        return $this->idObs;
+    }
+
+    public function setIdObs($idObs) {
+        $this->idObs = $idObs;
+    }
 
     public function getIdLib() {
         return $this->idLib;

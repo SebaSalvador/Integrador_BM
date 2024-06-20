@@ -554,7 +554,7 @@ if(isset($_SESSION['user_id'])) {
     </script>
 
     <script src="js/modal.js"></script>
-
+    <script src="js/verificarPrestamo.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -1,7 +1,7 @@
 src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js";
 
-function openDetailBook(id) {
-    fetch(base_url + "/controlador/Control_DetailBook.php?action=get_data&libro_id=" + id)
+function openDetailBook(idLib, idPer) {
+    fetch(base_url + "/controlador/Control_DetailBook.php?action=get_data&libro_id=" + idLib)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al obtener los datos del libro.');
@@ -16,7 +16,7 @@ function openDetailBook(id) {
             document.getElementById('DescripcionLibro').innerText = data.descripcion;
             let boton_id = data.id_lib;
 
-            html_boton = `<a class="btn btn-success mt-3" href="VistaClienteFormPrestamo.php?id_lib=${boton_id}" >Realizar Préstamo</a> `;
+            html_boton = `<a class="btn btn-success mt-3" onclick = "verificarPrestamo(${idLib}, ${idPer})">Realizar Préstamo</a> `;
 
             document.getElementById('boton').innerHTML = html_boton;
 

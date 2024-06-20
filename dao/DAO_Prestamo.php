@@ -1,6 +1,6 @@
 <?php
-require_once "util/conexion.php";
-require_once "modelo/Prestamo.php";
+require_once(__DIR__ . '/../util/conexion.php');
+require_once(__DIR__ . '/../modelo/Prestamo.php');
 
 class DAO_Prestamo
 {
@@ -59,14 +59,23 @@ class DAO_Prestamo
         $cn = new conexion();
         $c = $cn->conecta();
         $estado = null;
-        $sql = "select estado from tb_prestamo where id_per=? and estado !='Finalizado'";
-        $stm = $c->prepare($sql);
-        $stm->bind_param("i", $idPer);
-        $stm->execute();
-        if ($result = $stm->get_result()) {
-            if ($row = $result->fetch_array())
-                $estado = $row[0];
+        #verificamos si el usuario a realizado algun prestamo
+        $sql1 = "select * from tb_prestamo";
+        $stm1 = $c->prepare($sql1);
+        $stm1->execute();
+        $result1 = $stm1->get_result();
+        if ($row = $result1->fetch_array()) {
+            #verificamos si el usuario tine algun prestamo con estado diferente a Finalizado
+            $sql2 = "select estado from tb_prestamo where id_per=? and estado !='Finalizado'";
+            $stm2 = $c->prepare($sql2);
+            $stm2->bind_param("i", $idPer);
+            $stm2->execute();
+            if ($result2 = $stm2->get_result()) {
+                if ($row = $result2->fetch_array())
+                    $estado = $row[0];
+            }
         }
+        
         $cn->desconecta();   
         return $estado;
     }
