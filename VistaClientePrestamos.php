@@ -397,49 +397,6 @@ if(isset($_SESSION['user_id'])) {
 
                     <div class="row">
 
-                        <!-- Barra de Busqueda -->
-                        <div class="col-xl-6 col-lg-5 mb-4">
-                            <div class="input-group col-xl-12">
-                                <input type="text" class="form-control bg-white border-1 small" placeholder="Search for..."
-                                    aria-label="Search" aria-describedby="basic-addon2" id="Search" name ="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Select de Filtros Categorias -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
-                                    <option value="">Todas las Categorias</option>
-                                    <?php
-
-                                        foreach ($listaCategorias as $categoria) {
-                                            echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select de Filtros Autores -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Autores">
-                                    <option value="">Todos los Autores</option>
-                                    <?php
-
-                                        foreach ($listaAutores as $autor) {
-                                            echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
                         <!-- Area Chart -->
                         <div class="col-xl-12 col-lg-7">
                             <div class="card mb-4">
@@ -456,14 +413,14 @@ if(isset($_SESSION['user_id'])) {
                                                 // ID Préstamo
                                                 echo "<div class='col col-md-6'>";
                                                     echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>ID Préstamo</div>";
-                                                    echo "<div class='col '>";
-                                                    
+                                                    echo "<div class='col'>";
                                                     echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" . $prestamo->getIdPre() . "</div>";
                                                     echo "</div>";
+                                                    echo "<br>";
 
                                                     // Fecha Inicio - Fecha Devolución
                                                     echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Fechas</div>";
-                                                    echo "<div class='row mt-3'>"; // Añade un margen top para separar las secciones
+                                                    echo "<div class='row'>"; // Añade un margen top para separar las secciones
                                                     
                                                     echo "<div class='col'>";
                                                     echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Inicio: " . $prestamo->getFecPre() . "</div>";
@@ -501,41 +458,6 @@ if(isset($_SESSION['user_id'])) {
 
             </div>
             <!-- End of Main Content -->
-            
-            <!-- Modal de Detalle de Libro -->
-            <div class="modal fade" id="ModalBookDetails" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bookModalLabel" id="TituloLibro">NOMBRE DEL LIBRO</h5>
-                            <button id="closeModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body d-flex">
-                            <div class="book-cover">
-                                <div class="cover">
-                                    <h1 id="CategoriaLibro">CATEGORÍA DEL LIBRO</h1>
-                                    <!-- Puedes añadir aquí la imagen de la portada del libro si es necesario -->
-                                    <div id ="PortadaLibro">
-
-                                    </div>
-                                    <h4 id="AutorLibro">AUTOR DEL LIBRO</h4>
-                                </div>
-                            </div>
-                            <div class="book-details ml-3" >
-                                <h3>Sinopsis</h3>
-                                <p id="DescripcionLibro">Descripción del libro</p>
-                                <!-- Puedes añadir más detalles del libro aquí según sea necesario -->
-                                <div id ="boton">
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">

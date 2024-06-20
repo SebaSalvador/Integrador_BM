@@ -23,9 +23,9 @@ Vista - Cliente:
 - Form para Realizar Prestamo -LISTO
 - Funciones -LISTO
 
-- Prestamo Actual
-- Estado del prestamo actual
-- Prestamos realizados(Funcion Prestamo/Libro-Fecha de inicio y final)
+- Prestamo Actual -LISTO
+- Estado del prestamo actual -LISTO
+- Prestamos realizados(Funcion Prestamo/Libro-Fecha de inicio y final) -LISTO
 
 - Penalizaciones del cliente:  Por tardanza
 - Funcion/ Traer el id de la penalizacion-Fecha en la que se le impuso
