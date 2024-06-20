@@ -11,8 +11,7 @@ if(isset($_SESSION['user_id'])) {
     $userdata = $control->getUserDataC($user_id);
     $listaCategorias = $control->getCategorias();
     $listaAutores = $control->getAutores();
-
-    //$libros = $control->getLibros();
+    $listaLibros = $control->getLibros();
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
@@ -406,6 +405,33 @@ if(isset($_SESSION['user_id'])) {
                         <div class="col-xl-12 col-lg-7">
                             <div class="card mb-4">
                                 <div class="col-xl-12 col-lg-7" id="Libros">
+                                    <?php
+                                        echo "<div class='row mb-4'>";
+                                        foreach ($listaLibros as $libro) {
+                                            echo "<div class='col-xl-3 col-md-6 mb-4'>";
+                                            echo "<div class='card border-left-warning shadow h-100 py-2'>";
+                                            echo "<div class='card-body'>";
+                                            echo "<div class='row no-gutters align-items-center'>";
+                                            echo "<div class='col mr-2'>";
+                                            echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
+                                            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $libro->getTitulo() . "</div>";
+                                            echo "<p>ID Libro: " . $libro->getIdLib() . "</p>";
+                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' . $libro->getIdLib() . '\');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
+                                            echo "</div>";
+                                            echo "<div class='col-auto'>";
+                                            echo "<img src='galeria/" . $libro->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid' style='max-width: 50px;'>";
+                                            echo "</div>";
+                                            echo "</div>"; // Cierra row no-gutters align-items-center
+                                            echo "</div>"; // Cierra card-body
+                                            echo "</div>"; // Cierra card border-left-warning shadow h-100 py-2
+                                            echo "</div>"; // Cierra col-xl-3 col-md-6 mb-4
+                                        }
+                                        echo "</div>";
+                                        
+
+                                    ?>
+
+
                                     
                                     <!-- Aquí se insertarán las tarjetas de los productos -->
                                 </div>

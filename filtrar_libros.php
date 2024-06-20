@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
         echo "<div class='card-body'>";
         echo "<div class='row no-gutters align-items-center'>";
         echo "<div class='col mr-2'>";
-        echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Pending Requests</div>";
+        echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
         echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $row['titulo'] . "</div>";
         echo "<p>ID Libro: " . $row['id_lib'] . "</p>";
         echo '<button type="button" onclick="javascript:openDetailBook(\'' . $row['id_lib'] . '\');">Ver Libro<i class="fa-solid fa-eye"></i></button>';

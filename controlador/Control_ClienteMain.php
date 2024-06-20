@@ -52,6 +52,19 @@ require_once "dao/DAO_Categoria.php";
 
         }
 
+        public function getLibros() {
+            $dao = new DAO_Libro();
+            $data = $dao->listarLibros();
+            // Inicializar una lista vacía para almacenar los resultados
+            $listaLibros = [];
+            // Iterar sobre los datos obtenidos
+            foreach ($data as $libro) { // Asegúrate de usar $dataC correctamente
+                // Agregar cada categoria a la lista
+                $listaLibros[] = $libro;
+            }
+            return $listaLibros;
+        }
+
 
     }
 

@@ -39,25 +39,40 @@ class DAO_Libro
     
     public function listarLibros() {
         $cn = new conexion();
-        $c = $cn->conecta();
-        $libros = array();
-        $sql = "select * from tb_libro";
-        if ($result = $c->query($sql)) {
-            while ($row = $result->fetch_array()) {
+        $conn = $cn->conecta();
+        $sql = "SELECT tl.id_lib, tl.titulo 
+                FROM tb_libro tl
+                INNER JOIN tb_categoria tc ON tl.id_cat = tc.id_cat";
+        $res = mysqli_query($conn, $sql);
+    
+        if (!$res) {
+            // Si hay un error en la consulta, lanzar una excepción
+            throw new Exception('Error al ejecutar la consulta: ' . mysqli_error($conn));
+        }
+    
+        $libros = [];
+    
+        // Verificar si se encontraron libros
+        if (mysqli_num_rows($res) > 0) {
+            // Obtener todas las filas como un array asociativo
+            while ($row = mysqli_fetch_assoc($res)) {
                 $libro = new Libro();
-                $libro->setIdLib($row[0]);
-                $libro->setIdEst($row[1]);
-                $libro->setIdCat($row[2]);
-                $libro->setTitulo($row[3]);
-                $libro->setDescripcion($row[4]);
-                $libro->setAutor($row[5]);
-                $libro->setFecPub($row[6]);
+                $libro->setIdLib($row['id_lib']);
+                $libro->setTitulo($row['titulo']);
+                // Aquí puedes añadir los demás setters si necesitas más información
                 $libros[] = $libro;
             }
+            // Liberar el resultado
+            mysqli_free_result($res);
         }
-        $cn->desconecta();
+    
+        // Cerrar la conexión a la base de datos
+        mysqli_close($conn);
+    
+        // Devolver el array de libros, puede ser un array vacío si no se encontraron resultados
         return $libros;
     }
+    
 
     public function consultarLibro($id) {
         $cn = new conexion();
