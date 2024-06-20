@@ -416,7 +416,7 @@ if(isset($_SESSION['user_id'])) {
                                             echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
                                             echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $libro->getTitulo() . "</div>";
                                             echo "<p>ID Libro: " . $libro->getIdLib() . "</p>";
-                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' . $libro->getIdLib() . '\');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
+                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' . $libro->getIdLib() . '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
                                             echo "</div>";
                                             echo "<div class='col-auto'>";
                                             echo "<img src='galeria/" . $libro->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid' style='max-width: 50px;'>";
