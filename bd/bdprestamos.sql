@@ -169,6 +169,9 @@ DELETE FROM tb_persona;
 INSERT INTO tb_persona VALUES(52336803, 'PAOLO GABRIEL RODRIGEZ PEREZ', 22, 'rodriguezpaolog@gmail.com', 'Masia Guadalupe 9 Puerta 234', '995200665');
 INSERT INTO tb_persona VALUES(74588241, 'ERNESTO GARCIA MEDINA', 21, 'garciaernesto@hotmail.com', 'Vía Verónica 74', '902533687');
 INSERT INTO tb_persona VALUES(53123564, 'MARIA ELENA ZAPATA SANCHEZ', 20, 'zapatamariae@gmail.com', 'Riera Rebeca 14', '995236708');
+INSERT INTO tb_persona VALUES(87654321, 'PEDRO ERNESTO GONZALES TORRES', 25, 'gonzalespedroe@gmail.com', 'Vía Enrique 12', '995500123');
+INSERT INTO tb_persona VALUES(12345678, 'MIRANDA MILAGROS PEREZ', 26, 'milagrosmiranda@gmail.com', 'Pasaje Adan Mejia 403', '800500200');
+INSERT INTO tb_persona VALUES(77889933, 'UMBERTO EINSTEIN URETA', 18, 'einsteinumberto@gmail.com', 'Jr. Mariscal Miller 458', '988222777');
 
 DELETE FROM tb_libro;
 
@@ -195,15 +198,27 @@ DELETE FROM tb_usuario;
 /*
 Estados:
 Activo, Desactivado, Penalizado
+
 */
 
 INSERT INTO tb_usuario VALUES(52336803, 0, '123456', 'Activo');
 INSERT INTO tb_usuario VALUES(74588241, 0, 'abcdef', 'Activo');
 INSERT INTO tb_usuario VALUES(53123564, 1, 'emp24*', 'Activo');
+INSERT INTO tb_usuario VALUES(87654321, 0, '123', 'Activo');
+INSERT INTO tb_usuario VALUES(12345678, 0, '123', 'Activo');
+INSERT INTO tb_usuario VALUES(77889933, 0, '123', 'Activo');
 
 INSERT INTO tb_prestamo VALUES(null, 52336803, 100, '2024-04-15', '17:32 PM', '2024-04-30', '17:32 PM', 'Finalizado');
 INSERT INTO tb_prestamo VALUES(null, 53123564, 101, '2024-06-18', '16:47 PM', '2024-06-25', '16:47 PM', 'En curso');
 INSERT INTO tb_prestamo VALUES(null, 74588241, 102, '2024-06-10', '9:30 AM', '2024-06-16', '9:30 AM', 'Pendiente devolucion');
+
+INSERT INTO tb_prestamo VALUES(null, 87654321, 103, '2024-05-10', '9:13 AM', '2024-05-17', '9:13 AM', 'Finalizado');
+INSERT INTO tb_prestamo VALUES(null, 12345678, 104, '2024-05-20', '15:40 PM', '2024-05-27', '15:40 PM', 'Finalizado');
+INSERT INTO tb_prestamo VALUES(null, 77889933, 105, '2024-06-01', '10:58 AM', '2024-06-08', '10:58 AM', 'Finalizado');
+
+INSERT INTO tb_sancion VALUES(null, 87654321, 5, '2024-05-22', '2024-05-27', "Entrega de libro fuera de plazo", "Activo");
+INSERT INTO tb_sancion VALUES(null, 12345678, 3, '2024-05-30', '2024-06-02', "Entrega de libro fuera de plazo", "Activo");
+INSERT INTO tb_sancion VALUES(null, 77889933, 1, '2024-06-09', '2024-06-10', "Entrega de libro fuera de plazo", "Inactivo");
 /*Funciones*/
 
 DELIMITER $$

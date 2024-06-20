@@ -1,21 +1,18 @@
 <?php
+include "controlador/Control_AgregarSancion.php";
 include "controlador/Control_ClienteMain.php";
 session_start();
 
-// Verifica si el user_id está en la sesión
 if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
-    $control = new Control_ClienteMain();
+    $control1 = new Control_AgregarSancion();
+    $control2 = new Control_ClienteMain();
 
-    $userdata = $control->getUserDataC($user_id);
-    $listaCategorias = $control->getCategorias();
-    $listaAutores = $control->getAutores();
-
-    //$libros = $control->getLibros();
+    $listaSancion = $control1->getSancionPorUsu($user_id);
+    $userdata = $control2->getUserDataC($user_id);
 
 } else {
-    // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
     header("Location: Index.php");
     exit();
 }
@@ -52,12 +49,6 @@ if(isset($_SESSION['user_id'])) {
 </head>
 
 <body id="page-top">
-
-    <?php
-        // Crear instancia del controlador de login y registro
-        $control = new Control_ClienteMain();
-        $user_id = $_SESSION['user_id'];
-    ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -341,7 +332,7 @@ if(isset($_SESSION['user_id'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Sanciones</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Penalizaciones</h1>
                         
                     </div>
 
@@ -368,10 +359,11 @@ if(isset($_SESSION['user_id'])) {
                                 <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
                                     <option value="">Todas las Categorias</option>
                                     <?php
-
+                                        /*
                                         foreach ($listaCategorias as $categoria) {
                                             echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
                                         }
+                                            */
                                     ?>
                                 </select>
                             </div>
@@ -383,10 +375,11 @@ if(isset($_SESSION['user_id'])) {
                                 <select class="form-control bg-light border-1 small" id="Autores">
                                     <option value="">Todos los Autores</option>
                                     <?php
-
+                                        /*
                                         foreach ($listaAutores as $autor) {
                                             echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
                                         }
+                                            */
                                     ?>
                                 </select>
                             </div>
@@ -396,7 +389,34 @@ if(isset($_SESSION['user_id'])) {
                         <div class="col-xl-12 col-lg-7">
                             <div class="card mb-4">
                                 <div class="col-xl-12 col-lg-7" id="Libros">
-                                    
+                                <?php
+                                        echo "<div class='row mb-4'>";
+                                        foreach ($listaSancion as $sancion) {
+                                            echo "<div class='col-xl-4 col-md-6 mb-4'>";
+                                            echo "<div class='card border-left-danger shadow h-100 py-2'>";
+                                            echo "<div class='card-body'>";
+                                            echo "<div class='row no-gutters align-items-center'>";
+                                            echo "<div class='col mr-2'>";
+                                            echo "<div class='text-xs font-weight-bold text-danger text-uppercase mb-1'>Sancion</div>";
+                                            echo "<p>ID Sancion: " . $sancion->getIdSan() . "</p>";
+                                            echo "<p>Dias de sancion: " . $sancion->getDiasSan() . "</p>";
+                                            echo "<p>Fecha de inicio: " . $sancion->getFecIni() . "</p>";
+                                            echo "<p>Fecha de Fin: " . $sancion->getFecFin() . "</p>";
+                                            echo "<p>Razon: " . $sancion->getRazon() . "</p>";
+                                            echo "<p>Estado: " . $sancion->getEstado() . "</p>";
+                                            echo "</div>";
+                                            echo "<div class='col-auto'>";
+                                            echo "<img src='galeria/caritaTriste.png' alt='Carita triste' class='img-fluid' style='max-width: 100px;'>";
+                                            echo "</div>";
+                                            echo "</div>"; // Cierra row no-gutters align-items-center
+                                            echo "</div>"; // Cierra card-body
+                                            echo "</div>"; // Cierra card border-left-warning shadow h-100 py-2
+                                            echo "</div>"; // Cierra col-xl-3 col-md-6 mb-4
+                                        }
+                                        echo "</div>";
+                                        
+
+                                    ?>
                                     <!-- Aquí se insertarán las tarjetas de los productos -->
                                 </div>
                             </div>
