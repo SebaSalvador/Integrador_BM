@@ -7,10 +7,10 @@ Agregar portada de los libros
 Base de datos - Jose carlos:
 - Agregale libros(20) -LISTO
 - Prestamos(10) -LISTO
-- Sanciones(10) 
-- Usuario para presentacion: 
-- Cliente@gmail.com - password = 123
-- Empleado@gmail.com - password = 123
+- Sanciones(10) -LISTO
+- Usuario para presentacion: -LISTO
+- Cliente@gmail.com - password = 123 -LISTO
+- Empleado@gmail.com - password = 123 -LISTO
 
 Vista - Cliente:
 - Carrusel de Categorias (Informativo) -LISTO

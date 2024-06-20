@@ -65,6 +65,12 @@ require_once "dao/DAO_Categoria.php";
             return $listaLibros;
         }
 
+        public function getLibroDetalle($id) {
+            $dao = new DAO_Libro();
+            $libro = $dao->consultarLibro($id);
+            return $libro;
+        }
+
 
     }
 

@@ -1,5 +1,6 @@
 <?php
 include "controlador/Control_ClienteMain.php";
+include "controlador/Control_PrestamosCliente.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -7,10 +8,11 @@ if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
     $control = new Control_ClienteMain();
+    $controlP = new Control_PrestamosCliente();
+    
 
     $userdata = $control->getUserDataC($user_id);
-    $listaCategorias = $control->getCategorias();
-    $listaAutores = $control->getAutores();
+    $listaPrestamosPorUsuario = $controlP->getPrestamosPorUsuario($user_id);
 
     //$libros = $control->getLibros();
 
@@ -345,7 +347,53 @@ if(isset($_SESSION['user_id'])) {
                         
                     </div>
 
-                    <!-- Content Row Libros-->
+                    <div class="row mb-4">
+                        <div class="col-xl-12">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Prestamo Actual</h5>
+                                    <?php
+                                        foreach ($listaPrestamosPorUsuario as $prestamo) {
+                                            if ($prestamo->getEstado() != "Finalizado") {
+                                                echo "<div class='row mb-4'>"; // Fila para cada préstamo
+                                                echo "<div class='col-md-9'>"; // Columna izquierda para los detalles del préstamo
+                                                echo "<div class='prestamo d-flex align-items-center'>";
+                                                
+                                                // Estado del libro
+                                                echo "<div class='mr-3'>";
+                                                echo "<span class='badge badge-success badge-pill'>Estado: " . $prestamo->getEstado() . "</span>";
+                                                echo "</div>";
+                                                
+                                                // Información del préstamo
+                                                echo "<div>";
+                                                echo "<p>ID Préstamo: " . $prestamo->getIdPre() . "</p>";
+                                                echo "<p>Fecha Préstamo: " . $prestamo->getFecPre() . "</p>";
+                                                echo "<p>Fecha Devolución: " . $prestamo->getFecDev() . "</p>";
+                                                echo "</div>";
+                                                
+                                                echo "</div>"; // Cierra div prestamo
+                                                echo "</div>"; // Cierra columna izquierda
+                                                
+                                                echo "<div class='col-md-3 text-center'>"; // Columna derecha para la imagen de la portada
+                                                $imagenLibro = "galeria/" . $prestamo->getIdLib() . ".jpg"; // Ruta a la imagen del libro
+                                                $librodetalle = $control->getLibroDetalle($prestamo->getIdLib());
+                                                echo "<img src='$imagenLibro' alt='Portada del libro' class='img-fluid rounded mb-2'>";
+                                                echo "<p>" . $librodetalle['titulo'] . "</p>";
+                                                echo "</div>"; // Cierra columna derecha
+                                                
+                                                echo "</div>"; // Cierra fila
+                                            }
+                                        }
+                                    ?>
+                                    
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row Prestamos-Historial -->
 
                     <div class="row">
 
@@ -396,6 +444,50 @@ if(isset($_SESSION['user_id'])) {
                         <div class="col-xl-12 col-lg-7">
                             <div class="card mb-4">
                                 <div class="col-xl-12 col-lg-7" id="Libros">
+                                <?php
+                                        echo "<div class='row mb-4'>";
+                                        foreach ($listaPrestamosPorUsuario as $prestamo) {
+                                            if ($prestamo->getEstado() == "Finalizado") {
+                                                echo "<div class='col-xl-6 col-md-6 mb-4'>";
+                                                echo "<div class='card border-left-warning shadow h-100 py-2'>";
+                                                echo "<div class='card-body'>";
+                                                echo "<div class='row'>";
+
+                                                // ID Préstamo
+                                                echo "<div class='col col-md-6'>";
+                                                    echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>ID Préstamo</div>";
+                                                    echo "<div class='col '>";
+                                                    
+                                                    echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" . $prestamo->getIdPre() . "</div>";
+                                                    echo "</div>";
+
+                                                    // Fecha Inicio - Fecha Devolución
+                                                    echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Fechas</div>";
+                                                    echo "<div class='row mt-3'>"; // Añade un margen top para separar las secciones
+                                                    
+                                                    echo "<div class='col'>";
+                                                    echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Inicio: " . $prestamo->getFecPre() . "</div>";
+                                                    echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Devolución: " . $prestamo->getFecDev() . "</div>";
+                                                    echo "</div>";
+                                                    echo "</div>";
+                                                echo "</div>";
+                                                $librodetalle = $control->getLibroDetalle($prestamo->getIdLib());
+
+                                                // Título del Libro y Portada del Libro
+                                                echo "<div class='col-xl-3'>";
+                                                echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
+                                                echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" .  $librodetalle['titulo'] . "</div>";
+                                                echo "<img src='galeria/" . $prestamo->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid mt-2' >";
+                                                echo "</div>";
+
+                                                echo "</div>"; // Cierra row no-gutters align-items-center
+                                                echo "</div>"; // Cierra card-body
+                                                echo "</div>"; // Cierra card border-left-warning shadow h-100 py-2
+                                                echo "</div>"; // Cierra col-xl-3 col-md-6 mb-4
+                                            }
+                                        }
+                                        echo "</div>";
+                                    ?>
                                     
                                     <!-- Aquí se insertarán las tarjetas de los productos -->
                                 </div>
@@ -491,6 +583,7 @@ if(isset($_SESSION['user_id'])) {
         var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
     </script>
 
+    <!-- Filtro-->
     <script>
         $(document).ready(function(){
             function filtrarDatos() {
@@ -536,6 +629,23 @@ if(isset($_SESSION['user_id'])) {
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+    <style>
+        .prestamo {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .badge-pill {
+            padding: 10px;
+            font-size: 14px;
+        }
+        .img-fluid {
+            max-width: 100px; /* Ajusta según sea necesario */
+            height: 150px;
+        }
+    </style>
 
 </body>
 
