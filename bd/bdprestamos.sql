@@ -258,6 +258,7 @@ BEGIN
 
     -- Insertar en tb_usuario
     INSERT INTO tb_usuario VALUES (p_dni, p_tipo_usuario, p_contraseña, p_estado);
+
 END $$
 
 DELIMITER ;

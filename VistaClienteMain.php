@@ -94,7 +94,7 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="VistaClienteCalendario.php">
                     <i class="fa-solid fa-calendar-alt"></i>
                     <span>Calendario</span></a>
             </li>

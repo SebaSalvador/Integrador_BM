@@ -69,13 +69,13 @@ if(isset($_SESSION['user_id'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="VistaEmpleadoMain.php">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="VistaEmpleadoPrestamos.php">
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
@@ -87,13 +87,13 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="VistaEmpleadoMain.php">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="VistaEmpleadoMain.html">
                     <i class="fa-solid fa-clock"></i>
                     <span>Prestamos en retraso</span></a>
             </li>
