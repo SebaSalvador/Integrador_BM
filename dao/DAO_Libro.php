@@ -40,7 +40,7 @@ class DAO_Libro
     public function listarLibros() {
         $cn = new conexion();
         $conn = $cn->conecta();
-        $sql = "SELECT tl.id_lib, tl.titulo 
+        $sql = "SELECT tl.id_lib, tl.titulo, tl.id_est 
                 FROM tb_libro tl
                 INNER JOIN tb_categoria tc ON tl.id_cat = tc.id_cat";
         $res = mysqli_query($conn, $sql);
@@ -59,6 +59,7 @@ class DAO_Libro
                 $libro = new Libro();
                 $libro->setIdLib($row['id_lib']);
                 $libro->setTitulo($row['titulo']);
+                $libro->setIdEst($row['id_est']);
                 // Aquí puedes añadir los demás setters si necesitas más información
                 $libros[] = $libro;
             }
@@ -78,7 +79,7 @@ class DAO_Libro
         $cn = new conexion();
         $c = $cn->conecta();
         $sql = "
-            select tl.id_lib, tl.titulo, tl.descripcion, tl.autor, tl.fec_pub, tc.nombre 
+            select tl.id_lib, tl.titulo, tl.descripcion, tl.autor, tl.fec_pub, tc.nombre, tl.id_est 
             from tb_libro tl 
             inner join tb_categoria tc on tl.id_cat = tc.id_cat 
             where tl.id_lib = ?
@@ -88,7 +89,7 @@ class DAO_Libro
         $stm->execute();
     
         // Vincular variables de resultado
-        $stm->bind_result($id_lib, $titulo, $descripcion, $autor, $fec_pub, $categoria);
+        $stm->bind_result($id_lib, $titulo, $descripcion, $autor, $fec_pub, $categoria, $id_est);
     
         $libro = null;
         if ($stm->fetch()) {
@@ -98,7 +99,8 @@ class DAO_Libro
                 'descripcion' => $descripcion,
                 'autor' => $autor,
                 'fec_pub' => $fec_pub,
-                'categoria' => $categoria
+                'categoria' => $categoria,
+                'id_est' => $id_est
             ];
         }
     

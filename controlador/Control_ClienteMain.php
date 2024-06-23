@@ -65,6 +65,16 @@ require_once "dao/DAO_Categoria.php";
             return $listaLibros;
         }
 
+        public function colorEstado($idEst) {
+            $color = "";
+            switch ($idEst) {
+                case 0: $color = "text-danger"; break;
+                case 1: $color = "text-success"; break;
+                default: $color = "text-warning"; break;
+            }
+            return $color;
+        }
+
         public function getLibroDetalle($id) {
             $dao = new DAO_Libro();
             $libro = $dao->consultarLibro($id);

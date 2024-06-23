@@ -1,5 +1,6 @@
 <?php
 include "controlador/Control_ClienteMain.php";
+include "dao/DAO_Estado.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -406,25 +407,46 @@ if(isset($_SESSION['user_id'])) {
                             <div class="card mb-4">
                                 <div class="col-xl-12 col-lg-7" id="Libros">
                                     <?php
+                                        $daoEstado = new DAO_Estado();
+                                        
                                         echo "<div class='row mb-4'>";
                                         foreach ($listaLibros as $libro) {
-                                            echo "<div class='col-xl-3 col-md-6 mb-4'>";
+                                            $idLib = $libro->getIdLib();
+                                            $titulo = $libro->getTitulo();
+                                            $idEst = $libro->getIdEst();
+                                            $estado = $daoEstado->consultarEstado($idEst);
+
+                                            echo "<div class='col-xl-4 col-md-6 mb-4'>";
                                             echo "<div class='card border-left-warning shadow h-100 py-2'>";
                                             echo "<div class='card-body'>";
                                             echo "<div class='row no-gutters align-items-center'>";
                                             echo "<div class='col mr-2'>";
                                             echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
-                                            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" . $libro->getTitulo() . "</div>";
-                                            echo "<p>ID Libro: " . $libro->getIdLib() . "</p>";
+                                            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" .$titulo. "</div>";
+                                            echo "<p>ID Libro: " .$idLib. "</p>";
                                             //if ($libro->getestado() == 'disponible') {
                                             //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
                                             //}else{
                                             //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
                                             //}
-                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' . $libro->getIdLib() . '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
+                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' .$idLib. '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
                                             echo "</div>";
                                             echo "<div class='col-auto'>";
-                                            echo "<img src='galeria/" . $libro->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid' style='max-width: 50px;'>";
+                                            echo "<img src='galeria/" .$idLib. ".jpg' alt='Carátula del libro' class='card-img' style='max-width: 80px'>";
+                                            echo "<div class='h6 mb-0 font-weight-bold ".$control->colorEstado($idEst)."'>".$estado->getEstado()."</div>"; 
+                                            /*lista css colores texto: 
+                                            text-white : blanco
+                                            text-primary : celeste
+                                            text-secondary : gris
+                                            text-success : verde
+                                            text-info : celeste
+                                            text-warning : amarillo
+                                            text-danger : rojo
+                                            text-light : blanco
+                                            text-dark : negro
+                                            text-body : gris
+
+                                            */
                                             echo "</div>";
                                             echo "</div>"; // Cierra row no-gutters align-items-center
                                             echo "</div>"; // Cierra card-body

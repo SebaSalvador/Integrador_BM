@@ -15,8 +15,13 @@ function openDetailBook(idLib, idPer) {
             document.getElementById('AutorLibro').innerText = data.autor;
             document.getElementById('DescripcionLibro').innerText = data.descripcion;
             let boton_id = data.id_lib;
-
-            html_boton = `<a class="btn btn-success mt-3" onclick = "verificarPrestamo(${idLib}, ${idPer})">Realizar Préstamo</a> `;
+            let idEst = data.id_est;
+            let colorBoton = "";
+            switch (idEst) {
+                case 1: colorBoton = "btn-success"; break;
+                default: colorBoton = "btn-secondary"; break;
+            }
+            html_boton = `<a class="btn ${colorBoton} mt-3" onclick = "verificarPrestamo(${idLib}, ${idPer})">Realizar Préstamo</a> `;
 
             document.getElementById('boton').innerHTML = html_boton;
 
