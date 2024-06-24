@@ -21,7 +21,7 @@ function openDetailBook(idLib, idPer) {
                 case 1: colorBoton = "btn-success"; break;
                 default: colorBoton = "btn-secondary"; break;
             }
-            html_boton = `<a class="btn ${colorBoton} mt-3" onclick = "verificarPrestamo(${idLib}, ${idPer})">Realizar Préstamo</a> `;
+            html_boton = `<a class="btn ${colorBoton} mt-3" onclick = "verificarEstado(${idLib}, ${idPer})">Realizar Préstamo</a> `;
 
             document.getElementById('boton').innerHTML = html_boton;
 

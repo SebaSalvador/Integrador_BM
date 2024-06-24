@@ -183,6 +183,22 @@ class DAO_Libro
         return $libros;
     }
 
+    public function consultarEstado($id_lib) {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $id_est = -1;
+        $sql = "select tl.id_est from tb_libro as tl where id_lib=?";
+        $stm = $c->prepare($sql);
+        $stm->bind_param("i", $id_lib);
+        $stm->execute();
+        $result = $stm->get_result();
+        if ($row = $result->fetch_array()) {
+            $id_est = $row[0];
+        }
+        $cn->desconecta();   
+        return $id_est;
+    } 
+
     public function agregarLibro($libro) {
         $cn = new conexion();
         $c = $cn->conecta();
