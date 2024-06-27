@@ -1,5 +1,6 @@
 <?php
-
+include "controlador/Control_ClienteMain.php";
+include "dao/DAO_Estado.php";
 require_once 'util/conexion.php'; // Asegúrate de incluir tu archivo de conexión
 
 $cn = new conexion();
@@ -12,7 +13,7 @@ $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : '';
 $buscar = isset($_POST['buscar']) ? $_POST['buscar'] : '';
 $autor = isset($_POST['autor']) ? $_POST['autor'] : '';
 
-$sql = "SELECT tl.id_lib, tl.titulo 
+$sql = "SELECT tl.id_lib, tl.titulo, tl.id_est 
         FROM tb_libro tl
         INNER JOIN tb_categoria tc ON tl.id_cat = tc.id_cat 
         WHERE 1=1";
@@ -29,10 +30,15 @@ if (!empty($buscar)) {
 
 $result = $conn->query($sql);
 
+$control = new Control_ClienteMain();
+$daoEstado = new DAO_Estado();
+
 echo "<div class='row mb-4'>";
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        echo "<div class='col-xl-3 col-md-6 mb-4'>";
+        $idEst = $row['id_est'];
+        $estado = $daoEstado->consultarEstado($idEst);
+        echo "<div class='col-xl-4 col-md-6 mb-4'>";
         echo "<div class='card border-left-warning shadow h-100 py-2'>";
         echo "<div class='card-body'>";
         echo "<div class='row no-gutters align-items-center'>";
@@ -43,7 +49,8 @@ if ($result->num_rows > 0) {
         echo '<button type="button" onclick="javascript:openDetailBook(\'' . $row['id_lib'] . '\', '.$idUsu.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
         echo "</div>";
         echo "<div class='col-auto'>";
-        echo "<img src='galeria/" . $row['id_lib'] . ".jpg' alt='Carátula del libro' class='img-fluid' style='max-width: 50px;'>";
+        echo "<img src='galeria/" . $row['id_lib'] . ".jpg' alt='Carátula del libro' class='card-img' style='max-width: 80px'>";
+        echo "<div class='h6 mb-0 font-weight-bold ".$control->colorEstado($idEst)."'>".$estado->getEstado()."</div>"; 
         echo "</div>";
         echo "</div>"; // Cierra row no-gutters align-items-center
         echo "</div>"; // Cierra card-body
