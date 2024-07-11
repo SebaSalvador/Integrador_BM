@@ -1,5 +1,5 @@
 <?php
-require_once "util/conexion.php";
+require_once(__DIR__ . '/../util/conexion.php');
 
 class DAO_Login
 {
