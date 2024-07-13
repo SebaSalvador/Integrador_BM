@@ -1,6 +1,6 @@
 <?php
 include "controlador/Control_ClienteMain.php";
-include "controlador/Control_PrestamosCliente.php";
+include "controlador/Control_PrestamosEmpleado.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -8,11 +8,11 @@ if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
     $control = new Control_ClienteMain();
-    $controlP = new Control_PrestamosCliente();
+    $controlP = new Control_PrestamosEmpleado();
     
 
     $userdata = $control->getUserDataC($user_id);
-    $listaPrestamosPorUsuario = $controlP->getPrestamosPorUsuario($user_id);
+    //$listaPrestamos = $controlP->getPrestamos();
 
     //$libros = $control->getLibros();
 
@@ -68,7 +68,7 @@ if(isset($_SESSION['user_id'])) {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="VistaClienteMain.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="VistaEmpleadoMain.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa-solid fa-book"></i>
                 </div>
@@ -85,27 +85,45 @@ if(isset($_SESSION['user_id'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClienteMain.php">
+                <a class="nav-link" href="VistaEmpleadoMain.php">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClientePrestamos.php">
+                <a class="nav-link" href="VistaEmpleadoPrestamos.php">
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-calendar-alt"></i>
                     <span>Calendario</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClientePenalizaciones.php">
+                <a class="nav-link" href="VistaEmpleadoConLib.html">
+                    <i class="fa-solid fa-table"></i>
+                    <span>Control de Libros</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Prestamos en retraso</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoReportes.html">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Reportes</span></a>
             </li>
 
             <!-- Divider -->
@@ -347,62 +365,58 @@ if(isset($_SESSION['user_id'])) {
                         
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-xl-12">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Prestamo Actual</h5>
-                                    <?php
-                                        foreach ($listaPrestamosPorUsuario as $prestamo) {
-                                            if ($prestamo->getEstado() != "Finalizado") {
-                                                echo "<div class='row mb-4'>"; // Fila para cada préstamo
-                                                echo "<div class='col-md-9'>"; // Columna izquierda para los detalles del préstamo
-                                                echo "<div class='prestamo d-flex align-items-center'>";
-                                                
-                                                // Estado del libro
-                                                echo "<div class='mr-3'>";
-                                                echo "<span class='badge badge-success badge-pill'>Estado: " . $prestamo->getEstado() . "</span>";
-                                                echo "</div>";
-                                                
-                                                // Información del préstamo
-                                                echo "<div>";
-                                                echo "<p>ID Préstamo: " . $prestamo->getIdPre() . "</p>";
-                                                echo "<p>Fecha Préstamo: " . $prestamo->getFecPre() . "</p>";
-                                                echo "<p>Fecha Devolución: " . $prestamo->getFecDev() . "</p>";
-                                                echo "</div>";
-                                                
-                                                echo "</div>"; // Cierra div prestamo
-                                                echo "</div>"; // Cierra columna izquierda
-                                                
-                                                echo "<div class='col-md-3 text-center'>"; // Columna derecha para la imagen de la portada
-                                                $imagenLibro = "galeria/" . $prestamo->getIdLib() . ".jpg"; // Ruta a la imagen del libro
-                                                $librodetalle = $control->getLibroDetalle($prestamo->getIdLib());
-                                                echo "<img src='$imagenLibro' alt='Portada del libro' class='img-fluid rounded mb-2'>";
-                                                echo "<p>" . $librodetalle['titulo'] . "</p>";
-                                                echo "</div>"; // Cierra columna derecha
-                                                
-                                                echo "</div>"; // Cierra fila
-                                            }
-                                        }
-                                    ?>
-                                    
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Content Row Prestamos-Historial -->
 
                     <div class="row mb-4">
+
+                        <!-- Barra de Busqueda -->
+                        <div class="col-xl-6 col-lg-5 mb-4">
+                            <div class="input-group col-xl-12">
+                                <input type="text" class="form-control bg-white border-1 small" placeholder="Search for Id Prestamo..."
+                                    aria-label="Search" aria-describedby="basic-addon2" id="Search" name ="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Select de Filtros Categorias -->
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="input-group col-xl-12 mb-4">
+                                <select class="form-control bg-light border-1 small" id="EstadosPrestamo" name="EstadosPrestamo">
+                                    <option value="">Todas las Estados</option>
+                                    <?php
+
+                                        foreach ($listaCategorias as $categoria) {
+                                            echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Filtro de Fecha -->
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="input-group col-xl-12 mb-4">
+                                <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                                <input type="date" class="form-control bg-light border-1 small" id="fecha_inicio" name="fecha_inicio">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="input-group col-xl-12 mb-4">
+                                <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                                <input type="date" class="form-control bg-light border-1 small" id="fecha_fin" name="fecha_fin">
+                            </div>
+                        </div>
+
 
                         <!-- Area Chart -->
                         <div class="col-xl-12 col-lg-7">
                             <div class="card mb-4">
                                 <div class="col-xl-12 col-lg-7" id="Libros">
                                     <div class="card-body">
-                                        <h5 class="card-title">Prestamos</h5>
                                         <?php
                                             echo "<div class='row mb-4'>";
                                             foreach ($listaPrestamosPorUsuario as $prestamo) {

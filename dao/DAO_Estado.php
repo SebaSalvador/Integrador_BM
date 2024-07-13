@@ -12,7 +12,8 @@ class DAO_Estado
         $estado = new Estado();
         $sql = "select * from tb_estado where id_est = ?";
         $stm = $c->prepare($sql);
-        $stm->execute(array($id));
+        $stm->bind_param("i", $id);
+        $stm->execute();
         $result = $stm->get_result();
         if ($row = $result->fetch_array()) {
             $estado->setIdEst($row[0]);

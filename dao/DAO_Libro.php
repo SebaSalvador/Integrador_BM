@@ -238,13 +238,27 @@ class DAO_Libro
     public function actualizarEstado($id, $id_est) {
         $cn = new conexion();
         $c = $cn->conecta();
-        $sql = "update tb_libro set id_est=? where id_lib=?";
+        $sql = "UPDATE tb_libro SET id_est = ? WHERE id_lib = ?";
         $stm = $c->prepare($sql);
-        $bool = $stm->execute(array($id_est, $id));
-        if (!$bool) {
-            echo "Error al actualizar el estado del libro";
+    
+        if ($stm === false) {
+            // Manejo de errores en la preparación de la consulta
+            die('Error en la preparación de la consulta: ' . $c->error);
         }
+    
+        // Vincula los parámetros
+        $stm->bind_param("ii", $id_est, $id);
+    
+        // Ejecuta la consulta
+        $bool = $stm->execute();
+    
+        if (!$bool) {
+            echo "Error al actualizar el estado del libro: " . $stm->error;
+        }
+    
+        $stm->close();
         $cn->desconecta();
     }
+    
 }
 ?>

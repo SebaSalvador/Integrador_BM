@@ -135,6 +135,20 @@ class DAO_Prestamo
     }
 
     public function agregarPrestamo($prestamo) {
+        // Verificar que todos los campos del objeto $prestamo estén llenos
+        if (empty($prestamo->getIdPer()) ||
+            empty($prestamo->getIdLib()) ||
+            empty($prestamo->getFecPre()) ||
+            empty($prestamo->getHorPre()) ||
+            empty($prestamo->getFecDev()) ||
+            empty($prestamo->getHorDev()) ||
+            empty($prestamo->getEstado())) {
+            
+            // Manejo de error si algún campo está vacío
+            echo "Error: Todos los campos deben estar llenos.";
+            return false;
+        }
+    
         $cn = new conexion();
         $c = $cn->conecta();
         $sql = "INSERT INTO tb_prestamo (id_per, id_lib, fec_pre, hor_pre, fec_dev, hor_dev, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -163,10 +177,19 @@ class DAO_Prestamo
         // Ejecutar la sentencia preparada
         $bool = $stm->execute();
         
+        if ($bool === false) {
+            // Manejo de error si la ejecución falla
+            echo "Error al agregar el préstamo: " . $stm->error;
+        } else {
+            echo "Préstamo agregado correctamente.";
+        }
+    
+        $stm->close();
         $cn->desconecta();
     
         return $bool;
     }
+    
         
 
     public function actualizarEstado($id, $estado) {

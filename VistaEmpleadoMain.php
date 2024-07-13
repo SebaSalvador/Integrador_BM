@@ -1,5 +1,6 @@
 <?php
 include "controlador/Control_EmpleadoMain.php";
+include "dao/DAO_Estado.php";
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -9,6 +10,9 @@ if(isset($_SESSION['user_id'])) {
     $control = new Control_EmpleadoMain();
 
     $userdata = $control->getUserDataC($user_id);
+    $listaCategorias = $control->getCategorias();
+    $listaAutores = $control->getAutores();
+    $listaLibros = $control->getLibros();
 
 } else {
     // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
@@ -352,6 +356,112 @@ if(isset($_SESSION['user_id'])) {
                     <!-- Content Row -->
                     <div class="row">
 
+                        <!-- Barra de Busqueda -->
+                        <div class="col-xl-6 col-lg-5 mb-4">
+                            <div class="input-group col-xl-12">
+                                <input type="text" class="form-control bg-white border-1 small" placeholder="Search for..."
+                                    aria-label="Search" aria-describedby="basic-addon2" id="Search" name ="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Select de Filtros Categorias -->
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="input-group col-xl-12 mb-4">
+                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
+                                    <option value="">Todas las Categorias</option>
+                                    <?php
+
+                                        foreach ($listaCategorias as $categoria) {
+                                            echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select de Filtros Autores -->
+                        <div class="col-xl-3 col-lg-5">
+                            <div class="input-group col-xl-12 mb-4">
+                                <select class="form-control bg-light border-1 small" id="Autores">
+                                    <option value="">Todos los Autores</option>
+                                    <?php
+
+                                        foreach ($listaAutores as $autor) {
+                                            echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-7">
+                            <div class="card mb-4">
+                                <div class="col-xl-12 col-lg-7" id="Libros">
+                                    <?php
+                                        $daoEstado = new DAO_Estado();
+                                        
+                                        echo "<div class='row mb-4'>";
+                                        foreach ($listaLibros as $libro) {
+                                            $idLib = $libro->getIdLib();
+                                            $titulo = $libro->getTitulo();
+                                            $idEst = $libro->getIdEst();
+                                            $estado = $daoEstado->consultarEstado($idEst);
+
+                                            echo "<div class='col-xl-4 col-md-6 mb-4'>";
+                                            echo "<div class='card border-left-warning shadow h-100 py-2'>";
+                                            echo "<div class='card-body'>";
+                                            echo "<div class='row no-gutters align-items-center'>";
+                                            echo "<div class='col mr-2'>";
+                                            echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
+                                            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" .$titulo. "</div>";
+                                            echo "<p>ID Libro: " .$idLib. "</p>";
+                                            //if ($libro->getestado() == 'disponible') {
+                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
+                                            //}else{
+                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
+                                            //}
+                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' .$idLib. '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
+                                            echo "</div>";
+                                            echo "<div class='col-auto'>";
+                                            echo "<img src='galeria/" .$idLib. ".jpg' alt='Carátula del libro' class='card-img' style='max-width: 80px'>";
+                                            echo "<div class='h6 mb-0 font-weight-bold ".$control->colorEstado($idEst)."'>".$estado->getEstado()."</div>"; 
+                                            /*lista css colores texto: 
+                                            text-white : blanco
+                                            text-primary : celeste
+                                            text-secondary : gris
+                                            text-success : verde
+                                            text-info : celeste
+                                            text-warning : amarillo
+                                            text-danger : rojo
+                                            text-light : blanco
+                                            text-dark : negro
+                                            text-body : gris
+
+                                            */
+                                            echo "</div>";
+                                            echo "</div>"; // Cierra row no-gutters align-items-center
+                                            echo "</div>"; // Cierra card-body
+                                            echo "</div>"; // Cierra card border-left-warning shadow h-100 py-2
+                                            echo "</div>"; // Cierra col-xl-3 col-md-6 mb-4
+                                        }
+                                        echo "</div>";
+                                        
+
+                                    ?>
+
+
+                                    
+                                    <!-- Aquí se insertarán las tarjetas de los productos -->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Content Row -->
@@ -367,6 +477,41 @@ if(isset($_SESSION['user_id'])) {
 
             </div>
             <!-- End of Main Content -->
+
+            <!-- Modal de Detalle de Libro -->
+            <div class="modal fade" id="ModalBookDetails" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookModalLabel" id="TituloLibro">NOMBRE DEL LIBRO</h5>
+                            <button id="closeModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex">
+                            <div class="book-cover">
+                                <div class="cover">
+                                    <h1 id="CategoriaLibro">CATEGORÍA DEL LIBRO</h1>
+                                    <!-- Puedes añadir aquí la imagen de la portada del libro si es necesario -->
+                                    <div id ="PortadaLibro">
+
+                                    </div>
+                                    <h4 id="AutorLibro">AUTOR DEL LIBRO</h4>
+                                </div>
+                            </div>
+                            <div class="book-details ml-3" >
+                                <h3>Sinopsis</h3>
+                                <p id="DescripcionLibro">Descripción del libro</p>
+                                <!-- Puedes añadir más detalles del libro aquí según sea necesario -->
+                                <div id ="boton">
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -409,6 +554,39 @@ if(isset($_SESSION['user_id'])) {
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="js/Empleadomodal.js"></script>
+    <script src="js/EmpleadoverificarPrestamo.js"></script> 
+    <script src="js/EmpleadoverificarEstLibro.js"></script>
+    <script>
+        var getUrl = window.location;
+        var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    </script>
+    <script>
+        $(document).ready(function(){
+            function filtrarDatos() {
+                var categoria = $('#Categorias').val();
+                var buscar = $('#Search').val();
+                var autor = $('#Autores').val(); // Obtener el valor seleccionado del select #Autores
+                $.ajax({
+                    url: 'filtrar_libros.php',
+                    type: 'POST',
+                    data: {
+                        categoria: categoria,
+                        buscar: buscar,
+                        autor: autor // Incluir el autor seleccionado en los datos enviados por AJAX
+                    },
+                    success: function(data){
+                        $('#Libros').html(data);
+                    }
+                });
+            }
+
+            $('#Categorias').change(filtrarDatos);
+            $('#Search').keyup(filtrarDatos);
+            $('#Autores').change(filtrarDatos); // Cambiar evento a 'change' para el select #Autores
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
