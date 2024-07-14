@@ -81,6 +81,14 @@ require_once "dao/DAO_Libro.php";
             return $libro;
         }
 
+        public function obtenertodosEmpleados() {
+            $dao = new DAO_Usuario();
+
+            // Agregar el préstamo usando el DAO
+            $res = $dao->obtenertodosEmpleadosDAO();
+
+            return $res;
+        }
 
     }
 

@@ -154,5 +154,36 @@ class DAO_Sancion
         $cn->desconecta();
 
     }
+
+    // Método para obtener todas las sanciones
+    public function obtenertodasSancionesDAO() {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT 
+                    s.id_san AS id_sancion, 
+                    p.nom_ape AS nombre, 
+                    s.dias_san AS dias_sancion, 
+                    s.fec_ini AS fecha_inicio, 
+                    s.fec_fin AS fecha_fin, 
+                    s.razon AS motivo, 
+                    s.estado AS estado_sancion
+                FROM 
+                    tb_sancion s
+                INNER JOIN 
+                    tb_persona p ON s.id_per = p.id_per;
+                ";
+                
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
+    }
 }
 ?>

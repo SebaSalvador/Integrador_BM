@@ -3,7 +3,7 @@
 
 <head>
 
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -22,13 +22,24 @@
     <!-- Incluir los scripts JavaScript -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.css" rel="stylesheet">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- DataTables CSS for Bulma -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bulma.css">
+
+    <!-- DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bulma.js"></script>
+
+    <!-- PDFMake and DataTables for exporting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.js"></script>
+
 
 
     <style>
@@ -396,7 +407,7 @@
                     </select>
                 </div>
                 <!-- End of Content Wrapper -->
-                <table id="Tabla_Reportes" class="display" style="width:100%">
+                <table id="Tabla_Reportes" class="table is-striped" style="width:100%">
                     <thead>
                         <th> ID PRESTAMO
                         <th> TÍTULO DE LIBRO
@@ -407,6 +418,42 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+
+                <table id="Tabla_Reportes_Cliente" class="table is-striped" style="width:100%">
+                    <thead>
+                        <th> DNI
+                        <th> NOMBRE
+                        <th> CORREO
+                        <th> TELEFONO
+                        <th> ESTADO
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <table id="Tabla_Reportes_Empleado" class="table is-striped" style="width:100%">
+                <thead>
+                        <th> DNI
+                        <th> NOMBRE
+                        <th> CORREO
+                        <th> TELEFONO
+                        <th> ESTADO
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <table id="Tabla_Reportes_Sanciones" class="table is-striped" style="width:100%">
+                <thead>
+                        <th> ID
+                        <th> NOMBRE
+                        <th> DIAS DE SANCION
+                        <th> FECHA DE INICIO
+                        <th> FECHA DE FIN
+                        <th> MOTIVO
+                        <th> ESTADO
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
 
             </div>
             <!-- End of Page Wrapper -->

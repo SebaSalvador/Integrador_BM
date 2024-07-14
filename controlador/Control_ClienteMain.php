@@ -80,6 +80,15 @@ require_once "dao/DAO_Categoria.php";
             $libro = $dao->consultarLibro($id);
             return $libro;
         }
+        
+        public function obtenertodosClientes() {
+            $dao = new DAO_Usuario();
+
+            // Agregar el préstamo usando el DAO
+            $res = $dao->obtenertodosClientesDAO();
+
+            return $res;
+        }
 
 
     }

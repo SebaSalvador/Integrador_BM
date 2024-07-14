@@ -47,7 +47,8 @@ if(isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="css/cssForm.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="js/EmpleadoverificarPrestamo.js"></script> 
 
 
@@ -106,67 +107,80 @@ if(isset($_SESSION['user_id'])) {
                     $id_persona = filter_input(INPUT_POST, 'dni', FILTER_VALIDATE_INT);
                     $daoPre = new DAO_Prestamo();
                     $estado = $daoPre->verificarPosibilidadPrestamo($id_persona);
-
+            
+                    // Aquí continua tu lógica
+                    if ($estado != null) {
+                        echo '<script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "No puede realizar otro prestamo, porque ya tiene uno en estado Pendiente de entrega",
+                            }).then(function() {
+                                window.history.back();
+                            });
+                        </script>';
+                    } else {
+                        // Recogemos los datos del formulario
+                        $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
+                        $fecha_prestamo = filter_input(INPUT_POST, 'fec_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                        $hora_prestamo = filter_input(INPUT_POST, 'hor_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                        $fecha_devolucion = filter_input(INPUT_POST, 'fec_dev', FILTER_SANITIZE_STRING);
+                        $hora_devolucion = filter_input(INPUT_POST, 'hor_dev', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+            
+                        // Verificar campos vacíos
+                        $campos_vacios = [];
+                        if (empty($id_persona)) {
+                            $campos_vacios[] = "DNI";
+                        }
+                        if (empty($id_libro)) {
+                            $campos_vacios[] = "ID del libro";
+                        }
+                        if (empty($fecha_prestamo)) {
+                            $campos_vacios[] = "Fecha de préstamo";
+                        }
+                        if (empty($hora_prestamo)) {
+                            $campos_vacios[] = "Hora de préstamo";
+                        }
+                        if (empty($fecha_devolucion)) {
+                            $campos_vacios[] = "Fecha de devolución";
+                        }
+                        if (empty($hora_devolucion)) {
+                            $campos_vacios[] = "Hora de devolución";
+                        }
+            
+                        // Si hay campos vacíos, imprimir mensaje y salir
+                        if (!empty($campos_vacios)) {
+                            echo "Campos vacíos: " . implode(", ", $campos_vacios);
+                            exit();
+                        }
+            
+                        // Ejemplo de datos adicionales
+                        $estadoPrestamo = "Pendiente de entrega"; // O cualquier otro estado que definas
+                        $state = 0;
+                        $daoLib = new DAO_Libro();
+                        $daoLib->actualizarEstado($id_libro, $state);
+            
+                        // Llamar a tu función para registrar el préstamo
+                        $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estadoPrestamo);
+            
+                        if ($respuesta) {
+                            header("Location: VistaEmpleadoMain.php"); // Redirige a la página principal u otra página de confirmación
+                            exit();
+                        } else {
+                            $mensaje_error_R = "Error en el registro del préstamo. Intente de nuevo.";
+                        }
+                    }
+            
                 } catch (PDOException $e) {
-                    echo '<script>alert("Error: " '. $e->getMessage() .'"</script>';
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "'. $e->getMessage() .'",
+                        });
+                    </script>';
                 }
                 
-                if ($estado != null) {
-                    $mensaje_error_R = "No puede realizar otro préstamo, porque ya tiene uno en estado " . $estado;
-                    // Si el estado no es nulo, mostrar alerta y volver atrás
-                    //echo '<script>alert("No puede realizar otro préstamo, porque ya tiene uno en estado '.$estado.'"); window.history.back();</script>';
-                    //exit();
-                } else {
-                    // Recogemos los datos del formulario
-                    $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
-                    $fecha_prestamo = filter_input(INPUT_POST, 'fec_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-                    $hora_prestamo = filter_input(INPUT_POST, 'hor_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-                    $fecha_devolucion = filter_input(INPUT_POST, 'fec_dev', FILTER_SANITIZE_STRING);
-                    $hora_devolucion = filter_input(INPUT_POST, 'hor_dev', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-        
-                    // Verificar campos vacíos
-                    $campos_vacios = [];
-                    if (empty($id_persona)) {
-                        $campos_vacios[] = "DNI";
-                    }
-                    if (empty($id_libro)) {
-                        $campos_vacios[] = "ID del libro";
-                    }
-                    if (empty($fecha_prestamo)) {
-                        $campos_vacios[] = "Fecha de préstamo";
-                    }
-                    if (empty($hora_prestamo)) {
-                        $campos_vacios[] = "Hora de préstamo";
-                    }
-                    if (empty($fecha_devolucion)) {
-                        $campos_vacios[] = "Fecha de devolución";
-                    }
-                    if (empty($hora_devolucion)) {
-                        $campos_vacios[] = "Hora de devolución";
-                    }
-        
-                    // Si hay campos vacíos, imprimir mensaje y salir
-                    if (!empty($campos_vacios)) {
-                        echo "Campos vacíos: " . implode(", ", $campos_vacios);
-                        exit();
-                    }
-        
-                    // Ejemplo de datos adicionales
-                    $estadoPrestamo = "Pendiente de entrega"; // O cualquier otro estado que definas
-                    $state = 0;
-                    $daoLib = new DAO_Libro();
-                    $daoLib->actualizarEstado($id_libro, $state);
-        
-                    // Llamar a tu función para registrar el préstamo
-                    $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estadoPrestamo);
-        
-                    if ($respuesta) {
-                        header("Location: VistaEmpleadoMain.php"); // Redirige a la página principal u otra página de confirmación
-                        exit();
-                    } else {
-                        $mensaje_error_R = "Error en el registro del préstamo. Intente de nuevo.";
-                    }
-                }
             }
         }
         
@@ -219,25 +233,25 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoConLib.html">
+                <a class="nav-link" href="VistaEmpleadoConLib.php">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.php">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
+                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.php">
                     <i class="fa-solid fa-clock"></i>
                     <span>Prestamos en retraso</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoReportes.html">
+                <a class="nav-link" href="VistaEmpleadoReportes.php">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span>Reportes</span></a>
             </li>
@@ -253,19 +267,19 @@ if(isset($_SESSION['user_id'])) {
             
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-facebook"></i>
                     <span>Facebook</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span></a>
             </li>
@@ -609,7 +623,7 @@ if(isset($_SESSION['user_id'])) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
                 </div>
             </div>
         </div>

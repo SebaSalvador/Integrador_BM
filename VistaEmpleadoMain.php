@@ -91,19 +91,19 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoConLib.html">
+                <a class="nav-link" href="VistaEmpleadoConLib.php">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.php">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
+                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.php">
                     <i class="fa-solid fa-clock"></i>
                     <span>Prestamos en retraso</span></a>
             </li>
@@ -125,19 +125,19 @@ if(isset($_SESSION['user_id'])) {
             
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-facebook"></i>
                     <span>Facebook</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span></a>
             </li>
@@ -548,7 +548,7 @@ if(isset($_SESSION['user_id'])) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -577,7 +577,7 @@ if(isset($_SESSION['user_id'])) {
                         autor: autor // Incluir el autor seleccionado en los datos enviados por AJAX
                     },
                     success: function(data){
-                        $('#Libros').html(data);
+                        $('#Libros').php(data);
                     }
                 });
             }

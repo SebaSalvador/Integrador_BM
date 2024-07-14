@@ -188,6 +188,66 @@ class DAO_Usuario
         }
         $cn->desconecta();
     }
+
+    public function obtenertodosClientesDAO() {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT 
+                    p.id_per AS DNI,
+                    p.nom_ape AS Nombre,
+                    p.correo AS Correo,
+                    p.telefono AS Telefono,
+                    u.estado AS Estado
+                FROM 
+                    tb_persona p
+                JOIN 
+                    tb_usuario u ON p.id_per = u.id_per
+                WHERE 
+                    u.id_tipo = 0;
+                ";
+                
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
+    }
+    
+    public function obtenertodosEmpleadosDAO() {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT 
+                    p.id_per AS DNI,
+                    p.nom_ape AS Nombre,
+                    p.correo AS Correo,
+                    p.telefono AS Telefono,
+                    u.estado AS Estado
+                FROM 
+                    tb_persona p
+                JOIN 
+                    tb_usuario u ON p.id_per = u.id_per
+                WHERE 
+                    u.id_tipo = 1;
+                ";
+                
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
+    }
     
 } 
 
