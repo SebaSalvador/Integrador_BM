@@ -40,6 +40,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/b-3.0.2/b-html5-3.0.2/b-print-3.0.2/datatables.min.js"></script>
 
+    <!-- Incluir los scripts y estilos de DataTables Editor -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.css">
+    <link rel="stylesheet" href="js/Editor-2.3.2/css/editor.dataTables.css">
+
+    <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
+    <script src="js/Editor-2.3.2/js/dataTables.editor.js"></script>
+
 
 
     <style>
