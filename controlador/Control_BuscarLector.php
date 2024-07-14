@@ -1,15 +1,18 @@
 <?php
 
-class Control_BuscarLector {
+class Control_BuscarLector
+{
 
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $cn = new conexion();
         $this->db = $cn->conecta();
     }
 
-    public function buscarLectorPorDNI($dni) {
+    public function buscarLectorPorDNI($dni)
+    {
         $sql = "SELECT nom_ape as nombre FROM `tb_persona` WHERE id_per = ?";
         $stm = $this->db->prepare($sql);
         $stm->bind_param("i", $dni);
@@ -21,4 +24,3 @@ class Control_BuscarLector {
         return $lector;
     }
 }
-?>

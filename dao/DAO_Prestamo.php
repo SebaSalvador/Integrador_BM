@@ -6,26 +6,27 @@ class DAO_Prestamo
 {
     var $cn;
 
-    public function consultarPrestamoPorUsuario($idUsuario) {
+    public function consultarPrestamoPorUsuario($idUsuario)
+    {
         $cn = new conexion();
         $conn = $cn->conecta();
         $sql = "SELECT * FROM tb_prestamo tpr 
                 INNER JOIN tb_persona tpe ON tpr.id_per = tpe.id_per 
                 WHERE tpe.id_per = ?";
-        
+
         $prestamos = [];
-    
+
         // Preparar la sentencia
         if ($stmt = $conn->prepare($sql)) {
             // Vincular parámetros
             $stmt->bind_param("i", $idUsuario);
-    
+
             // Ejecutar la consulta
             $stmt->execute();
-    
+
             // Obtener el resultado
             $result = $stmt->get_result();
-    
+
             // Verificar si se encontraron resultados
             if ($result->num_rows > 0) {
                 // Obtener todas las filas como un array asociativo
@@ -44,23 +45,24 @@ class DAO_Prestamo
                 // Liberar el resultado
                 $stmt->free_result();
             }
-    
+
             // Cerrar la sentencia
             $stmt->close();
         } else {
             // Si hay un error en la preparación de la consulta, lanzar una excepción
             throw new Exception('Error al preparar la consulta: ' . $conn->error);
         }
-    
+
         // Cerrar la conexión a la base de datos
         mysqli_close($conn);
-    
+
         // Devolver el array de préstamos, puede ser un array vacío si no se encontraron resultados
         return $prestamos;
     }
-    
 
-    public function consultarPrestamo($id) {
+
+    public function consultarPrestamo($id)
+    {
         $cn = new conexion();
         $c = $cn->conecta();
         $prestamo = new Prestamo();
@@ -79,11 +81,12 @@ class DAO_Prestamo
                 $prestamo->setEstado($row[7]);
             }
         }
-        $cn->desconecta();   
+        $cn->desconecta();
         return $prestamo;
     }
-    
-    public function consultarPrestamoPorEst($estado) {
+
+    public function consultarPrestamoPorEst($estado)
+    {
         $cn = new conexion();
         $c = $cn->conecta();
         $prestamos = array();
@@ -104,12 +107,50 @@ class DAO_Prestamo
                 $prestamos[] = $prestamo;
             }
         }
-        $cn->desconecta();   
+        $cn->desconecta();
         return $prestamos;
     }
 
+    public function obtenertodosPrestamos($estado)
+    {
+        if ($estado != "") {
+            $consulta_estado = " WHERE p.estado = ?";
+        } else {
+            $consulta_estado = "";
+        }
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT
+                p.id_pre AS id,
+                l.titulo AS titulo,
+                pe.nom_ape AS nombre_apellido,
+                p.fec_pre AS fecha_prestamo,
+                p.fec_dev AS fecha_devolucion,
+                p.estado AS estado
+                FROM tb_prestamo p
+                INNER JOIN tb_libro l ON p.id_lib = l.id_lib
+                INNER JOIN tb_persona pe ON p.id_per = pe.id_per $consulta_estado";
+        $stm = $c->prepare($sql);
+        if ($estado != "") {
+            $stm->execute([$estado]);
+        } else {
+            $stm->execute();
+        }
 
-    public function verificarPosibilidadPrestamo($idPer) {
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
+    }
+
+
+    public function verificarPosibilidadPrestamo($idPer)
+    {
         $cn = new conexion();
         $c = $cn->conecta();
         $estado = null;
@@ -129,31 +170,34 @@ class DAO_Prestamo
                     $estado = $row[0];
             }
         }
-        
-        $cn->desconecta();   
+
+        $cn->desconecta();
         return $estado;
     }
 
-    public function agregarPrestamo($prestamo) {
+    public function agregarPrestamo($prestamo)
+    {
         // Verificar que todos los campos del objeto $prestamo estén llenos
-        if (empty($prestamo->getIdPer()) ||
+        if (
+            empty($prestamo->getIdPer()) ||
             empty($prestamo->getIdLib()) ||
             empty($prestamo->getFecPre()) ||
             empty($prestamo->getHorPre()) ||
             empty($prestamo->getFecDev()) ||
             empty($prestamo->getHorDev()) ||
-            empty($prestamo->getEstado())) {
-            
+            empty($prestamo->getEstado())
+        ) {
+
             // Manejo de error si algún campo está vacío
             echo "Error: Todos los campos deben estar llenos.";
             return false;
         }
-    
+
         $cn = new conexion();
         $c = $cn->conecta();
         $sql = "INSERT INTO tb_prestamo (id_per, id_lib, fec_pre, hor_pre, fec_dev, hor_dev, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stm = $c->prepare($sql);
-        
+
         // Obtener los valores del objeto $prestamo
         $id_per = $prestamo->getIdPer();
         $id_lib = $prestamo->getIdLib();
@@ -162,37 +206,39 @@ class DAO_Prestamo
         $fec_dev = $prestamo->getFecDev();
         $hor_dev = $prestamo->getHorDev();
         $estado = $prestamo->getEstado();
-        
+
         // Vincular parámetros
-        $stm->bind_param("iisssss", 
-            $id_per, 
-            $id_lib, 
-            $fec_pre, 
-            $hor_pre, 
-            $fec_dev, 
-            $hor_dev, 
+        $stm->bind_param(
+            "iisssss",
+            $id_per,
+            $id_lib,
+            $fec_pre,
+            $hor_pre,
+            $fec_dev,
+            $hor_dev,
             $estado
         );
-        
+
         // Ejecutar la sentencia preparada
         $bool = $stm->execute();
-        
+
         if ($bool === false) {
             // Manejo de error si la ejecución falla
             echo "Error al agregar el préstamo: " . $stm->error;
         } else {
             echo "Préstamo agregado correctamente.";
         }
-    
+
         $stm->close();
         $cn->desconecta();
-    
+
         return $bool;
     }
-    
-        
 
-    public function actualizarEstado($id, $estado) {
+
+
+    public function actualizarEstado($id, $estado)
+    {
         $cn = new conexion();
         $c = $cn->conecta();
         $sql = "update tb_prestamo set estado=? where id_pre=?";
@@ -204,4 +250,3 @@ class DAO_Prestamo
         $cn->desconecta();
     }
 }
-?>
