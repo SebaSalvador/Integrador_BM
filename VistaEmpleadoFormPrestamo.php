@@ -89,6 +89,8 @@ if(isset($_SESSION['user_id'])) {
     <?php
         if (isset($_GET['id_lib'])) {
             $id_lib = $_GET['id_lib'];
+        }else {
+            echo "No se ha proporcionado el ID del libro.";
         }
 
         //$user_id = $_SESSION['user_id'];
@@ -100,14 +102,20 @@ if(isset($_SESSION['user_id'])) {
             $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
             if ($action === 'register') {
                 // Aquí podrías realizar validaciones adicionales si es necesario
-                $id_persona = filter_input(INPUT_POST, 'dni', FILTER_VALIDATE_INT);
-                $daoPre = new DAO_Prestamo();
-                $estado = $daoPre->verificarPosibilidadPrestamo($id_persona);
+                try {
+                    $id_persona = filter_input(INPUT_POST, 'dni', FILTER_VALIDATE_INT);
+                    $daoPre = new DAO_Prestamo();
+                    $estado = $daoPre->verificarPosibilidadPrestamo($id_persona);
+
+                } catch (PDOException $e) {
+                    echo '<script>alert("Error: " '. $e->getMessage() .'"</script>';
+                }
                 
                 if ($estado != null) {
+                    $mensaje_error_R = "No puede realizar otro préstamo, porque ya tiene uno en estado " . $estado;
                     // Si el estado no es nulo, mostrar alerta y volver atrás
-                    echo '<script>alert("No puede realizar otro préstamo, porque ya tiene uno en estado Pendiente de entrega"); window.history.back();</script>';
-                    exit();
+                    //echo '<script>alert("No puede realizar otro préstamo, porque ya tiene uno en estado '.$estado.'"); window.history.back();</script>';
+                    //exit();
                 } else {
                     // Recogemos los datos del formulario
                     $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
