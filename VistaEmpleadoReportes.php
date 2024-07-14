@@ -1,26 +1,3 @@
-<?php
-include "controlador/Control_EmpleadoMain.php";
-include "dao/DAO_Estado.php";
-session_start();
-
-// Verifica si el user_id está en la sesión
-if(isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    
-    $control = new Control_EmpleadoMain();
-
-    $userdata = $control->getUserDataC($user_id);
-    $listaCategorias = $control->getCategorias();
-    $listaAutores = $control->getAutores();
-    $listaLibros = $control->getLibros();
-
-} else {
-    // Si no hay user_id en la sesión, redirige al usuario a la página de inicio de sesión
-    header("Location: Index.php");
-    exit();
-}
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +21,36 @@ if(isset($_SESSION['user_id'])) {
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
-    <!--css para iconos-->
+    <style>
+        .button-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8f9fc;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-decoration: none;
+            color: black;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .button-card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .button-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .button-subtext {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .button-icon {
+            font-size: 36px;
+            color: #d1d3e2;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -85,33 +91,21 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="index.html">
                     <i class="fa-solid fa-calendar-alt"></i>
                     <span>Calendario</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoConLib.html">
+                <a class="nav-link" href="VistaEmpleadoMain.php">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>Penalizaciones</span></a>
-            </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
+                <a class="nav-link" href="VistaEmpleadoMain.html">
                     <i class="fa-solid fa-clock"></i>
                     <span>Prestamos en retraso</span></a>
-            </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoReportes.php">
-                    <i class="fa-solid fa-chart-simple"></i>
-                    <span>Reportes</span></a>
             </li>
 
             <!-- Divider -->
@@ -316,28 +310,7 @@ if(isset($_SESSION['user_id'])) {
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$userdata[0]?> - <?=$userdata[1]?></span>
-                                
-                                <i class="fa-solid fa-id-card"></i>
-
-                            </a>
-
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Editar Informacion Personal
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar Sesion
-                                </a>
-                            </div>
-                        </li>
+                       
 
                     </ul>
 
@@ -349,181 +322,68 @@ if(isset($_SESSION['user_id'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Libros</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Categorias</h1>
                         
                     </div>
-
+                    
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Barra de Busqueda -->
-                        <div class="col-xl-6 col-lg-5 mb-4">
-                            <div class="input-group col-xl-12">
-                                <input type="text" class="form-control bg-white border-1 small" placeholder="Search for..."
-                                    aria-label="Search" aria-describedby="basic-addon2" id="Search" name ="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="ListadoPrestamo.php" class="button-card">
+    <div>
+        <div class="button-text">PRESTAMOS TOTALES</div>
+        <div class="button-subtext"></div>
+    </div>
+    <div class="button-icon">
+    &#128218;
+    </div>
+</a>
                         </div>
 
-                        <!-- Select de Filtros Categorias -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
-                                    <option value="">Todas las Categorias</option>
-                                    <?php
-
-                                        foreach ($listaCategorias as $categoria) {
-                                            echo "<option value=" . $categoria['id_cat'] . ">" . $categoria['nombre'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="ListadoCliente.php" class="button-card">
+    <div>
+        <div class="button-text">CLIENTES</div>
+        <div class="button-subtext"></div>
+    </div>
+    <div class="button-icon">
+    &#128100;
+    </div>
+</a>
                         </div>
 
-                        <!-- Select de Filtros Autores -->
-                        <div class="col-xl-3 col-lg-5">
-                            <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Autores">
-                                    <option value="">Todos los Autores</option>
-                                    <?php
-
-                                        foreach ($listaAutores as $autor) {
-                                            echo "<option value=" . $autor['autor'] . ">" . $autor['autor'] . "</option>";
-                                        }
-                                    ?>
-                                </select>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="ListadoEmpleados.php" class="button-card">
+    <div>
+        <div class="button-text">EMPLEADOS</div>
+        <div class="button-subtext"></div>
+    </div>
+    <div class="button-icon">
+    &#128101;
+    </div>
+</a>
                             </div>
-                        </div>
+                        
 
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-7">
-                            <div class="card mb-4">
-                                <div class="col-xl-12 col-lg-7" id="Libros">
-                                    <?php
-                                        $daoEstado = new DAO_Estado();
-                                        
-                                        echo "<div class='row mb-4'>";
-                                        foreach ($listaLibros as $libro) {
-                                            $idLib = $libro->getIdLib();
-                                            $titulo = $libro->getTitulo();
-                                            $idEst = $libro->getIdEst();
-                                            $estado = $daoEstado->consultarEstado($idEst);
-
-                                            echo "<div class='col-xl-4 col-md-6 mb-4'>";
-                                            echo "<div class='card border-left-warning shadow h-100 py-2'>";
-                                            echo "<div class='card-body'>";
-                                            echo "<div class='row no-gutters align-items-center'>";
-                                            echo "<div class='col mr-2'>";
-                                            echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
-                                            echo "<div class='h5 mb-0 font-weight-bold text-gray-800'>" .$titulo. "</div>";
-                                            echo "<p>ID Libro: " .$idLib. "</p>";
-                                            //if ($libro->getestado() == 'disponible') {
-                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
-                                            //}else{
-                                            //    echo "<p>ID Autor: " . $libro->getIdAutor() . "</p>";
-                                            //}
-                                            echo '<button type="button" onclick="javascript:openDetailBook(\'' .$idLib. '\', '.$user_id.');">Ver Libro<i class="fa-solid fa-eye"></i></button>';
-                                            echo "</div>";
-                                            echo "<div class='col-auto'>";
-                                            echo "<img src='galeria/" .$idLib. ".jpg' alt='Carátula del libro' class='card-img' style='max-width: 80px'>";
-                                            echo "<div class='h6 mb-0 font-weight-bold ".$control->colorEstado($idEst)."'>".$estado->getEstado()."</div>"; 
-                                            /*lista css colores texto: 
-                                            text-white : blanco
-                                            text-primary : celeste
-                                            text-secondary : gris
-                                            text-success : verde
-                                            text-info : celeste
-                                            text-warning : amarillo
-                                            text-danger : rojo
-                                            text-light : blanco
-                                            text-dark : negro
-                                            text-body : gris
-
-                                            */
-                                            echo "</div>";
-                                            echo "</div>"; // Cierra row no-gutters align-items-center
-                                            echo "</div>"; // Cierra card-body
-                                            echo "</div>"; // Cierra card border-left-warning shadow h-100 py-2
-                                            echo "</div>"; // Cierra col-xl-3 col-md-6 mb-4
-                                        }
-                                        echo "</div>";
-                                        
-
-                                    ?>
-
-
-                                    
-                                    <!-- Aquí se insertarán las tarjetas de los productos -->
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Modal de Detalle de Libro -->
-            <div class="modal fade" id="ModalBookDetails" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bookModalLabel" id="TituloLibro">NOMBRE DEL LIBRO</h5>
-                            <button id="closeModalBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body d-flex">
-                            <div class="book-cover">
-                                <div class="cover">
-                                    <h1 id="CategoriaLibro">CATEGORÍA DEL LIBRO</h1>
-                                    <!-- Puedes añadir aquí la imagen de la portada del libro si es necesario -->
-                                    <div id ="PortadaLibro">
-
-                                    </div>
-                                    <h4 id="AutorLibro">AUTOR DEL LIBRO</h4>
-                                </div>
-                            </div>
-                            <div class="book-details ml-3" >
-                                <h3>Sinopsis</h3>
-                                <p id="DescripcionLibro">Descripción del libro</p>
-                                <!-- Puedes añadir más detalles del libro aquí según sea necesario -->
-                                <div id ="boton">
-                                    
-                                </div>
-                                
-                            </div>
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="ListadoSanciones.php" class="button-card">
+    <div>
+        <div class="button-text">SANCIONES</div>
+        <div class="button-subtext"></div>
+    </div>
+    <div class="button-icon">
+    ⚖
+    </div>
+</a>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2024</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
+                    </div>    
         <!-- End of Content Wrapper -->
 
     </div>
@@ -553,40 +413,6 @@ if(isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="js/Empleadomodal.js"></script>
-    <script src="js/EmpleadoverificarPrestamo.js"></script> 
-    <script src="js/EmpleadoverificarEstLibro.js"></script>
-    <script>
-        var getUrl = window.location;
-        var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-    </script>
-    <script>
-        $(document).ready(function(){
-            function filtrarDatos() {
-                var categoria = $('#Categorias').val();
-                var buscar = $('#Search').val();
-                var autor = $('#Autores').val(); // Obtener el valor seleccionado del select #Autores
-                $.ajax({
-                    url: 'filtrar_libros.php',
-                    type: 'POST',
-                    data: {
-                        categoria: categoria,
-                        buscar: buscar,
-                        autor: autor // Incluir el autor seleccionado en los datos enviados por AJAX
-                    },
-                    success: function(data){
-                        $('#Libros').html(data);
-                    }
-                });
-            }
-
-            $('#Categorias').change(filtrarDatos);
-            $('#Search').keyup(filtrarDatos);
-            $('#Autores').change(filtrarDatos); // Cambiar evento a 'change' para el select #Autores
-        });
-    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -604,10 +430,7 @@ if(isset($_SESSION['user_id'])) {
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-    <script>
-        user_id = sessionStorage.getItem('id_user');
-        console.log(user_id);
-    </script>
+
 </body>
 
 </html>
