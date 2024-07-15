@@ -1,6 +1,9 @@
 <?php
 include "controlador/Control_ClienteMain.php";
 include "controlador/Control_FormPrestamo.php";
+require_once 'dao/DAO_Prestamo.php';
+require_once 'dao/DAO_Libro.php';
+
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -44,6 +47,10 @@ if(isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="css/cssForm.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="js/EmpleadoverificarPrestamo.js"></script> 
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -83,7 +90,7 @@ if(isset($_SESSION['user_id'])) {
     <?php
         if (isset($_GET['id_lib'])) {
             $id_lib = $_GET['id_lib'];
-        } else {
+        }else {
             echo "No se ha proporcionado el ID del libro.";
         }
 
@@ -95,30 +102,89 @@ if(isset($_SESSION['user_id'])) {
             // Verificamos que la acción sea 'register'
             $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
             if ($action === 'register') {
-                // Recogemos los datos del formulario
-                $id_persona = filter_input(INPUT_POST, 'id_per', FILTER_VALIDATE_INT);
-                $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
-                $fecha_prestamo = filter_input(INPUT_POST, 'fec_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-                $hora_prestamo = filter_input(INPUT_POST, 'hor_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-                $fecha_devolucion = filter_input(INPUT_POST, 'fec_dev', FILTER_SANITIZE_STRING);
-                $hora_devolucion = filter_input(INPUT_POST, 'hor_dev', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
-        
                 // Aquí podrías realizar validaciones adicionales si es necesario
-        
-                // Ejemplo de datos adicionales
-                $estado = "Pendiente de entrega"; // O cualquier otro estado que definas
-        
-                // Llamar a tu función para registrar el préstamo
-                $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estado);
-
-                if ($respuesta) {
-                    header("Location: VistaClienteMain.php"); // Redirige a la página principal u otra página de confirmación
-                    exit();
-                } else {
-                    $mensaje_error_R = "Error en el registro del préstamo. Intente de nuevo.";
+                try {
+                    $id_persona = filter_input(INPUT_POST, 'dni', FILTER_VALIDATE_INT);
+                    $daoPre = new DAO_Prestamo();
+                    $estado = $daoPre->verificarPosibilidadPrestamo($id_persona);
+            
+                    // Aquí continua tu lógica
+                    if ($estado != null) {
+                        echo '<script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "No puede realizar otro prestamo, porque ya tiene uno en estado Pendiente de entrega",
+                            }).then(function() {
+                                window.history.back();
+                            });
+                        </script>';
+                    } else {
+                        // Recogemos los datos del formulario
+                        $id_libro = filter_input(INPUT_POST, 'id_lib', FILTER_VALIDATE_INT);
+                        $fecha_prestamo = filter_input(INPUT_POST, 'fec_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                        $hora_prestamo = filter_input(INPUT_POST, 'hor_pre', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+                        $fecha_devolucion = filter_input(INPUT_POST, 'fec_dev', FILTER_SANITIZE_STRING);
+                        $hora_devolucion = filter_input(INPUT_POST, 'hor_dev', FILTER_SANITIZE_STRING); // No editable, readonly en HTML
+            
+                        // Verificar campos vacíos
+                        $campos_vacios = [];
+                        if (empty($id_persona)) {
+                            $campos_vacios[] = "DNI";
+                        }
+                        if (empty($id_libro)) {
+                            $campos_vacios[] = "ID del libro";
+                        }
+                        if (empty($fecha_prestamo)) {
+                            $campos_vacios[] = "Fecha de préstamo";
+                        }
+                        if (empty($hora_prestamo)) {
+                            $campos_vacios[] = "Hora de préstamo";
+                        }
+                        if (empty($fecha_devolucion)) {
+                            $campos_vacios[] = "Fecha de devolución";
+                        }
+                        if (empty($hora_devolucion)) {
+                            $campos_vacios[] = "Hora de devolución";
+                        }
+            
+                        // Si hay campos vacíos, imprimir mensaje y salir
+                        if (!empty($campos_vacios)) {
+                            echo "Campos vacíos: " . implode(", ", $campos_vacios);
+                            exit();
+                        }
+            
+                        // Ejemplo de datos adicionales
+                        $estadoPrestamo = "Pendiente de entrega"; // O cualquier otro estado que definas
+                        $state = 0;
+                        $daoLib = new DAO_Libro();
+                        $daoLib->actualizarEstado($id_libro, $state);
+            
+                        // Llamar a tu función para registrar el préstamo
+                        $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estadoPrestamo);
+            
+                        if ($respuesta) {
+                            header("Location: VistaEmpleadoMain.php"); // Redirige a la página principal u otra página de confirmación
+                            exit();
+                        } else {
+                            $mensaje_error_R = "Error en el registro del préstamo. Intente de nuevo.";
+                        }
+                    }
+            
+                } catch (PDOException $e) {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "'. $e->getMessage() .'",
+                        });
+                    </script>';
                 }
+                
             }
         }
+        
+        
 
 
     ?>
@@ -132,7 +198,7 @@ if(isset($_SESSION['user_id'])) {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="VistaClienteMain.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="VistaEmpleadoMain.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa-solid fa-book"></i>
                 </div>
@@ -149,27 +215,45 @@ if(isset($_SESSION['user_id'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClienteMain.php">
+                <a class="nav-link" href="VistaEmpleadoMain.php">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClientePrestamos.php">
+                <a class="nav-link" href="VistaEmpleadoPrestamos.php">
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClienteCalendario.php">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-calendar-alt"></i>
                     <span>Calendario</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaClientePenalizaciones.php">
+                <a class="nav-link" href="VistaEmpleadoConLib.php">
+                    <i class="fa-solid fa-table"></i>
+                    <span>Control de Libros</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.php">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.php">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Prestamos en retraso</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoReportes.php">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Reportes</span></a>
             </li>
 
             <!-- Divider -->
@@ -183,19 +267,19 @@ if(isset($_SESSION['user_id'])) {
             
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-facebook"></i>
                     <span>Facebook</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span></a>
             </li>
@@ -412,19 +496,19 @@ if(isset($_SESSION['user_id'])) {
                     </div>
 
                     <!-- Content Row Formulario-->
-                     <?php
-                        $daolibro = new DAO_Libro();
-                        $arraylibro = $daolibro->consultarLibro($id_lib);
-                        $titulo = $arraylibro['titulo'];
-                        $categoria = $arraylibro['categoria'];
-                        $autor = $arraylibro['autor'];
-                     ?>
+                    <?php
+                    $daolibro = new DAO_Libro();
+                    $arraylibro = $daolibro->consultarLibro($id_lib);
+                    $titulo = $arraylibro['titulo'];
+                    $categoria = $arraylibro['categoria'];
+                    $autor = $arraylibro['autor'];
+                    ?>
                     <div class="row">
 
                         <form id="formPrestamo" method="POST">
 
                             <div class="columns">
-                                
+
                                 <div class="column">
 
                                     <div class="form-group">
@@ -443,6 +527,18 @@ if(isset($_SESSION['user_id'])) {
                                         <label for="categoria">Categoria</label>
                                         <input type="text" class="form-control" id="categoria" name="categoria" value="<?php echo $categoria; ?>" readonly>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="fec_pre">Fecha de Préstamo</label>
+                                        <input type="date" class="form-control" id="fec_pre" name="fec_pre" readonly>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="hor_pre">Hora de Préstamo</label>
+                                        <input type="time" class="form-control" id="hor_pre" name="hor_pre" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="column">
 
                                     <div class="form-group">
                                         <h3>Lector</h3>
@@ -450,25 +546,16 @@ if(isset($_SESSION['user_id'])) {
 
                                     <div class="form-group">
                                         <label for="dni">DNI</label>
-                                        <input type="number" class="form-control" id="dni" name="dni">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="dni" name="dni">
+                                            <button type="button" class="btn btn-secondary" id="buscar_lector">Buscar Lector</button>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
                                         <input type="text" class="form-control" id="nombres" name="nombres" readonly>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label for="fec_pre">Fecha de Préstamo</label>
-                                        <input type="date" class="form-control" id="fec_pre" name="fec_pre" readonly>
-                                    </div>
-
-                                </div> 
-
-                                <div class="column"> 
-                                    <div class="form-group">
-                                        <label for="hor_pre">Hora de Préstamo</label>
-                                        <input type="time" class="form-control" id="hor_pre" name="hor_pre" readonly>
-                                    </div>
                                     <div class="form-group">
                                         <label for="fec_dev">Fecha de Devolución</label>
                                         <input type="date" class="form-control" id="fec_dev" name="fec_dev" required>
@@ -480,8 +567,9 @@ if(isset($_SESSION['user_id'])) {
                                 </div>
 
                             </div> <!-- finaliza columns-->
+
                             <input type="hidden" name="action" value="register">
-                            <button type="submit" class="btn btn-primary">Registrar</button>
+                            <button type="submit" class="btn btn-primary" >Registrar</button>
                         </form>
 
                         <?php if (!empty($mensaje_error_R)) { ?>
@@ -535,11 +623,53 @@ if(isset($_SESSION['user_id'])) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#buscar_lector').on('click', function(){
+                var dni = $('#dni').val();
+                if(dni) {
+                    $.ajax({
+                        url: 'buscarLector.php',
+                        type: 'POST',
+                        data: {dni: dni},
+                        success: function(response){
+                            console.log("Respuesta del servidor:", response); // Depuración
+                            try {
+                                //var data = JSON.parse(response);
+                                var data = response;
+                                console.log("Datos parseados:", data); // Depuración
+                                if(data.success) {
+                                    $('#nombres').val(data.nombre);
+                                    
+                                } else {
+                                    alert(data.message || 'Lector no encontrado');
+                                }
+                            } catch (e) {
+                                alert('Error en la respuesta del servidor');
+                                console.error('Parsing error:', e);
+                            }
+                        },
+                        error: function() {
+                            alert('Error en la solicitud AJAX');
+                        }
+                    });
+                } else {
+                    alert('Por favor ingrese un DNI');
+                }
+            });
+        });
+
+    </script>
+
+
+
     
 
 

@@ -260,9 +260,12 @@ class DAO_Libro
         $stm->bind_param("ii", $id_est, $id_lib);
         $bool = $stm->execute();
         if (!$bool) {
-            echo "Error al actualizar el estado del libro";
+            echo "Error al actualizar el estado del libro: " . $stm->error;
         }
+    
+        $stm->close();
         $cn->desconecta();
     }
+    
 }
 ?>
