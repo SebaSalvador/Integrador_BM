@@ -123,21 +123,33 @@
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-calendar-alt"></i>
                     <span>Calendario</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoMain.php">
+                <a class="nav-link" href="VistaEmpleadoConLib.html">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoMain.html">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Penalizaciones</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
                     <i class="fa-solid fa-clock"></i>
                     <span>Prestamos en retraso</span></a>
+            </li>
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="VistaEmpleadoReportes.php">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Reportes</span></a>
             </li>
 
             <!-- Divider -->
@@ -148,7 +160,7 @@
                 About us
             </div>
 
-
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
