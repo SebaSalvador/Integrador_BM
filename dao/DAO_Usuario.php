@@ -1,6 +1,6 @@
 <?php
-require_once "util/conexion.php";
-require_once "modelo/Usuario.php";
+require_once(__DIR__ . '/../util/conexion.php');
+require_once(__DIR__ . '/../modelo/Usuario.php');
 
 class DAO_Usuario 
 {

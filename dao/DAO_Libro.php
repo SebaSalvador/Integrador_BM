@@ -74,6 +74,22 @@ class DAO_Libro
         return $libros;
     }
     
+    public function listarLibrosAsoc() {
+        $cn = new conexion();
+        $c = $cn->conecta();;
+        $sql = "select id_lib, titulo from tb_libro";
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        $result = $stm->get_result();
+        $arrayLib = [];
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $arrayLib[] = $row;
+            }
+         }
+        $cn->desconecta();   
+        return $arrayLib;
+    }
 
     public function consultarLibro($id) {
         $cn = new conexion();
@@ -238,9 +254,11 @@ class DAO_Libro
     public function actualizarEstado($id, $id_est) {
         $cn = new conexion();
         $c = $cn->conecta();
+        $id_lib = (int)$id;
         $sql = "update tb_libro set id_est=? where id_lib=?";
         $stm = $c->prepare($sql);
-        $bool = $stm->execute(array($id_est, $id));
+        $stm->bind_param("ii", $id_est, $id_lib);
+        $bool = $stm->execute();
         if (!$bool) {
             echo "Error al actualizar el estado del libro";
         }
