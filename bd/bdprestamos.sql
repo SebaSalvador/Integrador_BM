@@ -127,7 +127,8 @@ CREATE TABLE tb_observacion (
 	id_lib			integer			NOT NULL,
     descripcion		varchar(32)		NOT NULL,
     fec_obs			date			NOT NULL,
-    condicion		varchar(16)		NOT NULL,
+    fec_sol         date            NULL,
+    estado		varchar(16)		NOT NULL,
     PRIMARY KEY(id_obs),
     FOREIGN KEY(id_lib) REFERENCES tb_libro(id_lib)
 )AUTO_INCREMENT = 100000;
@@ -192,6 +193,25 @@ INSERT INTO tb_libro VALUES(null, 1, 12, 'Clean Code: A Handbook of Agile Softwa
 INSERT INTO tb_libro VALUES(null, 1, 12, 'Thinking, Fast and Slow', 'Este libro explora la psicología del juicio y la toma de decisiones, proporcionando ideas valiosas para cualquier persona involucrada en el diseño de sistemas o la optimización de procesos.', 'Daniel Kahneman', '2011-10-25');
 INSERT INTO tb_libro VALUES(null, 1, 12, 'The Design of Everyday Things', 'Un clásico en diseño de interacción y usabilidad, que explora cómo los objetos cotidianos están diseñados y cómo podrían mejorarse para facilitar una mejor experiencia de usuario.', 'Don Norman', '1988-00-00');
 INSERT INTO tb_libro VALUES(null, 1, 12, 'Introduction to Algorithms', 'Conocido como CLRS, este libro es una referencia estándar en el estudio de algoritmos y estructuras de datos en la informática y la ingeniería de software.', 'Thomas H. Cormen, Charles E. Leiserson y varios', '1989-00-00');
+
+DELETE FROM tb_observacion;
+/*
+CREATE TABLE tb_observacion (
+    id_obs          integer         NOT NULL AUTO_INCREMENT,
+	id_lib			integer			NOT NULL,
+    descripcion		varchar(32)		NOT NULL,
+    fec_obs			date			NOT NULL,
+    fec_sol         date            NULL,
+    estado		varchar(16)		NOT NULL,
+    PRIMARY KEY(id_obs),
+    FOREIGN KEY(id_lib) REFERENCES tb_libro(id_lib)
+)AUTO_INCREMENT = 100000;
+*/
+INSERT INTO tb_observacion VALUES(null, 110, 'Manipulado', '2024-06-21', null, 'Inutilizable');
+INSERT INTO tb_observacion VALUES(null, 111, 'Rasgado', '2024-06-23', null, 'Inutilizable');
+INSERT INTO tb_observacion VALUES(null, 112, 'Extraviado', '2024-05-19', null, 'Inutilizable');
+INSERT INTO tb_observacion VALUES(null, 113, 'Manipulado', '2024-07-03', null, 'En solucion');
+INSERT INTO tb_observacion VALUES(null, 101, 'Extraviado', '2024-03-29', '2024-06-15', 'Recuperado');
 
 
 DELETE FROM tb_usuario;

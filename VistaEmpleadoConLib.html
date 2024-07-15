@@ -21,6 +21,8 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous">
     <!--css para iconos-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/ModuloConLib.js"></script>
 </head>
 
 <body id="page-top">
@@ -295,7 +297,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$userdata[0]?> - <?=$userdata[1]?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="user-data"></span>
                                 
                                 <i class="fa-solid fa-id-card"></i>
 
@@ -330,14 +332,21 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
-                        <!-- Boton agregar-->
-                        <i class="fa-solid fa-circle-plus ml-4 mr-2 text-success"></i>
-                        <div class="sidebar-heading mr-2">Agregar</div>
+                    <div class="row align-items-baseline ml-5">
+                        <!-- Boton Agregar -->
+                        <div class="col-xl-2">
+                            <a href="#" class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#form-modal">
+                                <span class="icon text-gray-100">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text">Agregar</span>
+                            </a>
+                         </div>
+
                         <!-- Select de libros-->
                         <div class="col-xl-3 col-lg-5">
                             <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
+                                <select class="form-control bg-light border-1 small" id="select-libro">
                                     <option value="">Todos los libros</option>
                                     
                                 </select>
@@ -345,10 +354,13 @@
                         </div>
 
                         <!-- Select de estado-->
-                        <div class="col-xl-2 col-lg-5">
+                        <div class="col-xl-3 col-lg-5">
                             <div class="input-group col-xl-12 mb-4">
-                                <select class="form-control bg-light border-1 small" id="Categorias" name="Categorias">
-                                    <option value="">Estado</option>
+                                <select class="form-control bg-light border-1 small" id="select-estado">
+                                    <option value="No Recuperado">No Recuperado</option>
+                                    <option value="Inutilizable">Inutilizable</option>
+                                    <option value="En solucion">En solucion</option>
+                                    <option value="Recuperado">Recuperado</option>
                                     
                                 </select>
                             </div>
@@ -359,7 +371,44 @@
 
                     <!-- Content Row -->
 
-                    <div class="row">
+                    <div class="row" id="cards">
+                         <!-- Cards Observaciones -->
+                         <div class="col-xl-4">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="row align-items-baseline">
+                                        <div class="col text-gray-500">
+                                            <i class="fa-solid fa-eye h3"></i>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-control bg-light border-1 small">
+                                                <option value="">Inutilizable</option>
+                                                <option value="">En solución</option>
+                                                <option value="">Recuperado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ml-1">
+                                        <div class="h7 font-weight-bold mt-1">OBSERVACION</div>
+                                    </div>
+
+                                    <div class="row ml-1 mb-1">
+                                        <div class="col text-gray-600 small">ID: 101</div>
+                                        <div class="col text-gray-600 small">11/07/2024</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-3 text-gray-600 font-weight-bold">Libro:</div>
+                                        <div class="col">El principito</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 text-gray-600 font-weight-bold">Razón:</div>
+                                        <div class="col">Manipulacion</div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
                     </div>
 
                     <!-- Content Row -->
@@ -392,30 +441,56 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <!-- Formulario Modal-->
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Formulario agregar observacion</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col">Fecha de observacion</div>
+                            <div class="col">
+                                <input type="date" class="form-control" id="fecha-obs" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">ID Libro</div>
+                            <div class="col">
+                                <input type="number" class="form-control" id="id-libro">
+                                <span for="id-libro" style="color: red" id="span-id-libro"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">Razon</div>
+                            <div class="col">
+                                <select class="form-control bg-light border-1 small" id="select-razon">
+                                    <option value="Manipulado">Manipulado</option>
+                                    <option value="Rasgado">Rasgado</option>
+                                    <option value="Extraviado">Extraviado</option>
+                                </select>
+                            </div>
+                        </div>                   
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-secondary" href="#" id="boton-agregar">Agregar</a>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script><!-- Importante para mostrar modales-->
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>

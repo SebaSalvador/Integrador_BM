@@ -29,12 +29,14 @@ function logueo(){
                         type: 'POST',
                         success: function (response) {
                             if(!response.error) {
-                                //console.log(response);
+                                //alert(response);
                                 array = JSON.parse(response);
+                
                                 let dni = array.id_per;
-                                console.log("DNI: "+dni);
+                                let tipo = array.id_tipo;
+                                //console.log("DNI: "+dni);
                                 sessionStorage.setItem('id_user', dni);
-                                //let tipo = array.id_tipo;
+                                sessionStorage.setItem('id_tipo', tipo);//problema sale null
                             }
                         }
                     });
