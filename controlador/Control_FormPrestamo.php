@@ -93,4 +93,15 @@ class Control_FormPrestamo
 
         return $res;
     }
+    // Método para obtener todas las observaciones
+    public function obtenertodasCantidad()
+    {
+
+        $dao = new DAO_Prestamo();
+
+        // Agregar el préstamo usando el DAO
+        $res = $dao->obtenertodasCantidadDAO();
+
+        return $res;
+    }
 }

@@ -85,7 +85,7 @@ session_start();
             </label>
             <label>
                 <span>Password</span>
-                <input type="password" id="password" name="password" required/>
+                <input type="password" id="password" name="password"  required/>
             </label>
             <p class="forgot-pass">Forgot password?</p>
             <input type="hidden" name="action" value="login">
@@ -119,25 +119,25 @@ session_start();
                     <div class="column">
                         <label>
                             <span>DNI</span>
-                            <input type="text" name="dni" id="dni" required />
+                            <input type="text" name="dni" id="dni" pattern="[0-9]{8}" required />
                         </label>
                         <label>
                             <span>Name</span>
-                            <input type="text" name="nombre" id="nombre" required />
+                            <input type="text" name="nombre" pattern="[a-zA-Z ]{3,}" id="nombre" required />
                         </label>
                         <label>
                             <span>Age</span>
-                            <input type="number" name="edad" id="edad" required />
+                            <input type="text" name="edad" pattern="[0-9]{1,2}" id="edad" required />
                         </label>
                         <label>
                             <span>Address</span>
-                            <input type="text" name="direccion" id="direccion" required />
+                            <input type="text" name="direccion" pattern="[a-zA-Z0-9. ]{3,}" id="direccion" required />
                         </label>
                     </div>
                     <div class="column">
                         <label>
                             <span>Phone</span>
-                            <input type="tel" name="telefono" id="telefono" required />
+                            <input type="tel" name="telefono" pattern="[0-9]{9}" id="telefono" required />
                         </label>
                         <label>
                             <span>Tipo de Usuario</span>
@@ -152,7 +152,7 @@ session_start();
                         </label>
                         <label>
                             <span>Password</span>
-                            <input type="password" name="contraseña" id="contraseña" required />
+                            <input type="password" name="contraseña" id="contraseña" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}" required />
                         </label>
                     </div>
                 </div>

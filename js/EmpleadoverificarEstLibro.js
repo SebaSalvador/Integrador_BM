@@ -1,5 +1,5 @@
 src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js";
-
+src="https://cdn.jsdelivr.net/npm/sweetalert2@11";
 function verificarEstado(idLib) {
     var getUrl = window.location;
     var base_url = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
@@ -12,7 +12,12 @@ function verificarEstado(idLib) {
         })
         .then(data => {
             if (data != 1) {
-                alert("Este libro esta en proceso de prestamo, por favor intentelo mas tarde");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Este libro esta en proceso de prestamo o en proceso de observacion, por favor intentelo mas tarde",
+                })
+                // No es necesario alert() aquí porque Swal.fire ya maneja la alerta.
             } else {
                 location.href = "VistaEmpleadoFormPrestamo.php?id_lib="+idLib;
             }

@@ -1,6 +1,7 @@
 <?php
 include "controlador/Control_ClienteMain.php";
 include "controlador/Control_FormPrestamo.php";
+require_once 'dao/DAO_Libro.php';
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -108,7 +109,11 @@ if(isset($_SESSION['user_id'])) {
                 // Aquí podrías realizar validaciones adicionales si es necesario
         
                 // Ejemplo de datos adicionales
-                $estado = "Pendiente de entrega"; // O cualquier otro estado que definas
+                $estado = "Pendiente entrega"; // O cualquier otro estado que definas
+
+                $state = 0;
+                        $daoLib = new DAO_Libro();
+                        $daoLib->actualizarEstado($id_libro, $state);
         
                 // Llamar a tu función para registrar el préstamo
                 $respuesta = $controlPrestamo->registrarPrestamo($id_persona, $id_libro, $fecha_prestamo, $hora_prestamo, $fecha_devolucion, $hora_devolucion, $estado);

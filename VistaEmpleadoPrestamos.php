@@ -450,8 +450,8 @@ if(isset($_SESSION['user_id'])) {
                                                             echo "<select class='form-control' id='estado" . $prestamo->getIdPre() . "' onchange='actualizarEstado(" . $prestamo->getIdPre() . ")'>";
                                                                 echo "<option value='Finalizado'" . ($prestamo->getEstado() == 'Finalizado' ? ' selected' : '') . ">Finalizado</option>";
                                                                 echo "<option value='En curso'" . ($prestamo->getEstado() == 'En curso' ? ' selected' : '') . ">En curso</option>";
-                                                                echo "<option value='Pendiente de entrega'" . ($prestamo->getEstado() == 'Pendiente entrega' ? ' selected' : '') . ">Pendiente de entrega</option>";
-                                                                echo "<option value='Pendiente de devolucion'" . ($prestamo->getEstado() == 'Pendiente devolucion' ? ' selected' : '') . ">Pendiente de devolución</option>";
+                                                                echo "<option value='Pendiente entrega'" . ($prestamo->getEstado() == 'Pendiente entrega' ? ' selected' : '') . ">Pendiente de entrega</option>";
+                                                                echo "<option value='Pendiente devolucion'" . ($prestamo->getEstado() == 'Pendiente devolucion' ? ' selected' : '') . ">Pendiente de devolución</option>";
                                                             echo "</select>";
                                                         echo "</div>";
                                                     echo "</div>";
@@ -460,14 +460,17 @@ if(isset($_SESSION['user_id'])) {
                                                     function actualizarEstado(id) {
                                                         var estado = document.getElementById('estado' + id).value;
                                                         var xhttp = new XMLHttpRequest();
-                                                        xhttp.open('POST', 'actualizarEstado.php', true);
-                                                        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                                                        xhttp.onreadystatechange = function() {
-                                                            if (this.readyState == 4 && this.status == 200) {
-                                                                alert('Estado actualizado correctamente');
+                                                        $.ajax({
+                                                            url: 'actualizarEstado.php',
+                                                            data: {id,estado},
+                                                            method: 'POST',
+                                                            success: function (response) {
+                                                                if(!response.error) {
+                                                                    console.log(response);
+                                                                    
+                                                                }
                                                             }
-                                                        };
-                                                        xhttp.send('id=' + id + '&estado=' + estado);
+                                                        });
                                                     }
                                                     </script>";
 

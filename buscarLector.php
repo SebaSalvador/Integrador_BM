@@ -87,6 +87,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
+    if ($_POST['accion'] === 'obtener_cantidad') {
+        try {
+
+            $controladorCantidad = new Control_FormPrestamo();
+            $cantidad = $controladorCantidad->obtenertodasCantidad();
+
+            echo json_encode($cantidad);
+            exit();
+        } catch (PDOException $e) {
+            echo json_encode(array('status' => 'ERROR', 'message' => 'Error al conectar a la base de datos: ' . $e->getMessage()));
+            exit();
+        }
+    }
+    
     $dni = filter_input(INPUT_POST, 'dni', FILTER_VALIDATE_INT);
     
     if ($dni) {

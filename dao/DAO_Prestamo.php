@@ -68,7 +68,8 @@ class DAO_Prestamo
         $prestamo = new Prestamo();
         $sql = "select * from tb_prestamo where id_pre=?";
         $stm = $c->prepare($sql);
-        $stm->execute(array($id));
+        $stm->bind_param("i", $id);
+        $stm->execute();
         if ($result = $stm->get_result()) {
             if ($row = $result->fetch_array()) {
                 $prestamo->setIdPre($row[0]);
@@ -303,5 +304,29 @@ class DAO_Prestamo
             echo "Error al actualizar el estado del prestamo";
         }
         $cn->desconecta();
+    }
+
+    public function obtenertodasCantidadDAO() {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT p.id_per, p.nom_ape, COUNT(pr.id_pre) AS cantidad_prestamos
+                FROM tb_persona p
+                JOIN tb_prestamo pr ON p.id_per = pr.id_per
+                GROUP BY p.id_per, p.nom_ape;
+
+
+                ";
+                
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
     }
 }

@@ -531,6 +531,23 @@
                     <tbody></tbody>
                 </table>
 
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Observaciones">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Prestamos por Cliente</h1>
+
+                    </section>
+                </div>
+
+                <table id="Tabla_Reportes_Cantidad" class="table is-striped" style="width:100%">
+                <thead>
+                        <th> ID
+                        <th> Nombre
+                        <th> CANTIDAD
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
 
             </div>
             <!-- End of Page Wrapper -->

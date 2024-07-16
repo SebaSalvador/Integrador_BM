@@ -155,7 +155,7 @@ if(isset($_SESSION['user_id'])) {
                         }
             
                         // Ejemplo de datos adicionales
-                        $estadoPrestamo = "Pendiente de entrega"; // O cualquier otro estado que definas
+                        $estadoPrestamo = "Pendiente entrega"; // O cualquier otro estado que definas
                         $state = 0;
                         $daoLib = new DAO_Libro();
                         $daoLib->actualizarEstado($id_libro, $state);
