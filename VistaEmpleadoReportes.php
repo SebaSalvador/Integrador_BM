@@ -409,6 +409,11 @@
                     </div>
 
                 </div>
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Prestamos</h1>
+
+                    </div>
                 <div>
                     <select id="estado">
                         <option value="">Todos</option>
@@ -431,6 +436,12 @@
                     <tbody></tbody>
                 </table>
 
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Clientes</h1>
+
+                    </div>
+
                 <table id="Tabla_Reportes_Cliente" class="table is-striped" style="width:100%">
                     <thead>
                         <th> DNI
@@ -442,6 +453,12 @@
                     <tbody></tbody>
                 </table>
 
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Empleados</h1>
+
+                    </div>
+
                 <table id="Tabla_Reportes_Empleado" class="table is-striped" style="width:100%">
                 <thead>
                         <th> DNI
@@ -452,6 +469,12 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Sanciones</h1>
+
+                    </div>
 
                 <table id="Tabla_Reportes_Sanciones" class="table is-striped" style="width:100%">
                 <thead>
@@ -465,6 +488,12 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Reportes de Observaciones</h1>
+
+                    </div>
 
                 <table id="Tabla_Reportes_Observaciones" class="table is-striped" style="width:100%">
                 <thead>

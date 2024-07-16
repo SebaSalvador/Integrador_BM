@@ -412,7 +412,7 @@ if(isset($_SESSION['user_id'])) {
                                         <?php
                                             echo "<div class='row mb-4'>";
                                             foreach ($listaPrestamos as $prestamo) {
-                                                if ($prestamo->getEstado() == "Finalizado") {
+                                                if ($prestamo->getEstado() != "Finalizado") {
                                                     echo "<div class='col-xl-6 col-md-6 mb-4'>";
                                                     echo "<div class='card border-left-warning shadow h-100 py-2'>";
                                                     echo "<div class='card-body'>";
@@ -450,8 +450,8 @@ if(isset($_SESSION['user_id'])) {
                                                             echo "<select class='form-control' id='estado" . $prestamo->getIdPre() . "' onchange='actualizarEstado(" . $prestamo->getIdPre() . ")'>";
                                                                 echo "<option value='Finalizado'" . ($prestamo->getEstado() == 'Finalizado' ? ' selected' : '') . ">Finalizado</option>";
                                                                 echo "<option value='En curso'" . ($prestamo->getEstado() == 'En curso' ? ' selected' : '') . ">En curso</option>";
-                                                                echo "<option value='Pendiente de entrega'" . ($prestamo->getEstado() == 'Pendiente de entrega' ? ' selected' : '') . ">Pendiente de entrega</option>";
-                                                                echo "<option value='Pendiente de devolución'" . ($prestamo->getEstado() == 'Pendiente de devolución' ? ' selected' : '') . ">Pendiente de devolución</option>";
+                                                                echo "<option value='Pendiente de entrega'" . ($prestamo->getEstado() == 'Pendiente entrega' ? ' selected' : '') . ">Pendiente de entrega</option>";
+                                                                echo "<option value='Pendiente de devolucion'" . ($prestamo->getEstado() == 'Pendiente devolucion' ? ' selected' : '') . ">Pendiente de devolución</option>";
                                                             echo "</select>";
                                                         echo "</div>";
                                                     echo "</div>";

@@ -3,7 +3,7 @@ $(document).ready(function () {
   var Tabla_Reportes = $("#Tabla_Reportes").DataTable({
     destroy: true, // Para poder reinicializar la tabla si es necesario
     pageLength: 10,
-    lengthChange: true,
+    lengthChange: false,
     responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
@@ -84,7 +84,7 @@ $(document).ready(function () {
   var Tabla_Reportes_Cliente = $("#Tabla_Reportes_Cliente").DataTable({
     destroy: true,
     pageLength: 10,
-    lengthChange: true,
+    lengthChange: false,
     responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
@@ -160,7 +160,7 @@ $(document).ready(function () {
   var Tabla_Reportes_Empleado = $("#Tabla_Reportes_Empleado").DataTable({
     destroy: true, // Para poder reinicializar la tabla si es necesario
     pageLength: 10,
-    lengthChange: true,
+    lengthChange: false,
     responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
@@ -239,7 +239,7 @@ $(document).ready(function () {
   var Tabla_Reportes_Sanciones = $("#Tabla_Reportes_Sanciones").DataTable({
     destroy: true, // Para poder reinicializar la tabla si es necesario
     pageLength: 10,
-    lengthChange: true,
+    lengthChange: false,
     responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
@@ -320,7 +320,7 @@ $(document).ready(function () {
   var Tabla_Reportes_Observaciones = $("#Tabla_Reportes_Observaciones").DataTable({
     destroy: true, // Para poder reinicializar la tabla si es necesario
     pageLength: 10,
-    lengthChange: true,
+    lengthChange: false,
     responsive: true,
     language: {
       url: "//cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
