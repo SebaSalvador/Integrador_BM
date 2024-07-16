@@ -356,7 +356,7 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <a href="ListadoPrestamo.php" class="button-card">
+                            <a href="#Prestamos" class="button-card">
                                 <div>
                                     <div class="button-text">PRESTAMOS TOTALES</div>
                                     <div class="button-subtext"></div>
@@ -369,7 +369,7 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <a href="ListadoCliente.php" class="button-card">
+                            <a href="#Clientes" class="button-card">
                                 <div>
                                     <div class="button-text">CLIENTES</div>
                                     <div class="button-subtext"></div>
@@ -382,7 +382,7 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <a href="ListadoEmpleados.php" class="button-card">
+                            <a href="#Empleados" class="button-card">
                                 <div>
                                     <div class="button-text">EMPLEADOS</div>
                                     <div class="button-subtext"></div>
@@ -396,7 +396,7 @@
 
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <a href="ListadoSanciones.php" class="button-card">
+                            <a href="#Sanciones" class="button-card">
                                 <div>
                                     <div class="button-text">SANCIONES</div>
                                     <div class="button-subtext"></div>
@@ -406,14 +406,30 @@
                                 </div>
                             </a>
                         </div>
+
+                        <!-- Pending Requests Card Example -->                        
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <a href="#Observaciones" class="button-card">
+                                <div>
+                                    <div class="button-text">OBSERVACIONES</div>
+                                    <div class="button-subtext"></div>
+                                </div>
+                                <div class="button-icon">
+                                    🔍
+                                </div>
+                            </a>
                     </div>
 
                 </div>
+
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Prestamos">
                         <h1 class="h3 mb-0 text-gray-800">Reportes de Prestamos</h1>
 
-                    </div>
+                    </section>
+                </div>
+                
                 <div>
                     <select id="estado">
                         <option value="">Todos</option>
@@ -438,9 +454,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Clientes">
                         <h1 class="h3 mb-0 text-gray-800">Reportes de Clientes</h1>
 
-                    </div>
+                    </section>
+                </div>
 
                 <table id="Tabla_Reportes_Cliente" class="table is-striped" style="width:100%">
                     <thead>
@@ -455,9 +473,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Empleados">
                         <h1 class="h3 mb-0 text-gray-800">Reportes de Empleados</h1>
 
-                    </div>
+                    </section>
+                </div>
 
                 <table id="Tabla_Reportes_Empleado" class="table is-striped" style="width:100%">
                 <thead>
@@ -472,9 +492,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Sanciones">
                         <h1 class="h3 mb-0 text-gray-800">Reportes de Sanciones</h1>
 
-                    </div>
+                    </section>
+                </div>
 
                 <table id="Tabla_Reportes_Sanciones" class="table is-striped" style="width:100%">
                 <thead>
@@ -491,9 +513,11 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <section id="Observaciones">
                         <h1 class="h3 mb-0 text-gray-800">Reportes de Observaciones</h1>
 
-                    </div>
+                    </section>
+                </div>
 
                 <table id="Tabla_Reportes_Observaciones" class="table is-striped" style="width:100%">
                 <thead>
