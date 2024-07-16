@@ -100,6 +100,7 @@ function getObservacion() {
             $libro = $daoLib->consultarLibro($idLib);
             $titulo = $libro['titulo'];
             $jsonItem['id_obs'] = $obs['id_obs'];
+            $jsonItem['id_lib'] = $obs['id_lib'];
             $jsonItem['titulo'] = $titulo;
             $jsonItem['razon'] = $obs['descripcion'];
             $jsonItem['fec_obs'] = $obs['fec_obs'];
@@ -170,6 +171,7 @@ function consultarLibro() {
             $libro = $daoLib->consultarLibro($idLib);
             $titulo = $libro['titulo'];
             $jsonItem['id_obs'] = $obs['id_obs'];
+            $jsonItem['id_lib'] = $obs['id_lib'];
             $jsonItem['titulo'] = $titulo;
             $jsonItem['razon'] = $obs['descripcion'];
             $jsonItem['fec_obs'] = $obs['fec_obs'];
@@ -191,6 +193,7 @@ function consultarObsEstado() {
         $libro = $daoLib->consultarLibro($idLib);
         $titulo = $libro['titulo'];
         $jsonItem['id_obs'] = $obs['id_obs'];
+        $jsonItem['id_lib'] = $obs['id_lib'];
         $jsonItem['titulo'] = $titulo;
         $jsonItem['razon'] = $obs['descripcion'];
         $jsonItem['fec_obs'] = $obs['fec_obs'];
@@ -237,37 +240,11 @@ function actualizarEstado() {
     if ($estado == "Recuperado") {
         $fecha_actual = date("Y-m-d");
         $daoObs->actualizarFecSol($idObs, $fecha_actual);
-        //$daoLib = new DAO_Libro();
-        //$daoLib->actualizarEstado() actualizar libro a disponible
+        $idLib = $_POST['idLib'];
+        $daoLib = new DAO_Libro();
+        $daoLib->actualizarEstado($idLib, 1);
     }
         
     echo "Datos enviados correctamente";
 }
-
-/*
-$userId = $_GET['userId'];
-
-if (!empty($userId)) {
-    $daoUsu = new DAO_Usuario();
-    $array = $daoUsu->getUserData($userId);
-    $json = array(
-        'nomApe' => $array['nom_ape'],
-        'rango' => $array['rango']
-    );
-    $jsonstring = json_encode($json);
-    echo $jsonstring;
-} else {
-    echo json_encode(['error' => 'El id de usuario esta vacio']);
-}
-
-$action = $_GET['action'];
-
-if ($action == 'getObs') {
-    $response = array(
-                    ['id_obs' => '101', 'fec_obs' => '01/03/2024', 'titulo' => 'El principito', 'razon' => 'Manipulado'],
-                    ['id_obs' => '102', 'fec_obs' => '23/04/2024', 'titulo' => 'El perfume', 'razon' => 'Extraviado']
-                );
-    echo json_encode($response);
-}
-*/
 ?>

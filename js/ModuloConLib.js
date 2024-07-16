@@ -4,7 +4,7 @@ $(document).ready(function () {
         let jsonString = $(this).val();
         console.log('selected card: '+jsonString);
         let obj = JSON.parse(jsonString);
-        actualizarEstado(obj.idObs, obj.estado);
+        actualizarEstado(obj.idObs, obj.idLib, obj.estado);
     });
 
     //Cargar datos datos de usuario
@@ -109,11 +109,11 @@ $(document).ready(function () {
 
 
 
-function actualizarEstado(idObs, estado) {
+function actualizarEstado(idObs, idLib, estado) {
     
     $.ajax({
         url: "controlador/Control_ConLib.php",
-        data: {action: 'actualizarEst', idObs, estado},
+        data: {action: 'actualizarEst', idObs, idLib, estado},
         method: 'POST',
         success: function (response) {
             if(!response.error) {
@@ -138,6 +138,7 @@ function consultarObsEstado(estado) {
                 let template = "";
                 array.forEach(obs => {
                     let idObs = obs.id_obs;
+                    let idLib = obs.id_lib;
                     let fecObs = obs.fec_obs;
                     let titulo = obs.titulo;
                     let razon = obs.razon;
@@ -167,14 +168,14 @@ function consultarObsEstado(estado) {
                             <div class="card shadow">
                                 <div class="card-body">
                                     <div class="row align-items-baseline">
-                                        <div cl0ass="col text-gray-500">
+                                        <div class="col text-gray-500">
                                             <i class="fa-solid fa-eye h3"></i>
                                         </div>
                                         <div class="col">
                                             <select class="selectEstCard form-control bg-light border-1 small">
-                                                <option value=${JSON.stringify({idObs, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
-                                                <option value=${JSON.stringify({idObs, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
-                                                <option value=${JSON.stringify({idObs, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
                                             </select>
                                         </div>
                                     </div>
@@ -223,6 +224,7 @@ function consultarObsLibro(idLib) {
                     let template = "";
                     array.forEach(obs => {
                         let idObs = obs.id_obs;
+                        let idLib = obs.id_lib;
                         let fecObs = obs.fec_obs;
                         let titulo = obs.titulo;
                         let razon = obs.razon;
@@ -257,9 +259,9 @@ function consultarObsLibro(idLib) {
                                             </div>
                                             <div class="col">
                                                 <select class="selectEstCard form-control bg-light border-1 small">
-                                                    <option value=${JSON.stringify({idObs, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
-                                                    <option value=${JSON.stringify({idObs, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
-                                                    <option value=${JSON.stringify({idObs, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
+                                                    <option value=${JSON.stringify({idObs, idLib, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
+                                                    <option value=${JSON.stringify({idObs, idLib, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
+                                                    <option value=${JSON.stringify({idObs, idLib, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -360,6 +362,8 @@ function getObservacion() {
                 let template = "";
                 array.forEach(obs => {
                     let idObs = obs.id_obs;
+                    let idLib = obs.id_lib;
+                    //console.log("idLib: "+idLib);
                     let fecObs = obs.fec_obs;
                     let titulo = obs.titulo;
                     let razon = obs.razon;
@@ -389,9 +393,9 @@ function getObservacion() {
                                         </div>
                                         <div class="col">
                                             <select class="selectEstCard form-control bg-light border-1 small">
-                                                <option value=${JSON.stringify({idObs, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
-                                                <option value=${JSON.stringify({idObs, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
-                                                <option value=${JSON.stringify({idObs, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Inutilizable'})} ${op[0]} class="${est[0]}">Inutilizable</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Ensolucion'})} ${op[1]} class="${est[1]}">En solucion</option>
+                                                <option value=${JSON.stringify({idObs, idLib, estado: 'Recuperado'})} ${op[2]}>Recuperado</option>
                                             </select>
                                         </div>
                                     </div>
