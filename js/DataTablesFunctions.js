@@ -111,6 +111,16 @@ $(document).ready(function () {
         accion: "obtener_clientes",
       },
       dataSrc: "",
+      /*success: function (data) {
+        console.log(data); // Imprimir la data obtenida del AJAX en la consola
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("Error en la solicitud AJAX:");
+        console.error("Estado: " + textStatus);
+        console.error("Error: " + errorThrown);
+        console.error("Respuesta del servidor:");
+        console.error(jqXHR.responseText);
+      },*/
     },
     columns: [
       { data: "DNI" },
@@ -119,15 +129,7 @@ $(document).ready(function () {
       { data: "Telefono" },
       { data: "Estado" },
     ],
-    layout: {
-      topStart: {
-          buttons: [
-              { extend: 'create', editor: editor },
-              { extend: 'edit',   editor: editor },
-              { extend: 'remove', editor: editor }
-          ]
-      }
-    },
+    
     select: true,
     dom: "Blfrtip",
     buttons: [
@@ -153,26 +155,6 @@ $(document).ready(function () {
         Tabla_Reportes_Cliente.search(this.value).draw();
       });
     },
-  });
-
-  // Inicialización de DataTables Editor
-  var editor = new $.fn.dataTable.Editor({
-    ajax: "tu_ruta_para_guardar_datos.php",
-    table: "#Tabla_Reportes_Cliente",
-    idSrc: "DNI", // Debes ajustar "id" al nombre de la columna que sirve como identificador único
-  
-    fields: [
-      { label: "DNI:", name: "DNI" },
-      { label: "Nombre:", name: "Nombre" },
-      { label: "Correo:", name: "Correo" },
-      { label: "Teléfono:", name: "Telefono" },
-      { label: "Estado:", name: "Estado" },
-    ],
-  });
-
-  // Integración de DataTables Editor con DataTables
-  Tabla_Reportes_Cliente.on('click', 'tbody td:not(:last-child)', function (e) {
-    editor.inline(this);
   });
 
   var Tabla_Reportes_Empleado = $("#Tabla_Reportes_Empleado").DataTable({

@@ -225,15 +225,10 @@ if(isset($_SESSION['user_id'])) {
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-calendar-alt"></i>
-                    <span>Calendario</span></a>
-            </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoConLib.php">
+                <a class="nav-link" href="VistaEmpleadoConLib.html">
                     <i class="fa-solid fa-table"></i>
                     <span>Control de Libros</span></a>
             </li>
@@ -243,12 +238,7 @@ if(isset($_SESSION['user_id'])) {
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
             </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.php">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Prestamos en retraso</span></a>
-            </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="VistaEmpleadoReportes.php">

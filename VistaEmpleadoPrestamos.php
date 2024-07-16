@@ -97,12 +97,7 @@ if(isset($_SESSION['user_id'])) {
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-calendar-alt"></i>
-                    <span>Calendario</span></a>
-            </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="VistaEmpleadoConLib.html">
@@ -111,16 +106,11 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.php">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
             </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Prestamos en retraso</span></a>
-            </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="VistaEmpleadoReportes.php">
@@ -139,19 +129,19 @@ if(isset($_SESSION['user_id'])) {
             
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-facebook"></i>
                     <span>Facebook</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span></a>
             </li>

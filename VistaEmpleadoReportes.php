@@ -47,6 +47,9 @@
     <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
     <script src="js/Editor-2.3.2/js/dataTables.editor.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+
 
 
     <style>
@@ -121,12 +124,7 @@
                     <i class="fa-solid fa-bookmark"></i>
                     <span>Prestamos</span></a>
             </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-calendar-alt"></i>
-                    <span>Calendario</span></a>
-            </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="VistaEmpleadoConLib.html">
@@ -135,16 +133,11 @@
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPenalizacion.html">
+                <a class="nav-link" href="VistaEmpleadoPenalizacion.php">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>Penalizaciones</span></a>
             </li>
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoPrestamoRetraso.html">
-                    <i class="fa-solid fa-clock"></i>
-                    <span>Prestamos en retraso</span></a>
-            </li>
+            
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="VistaEmpleadoReportes.php">
@@ -163,19 +156,19 @@
             
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-facebook"></i>
                     <span>Facebook</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-instagram"></i>
                     <span>Instagram</span></a>
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>WhatsApp</span></a>
             </li>
@@ -488,6 +481,14 @@
             <!-- Bootstrap core JavaScript-->
 
             <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+
 
 
             <!-- Custom scripts for all pages-->
