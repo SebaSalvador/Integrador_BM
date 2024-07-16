@@ -3,6 +3,7 @@
 require_once "dao/DAO_Prestamo.php";
 require_once "modelo/Prestamo.php";
 require_once "dao/DAO_Sancion.php";
+require_once "dao/DAO_Observacion.php";
 
 class Control_FormPrestamo
 {
@@ -77,6 +78,18 @@ class Control_FormPrestamo
 
         // Agregar el préstamo usando el DAO
         $res = $dao->obtenertodasSancionesDAO();
+
+        return $res;
+    }
+
+    // Método para obtener todas las observaciones
+    public function obtenertodasObservaciones()
+    {
+
+        $dao = new DAO_Observacion();
+
+        // Agregar el préstamo usando el DAO
+        $res = $dao->obtenertodasObservacionesDAO();
 
         return $res;
     }

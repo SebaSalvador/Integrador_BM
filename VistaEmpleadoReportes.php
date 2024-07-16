@@ -466,6 +466,18 @@
                     <tbody></tbody>
                 </table>
 
+                <table id="Tabla_Reportes_Observaciones" class="table is-striped" style="width:100%">
+                <thead>
+                        <th> ID_Obs
+                        <th> Titulo
+                        <th> Descripcion
+                        <th> Estado
+                        <th> Fec_Obs
+                        <th> Fec_Sol
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
 
             </div>
             <!-- End of Page Wrapper -->

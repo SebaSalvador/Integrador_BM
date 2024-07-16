@@ -22,9 +22,6 @@ class DAO_Observacion
         return $arrayObs;
     }
 
-    public function consultarObservacion($id) {return $observacion;}
-
-    public function consultarObservacionPorCon($condicion) {return $observaciones;}
     
     public function consultarObservacionPorLib($idLib) {
         $cn = new conexion();
@@ -85,6 +82,37 @@ class DAO_Observacion
             echo "Error al actualizar la fecha de solucion";
         }
         $cn->desconecta(); 
+    }
+
+    // Método para obtener todas las OBSERVACIONES
+    public function obtenertodasObservacionesDAO() {
+        $cn = new conexion();
+        $c = $cn->conecta();
+        $sql = "SELECT 
+                    o.id_obs AS 'ID_Obs', 
+                    l.titulo AS 'Titulo', 
+                    o.descripcion AS 'Descripcion', 
+                    o.estado AS 'Estado', 
+                    o.fec_obs AS 'Fec_Obs', 
+                    o.fec_sol AS 'Fec_Sol'
+                FROM 
+                    tb_observacion o
+                JOIN 
+                    tb_libro l ON o.id_lib = l.id_lib;
+
+                ";
+                
+        $stm = $c->prepare($sql);
+        $stm->execute();
+        // Obtener los resultados
+        $result = $stm->get_result();
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $cn->desconecta();
+        return $data;
     }
 
 
