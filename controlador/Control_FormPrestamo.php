@@ -61,6 +61,14 @@ class Control_FormPrestamo
         return $res;
     }
 
+    
+    public function obtenertodosPrestamosEmpleado(){
+        $dao = new DAO_Prestamo();
+        $res = $dao->obtenertodosPrestamosEmpleadoDAO();
+        return $res;
+    }
+
+
     // Método para obtener todas las sanciones
     public function obtenertodasSanciones()
     {

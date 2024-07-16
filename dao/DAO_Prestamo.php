@@ -148,6 +148,61 @@ class DAO_Prestamo
         return $data;
     }
 
+    public function obtenertodosPrestamosEmpleadoDAO()
+{
+    $cn = new conexion();
+    $conn = $cn->conecta();
+    $sql = "SELECT
+                p.id_pre AS id,
+                p.id_lib AS id_lib,
+                pe.nom_ape AS nombre_apellido,
+                p.fec_pre AS fecha_prestamo,
+                p.fec_dev AS fecha_devolucion,
+                p.estado AS estado
+            FROM tb_prestamo p
+            INNER JOIN tb_libro l ON p.id_lib = l.id_lib
+            INNER JOIN tb_persona pe ON p.id_per = pe.id_per";
+
+    $prestamos = [];
+
+    // Preparar la sentencia
+    if ($stmt = $conn->prepare($sql)) {
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener el resultado
+        $result = $stmt->get_result();
+
+        // Obtener todas las filas como un array asociativo
+        while ($row = $result->fetch_assoc()) {
+            $prestamo = new Prestamo();
+            $prestamo->setIdPre($row['id']);
+            $prestamo->setIdLib($row['id_lib']);
+            $prestamo->setNombreApellido($row['nombre_apellido']);
+            $prestamo->setFecPre($row['fecha_prestamo']);
+            $prestamo->setFecDev($row['fecha_devolucion']);
+            $prestamo->setEstado($row['estado']);
+            $prestamos[] = $prestamo;
+        }
+
+        // Liberar el resultado
+        $stmt->free_result();
+
+        // Cerrar la sentencia
+        $stmt->close();
+    } else {
+        // Si hay un error en la preparación de la consulta, lanzar una excepción
+        throw new Exception('Error al preparar la consulta: ' . $conn->error);
+    }
+
+    // Cerrar la conexión a la base de datos
+    mysqli_close($conn);
+
+    // Devolver el array de préstamos, puede ser un array vacío si no se encontraron resultados
+    return $prestamos;
+}
+
+
 
     public function verificarPosibilidadPrestamo($idPer)
     {

@@ -1,6 +1,7 @@
 <?php
 include "controlador/Control_ClienteMain.php";
 include "controlador/Control_PrestamosEmpleado.php";
+require_once 'controlador/Control_FormPrestamo.php';
 session_start();
 
 // Verifica si el user_id está en la sesión
@@ -8,7 +9,8 @@ if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     
     $control = new Control_ClienteMain();
-    $controlP = new Control_PrestamosEmpleado();
+    $controladorPrestamo = new Control_FormPrestamo();
+    $listaPrestamos = $controladorPrestamo->obtenertodosPrestamosEmpleado();
     
 
     $userdata = $control->getUserDataC($user_id);
@@ -121,7 +123,7 @@ if(isset($_SESSION['user_id'])) {
             </li>
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="VistaEmpleadoReportes.html">
+                <a class="nav-link" href="VistaEmpleadoReportes.php">
                     <i class="fa-solid fa-chart-simple"></i>
                     <span>Reportes</span></a>
             </li>
@@ -419,38 +421,75 @@ if(isset($_SESSION['user_id'])) {
                                     <div class="card-body">
                                         <?php
                                             echo "<div class='row mb-4'>";
-                                            foreach ($listaPrestamosPorUsuario as $prestamo) {
+                                            foreach ($listaPrestamos as $prestamo) {
                                                 if ($prestamo->getEstado() == "Finalizado") {
                                                     echo "<div class='col-xl-6 col-md-6 mb-4'>";
                                                     echo "<div class='card border-left-warning shadow h-100 py-2'>";
                                                     echo "<div class='card-body'>";
                                                     echo "<div class='row'>";
 
-                                                    // ID Préstamo
+                                                    
                                                     echo "<div class='col col-md-6'>";
+                                                        // ID Préstamo
                                                         echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>ID Préstamo</div>";
                                                         echo "<div class='col'>";
-                                                        echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" . $prestamo->getIdPre() . "</div>";
+                                                            echo "<div class='h6 mb-0 font-weight-bold text-gray-800' id='prestamoId" . $prestamo->getIdPre() . "'>" . $prestamo->getIdPre() . "</div>";
                                                         echo "</div>";
                                                         echo "<br>";
 
                                                         // Fecha Inicio - Fecha Devolución
                                                         echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Fechas</div>";
                                                         echo "<div class='row'>"; // Añade un margen top para separar las secciones
-                                                        
-                                                        echo "<div class='col'>";
-                                                        echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Inicio: " . $prestamo->getFecPre() . "</div>";
-                                                        echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Devolución: " . $prestamo->getFecDev() . "</div>";
+                                                            echo "<div class='col'>";
+                                                                echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Inicio: " . $prestamo->getFecPre() . "</div>";
+                                                                echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>Devolución: " . $prestamo->getFecDev() . "</div>";
+                                                            echo "</div>";
                                                         echo "</div>";
+                                                        echo "<br>";
+
+                                                        // Cliente
+                                                        echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Cliente</div>";
+                                                        echo "<div class='col'>";
+                                                            echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" . $prestamo->getNombreApellido() . "</div>";
+                                                        echo "</div>";
+                                                        echo "<br>";
+
+                                                        // Estado del préstamo
+                                                        echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Estado</div>";
+                                                        echo "<div class='col'>";
+                                                            echo "<select class='form-control' id='estado" . $prestamo->getIdPre() . "' onchange='actualizarEstado(" . $prestamo->getIdPre() . ")'>";
+                                                                echo "<option value='Finalizado'" . ($prestamo->getEstado() == 'Finalizado' ? ' selected' : '') . ">Finalizado</option>";
+                                                                echo "<option value='En curso'" . ($prestamo->getEstado() == 'En curso' ? ' selected' : '') . ">En curso</option>";
+                                                                echo "<option value='Pendiente de entrega'" . ($prestamo->getEstado() == 'Pendiente de entrega' ? ' selected' : '') . ">Pendiente de entrega</option>";
+                                                                echo "<option value='Pendiente de devolución'" . ($prestamo->getEstado() == 'Pendiente de devolución' ? ' selected' : '') . ">Pendiente de devolución</option>";
+                                                            echo "</select>";
                                                         echo "</div>";
                                                     echo "</div>";
+
+                                                    echo "<script>
+                                                    function actualizarEstado(id) {
+                                                        var estado = document.getElementById('estado' + id).value;
+                                                        var xhttp = new XMLHttpRequest();
+                                                        xhttp.open('POST', 'actualizarEstado.php', true);
+                                                        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                                                        xhttp.onreadystatechange = function() {
+                                                            if (this.readyState == 4 && this.status == 200) {
+                                                                alert('Estado actualizado correctamente');
+                                                            }
+                                                        };
+                                                        xhttp.send('id=' + id + '&estado=' + estado);
+                                                    }
+                                                    </script>";
+
+
+
                                                     $librodetalle = $control->getLibroDetalle($prestamo->getIdLib());
 
                                                     // Título del Libro y Portada del Libro
                                                     echo "<div class='col-xl-3'>";
-                                                    echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
-                                                    echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" .  $librodetalle['titulo'] . "</div>";
-                                                    echo "<img src='galeria/" . $prestamo->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid mt-2' >";
+                                                        echo "<div class='text-xs font-weight-bold text-warning text-uppercase mb-1'>Libro</div>";
+                                                        echo "<div class='h6 mb-0 font-weight-bold text-gray-800'>" .  $librodetalle['titulo'] . "</div>";
+                                                        echo "<img src='galeria/" . $prestamo->getIdLib() . ".jpg' alt='Carátula del libro' class='img-fluid mt-2' >";
                                                     echo "</div>";
 
                                                     echo "</div>"; // Cierra row no-gutters align-items-center

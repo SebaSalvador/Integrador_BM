@@ -9,6 +9,24 @@ class Prestamo {
     private $fecDev;
     private $horDev;
     private $estado;
+    private $titulo;
+    private $nombreApellido;
+
+    public function getTitulo() {
+        return $this->titulo;
+    }
+
+    public function setTitulo($titulo) {
+        $this->titulo = $titulo;
+    }
+
+    public function getNombreApellido() {
+        return $this->nombreApellido;
+    }
+
+    public function setNombreApellido($nombreApellido) {
+        $this->nombreApellido = $nombreApellido;
+    }
 
     public function getIdPre() {
         return $this->idPre;
